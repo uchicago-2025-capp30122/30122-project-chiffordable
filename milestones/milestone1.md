@@ -1,10 +1,11 @@
-# {Team Name}
+# {CHIffordable}
 
 ## Members
 
-- Name <name@uchicago.edu>
-- Name <name@uchicago.edu>
-- Name <name@uchicago.edu>
+- María José Reyes  <mjreyes13@uchicago.edu>
+- Daniela Ayala <danayala@uchicago.edu>
+- Agustín Eyzaguirre <aeyzaguirre@uchicago.edu>
+- José Manuel Cardona <jmcarias@uchicago.edu>
 
 ## Abstract
 
