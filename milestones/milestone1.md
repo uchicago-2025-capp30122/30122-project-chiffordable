@@ -1,4 +1,4 @@
-# {CHIffordable}
+# CHIffordable
 
 ## Members
 
