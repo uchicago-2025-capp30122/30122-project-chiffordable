@@ -15,11 +15,15 @@
 
 For each source please add a section with the following:
 
-### Data Source #1: {Name}
-
+### Data Source #1: USA Census to get the average income by zipcode
 - A URL to the data source.
-- Is the data coming from a webpage, bulk data, or an API?
-- Are there any challenges or uncertainity about the data at this point?
+- From a webpage
+- Cleaning of the large data sets
+
+### Data Source #2: City of chicago 
+- A URL to the data source.
+- From a webpage
+- Cleaning of the large data sets
 
 ## Preliminary Project Plan
 
