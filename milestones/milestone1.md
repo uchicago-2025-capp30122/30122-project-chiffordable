@@ -18,30 +18,30 @@ This project seeks to identify neighborhoods where low-income families can affor
 ### Data Source #1: Community Data Snapshots 2024 from the Chicago Metropolitan Agency for Planning (CMAP)
 
 - A URL to the data source: URL 
-Is the data coming from a webpage, bulk data, or an API?
+- Is the data coming from a webpage, bulk data, or an API?
 Data comes from an API that is displayed by CMAP.
-Are there any challenges or uncertainty about the data at this point?
+- Are there any challenges or uncertainty about the data at this point?
 The data available in this source characterizes all 77 communities in Chicago with economic and demographic data. Yet, we see a challenge in merging this database with others because this one identifies each community through it’s name, and not with postal codes as expected. Yet, we think this isn’t a significant challenge because with some research we can identify each community with postal codes.
 
 ### Data Source #2: Zillow - Marketplace for housing (Ecommerce)
- A URL to the data source: URL
-Is the data coming from a webpage, bulk data, or an API?
+- A URL to the data source: URL
+- Is the data coming from a webpage, bulk data, or an API?
 API
-Are there any challenges or uncertainty about the data at this point?
+- Are there any challenges or uncertainty about the data at this point?
 The data includes Rental prices and characteristics. We would need to normalize data prices in a time period. 
 
 ### Data Source #3: Google Maps Platforms
-A URL to the data source: URL 
-Is the data coming from a webpage, bulk data, or an API?
+- A URL to the data source: URL 
+- Is the data coming from a webpage, bulk data, or an API?
 API
-Are there any challenges or uncertainty about the data at this point?
+- Are there any challenges or uncertainty about the data at this point?
 This data includes access to maps, direction geocoding and other different features of Chicago’s gentrification. This will be useful to identify the different characteristics of the neighborhoods and access to services people might have depending on tier location
 
 ### Data Source #4: Livability Index from American Association of Retired Persons (AARP)
-A URL to the data source: URL
-Is the data coming from a webpage, bulk data, or an API?
+- A URL to the data source: URL
+- Is the data coming from a webpage, bulk data, or an API?
 API
-Are there any challenges or uncertainty about the data at this point?
+- Are there any challenges or uncertainty about the data at this point?
 This data provides scores and metrics in different variables related to measuring the quality of life for people. Including indicators for categories such as housing, neighborhood, transportation,environment, etc. This will be helpful to understand the environment where people are living. 
 
 ## Preliminary Project Plan
