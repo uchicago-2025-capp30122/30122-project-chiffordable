@@ -7,13 +7,13 @@
 - Agustín Eyzaguirre <aeyzaguirre@uchicago.edu>
 - José Manuel Cardona <jmcarias@uchicago.edu>
 
-## Abstract
+## Abstract :page_with_curl:
 
 According to the Illinois Policy Institute, approximately 42% of Chicago low-income residents are burdened by housing costs that exceed 30% of their income and “22% pay more than half of their income”. Additionally, 78% of Chicago residents say that the city lacks sufficient affordable housing and the City of Chicago has identified “an affordable housing gap of around 120,000 homes and 240,000 rental units” [^1].
 
 This project seeks to identify neighborhoods where low-income families can afford rental housing within a specified income percentage threshold. Leveraging data analysis and geospatial mapping, it will also explore these neighborhoods' demographic, economic, and social characteristics, along with public service availability. The findings aim to provide actionable insights for policymakers and community stakeholders, offering a comprehensive resource for addressing Chicago's affordable housing crisis.
 
-## Preliminary Data Sources
+## Preliminary Data Sources :computer:
 
 ### Data Source #1: Community Data Snapshots 2024 from the Chicago Metropolitan Agency for Planning (CMAP)
 
