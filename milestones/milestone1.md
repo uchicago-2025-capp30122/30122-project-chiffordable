@@ -68,4 +68,7 @@ This data provides scores and metrics in different variables related to measurin
 
 ## Questions
 
-A **numbered** list of questions for us to respond to.
+1. Is this an innovative project to work on?
+2. How would you recommend splitting the work among team members? Data extraction, data processing, visualization, user interface?
+3. For the visualizations and the UI, which frameworks or tools would you suggest to create interactive dashboards?
+4. How feasible is the project? Should we look forward to integrating more/less databases or insights?
