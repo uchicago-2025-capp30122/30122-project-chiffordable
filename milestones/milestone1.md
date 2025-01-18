@@ -1,6 +1,6 @@
-# CHIffordable
+# CHIffordable :house:
 
-## Members
+## Members 🧑‍🤝‍🧑
 
 - María José Reyes  <mjreyes13@uchicago.edu>
 - Daniela Ayala <danayala@uchicago.edu>
@@ -44,7 +44,7 @@ API
 - Are there any challenges or uncertainty about the data at this point?
 This data provides scores and metrics in different variables related to measuring the quality of life for people. Including indicators for categories such as housing, neighborhood, transportation,environment, etc. This will be helpful to understand the environment where people are living. 
 
-## Preliminary Project Plan
+## Preliminary Project Plan 👷
 
 1. Data Extraction
  - Extract socio-economic characteristics of the CMAP database.
