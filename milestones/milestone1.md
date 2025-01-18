@@ -1,4 +1,4 @@
-# CHIffordable :house:
+# :snowflake: CHIffordable :house:
 
 ## Members 🧑‍🤝‍🧑
 
