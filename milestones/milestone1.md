@@ -1,6 +1,6 @@
 # :snowflake: CHIffordable :house:
 
-## Members :couple: :couple:
+## Members :couple::couple:
 
 - María José Reyes  <mjreyes13@uchicago.edu>
 - Daniela Ayala <danayala@uchicago.edu>
