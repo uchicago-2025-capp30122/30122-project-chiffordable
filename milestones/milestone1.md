@@ -65,7 +65,6 @@ This data provides scores and metrics in different variables related to measurin
 [^1]: https://www.illinoispolicy.org/press-releases/housing-unaffordability-on-the-rise-one-third-of-illinoisans-pay-over-30-of-their-income-on-housing/
 
 
-
 ## Questions :question:
 
 1. Is this an innovative project to work on?
