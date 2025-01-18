@@ -46,18 +46,18 @@ This data provides scores and metrics in different variables related to measurin
 
 ## Preliminary Project Plan
 
-Data Extraction
+1. Data Extraction
 Extract socio-economic characteristics of the CMAP database.
 Extract the apartment rentals listed on Zillow to extract relevant data (Postal Code, Sqft, Rooms, Price)
 
-API Integration
+2. API Integration
 Create the API call from google Maps using geographical data
 
-Data Merging and KPI Definition
+3. Data Merging and KPI Definition
 Merge the three sources of data CMAP, Zillow Google Maps
 Define KPIs to display in the final visualization.
 
-Visualization and User Interface
+4. Visualization and User Interface
 Create dynamic visualizations that allow users to filter by income and percentage they are willing to spend on Rent. The map should display characteristics (air quality, livability index, among others)
 Design and implement the user interface (UI) for the visualization platform.
 
