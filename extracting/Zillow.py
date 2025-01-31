@@ -24,7 +24,24 @@ def make_request(url):
     
     time.sleep(REQUEST_DELAY)
     print(f"Fetching {url}")
-    resp = httpx.get(url)
+
+    headers = {
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Cache-Control": "no-cache",
+    "Pragma": "no-cache",
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Safari/605.1.15",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Connection": "keep-alive",
+    "Host": "www.zillow.com"
+    }
+
+    with httpx.Client(headers=headers, follow_redirects=True) as client:
+        resp = client.get(url)
+   
     print(f"The status of the Fetching is: {resp.status}")
     resp.raise_for_status()
     return resp
