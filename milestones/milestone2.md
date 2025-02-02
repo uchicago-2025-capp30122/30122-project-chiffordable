@@ -13,13 +13,13 @@ The city of Chicago has identified “an affordable housing gap of around 120,00
 
 This project seeks to identify neighborhoods where low-income families can afford rental housing within a specified income and a percentage of their income they want/can spend on rent. Leveraging data analysis and geospatial mapping, it will also explore these neighborhoods' demographic, economic, and social characteristics, along with public service availability. The findings aim to provide actionable insights for policymakers and community stakeholders, offering a comprehensive resource for addressing Chicago's affordable housing crisis.
 
-## Data Reconciliation Plan
+## Data Reconciliation Plan :shipit:
 
 We identified 4 different data sources that will be merged using geolocation data and/or community location indicators, such as Zip code and Community ID. The following figure represents the merging plan and variables that will allow us to create a centralized database for the project.
 
 ![alt text](https://github.com/uchicago-2025-capp30122/30122-project-chiffordable/blob/main/milestones/media/data_reconciliation.png?raw=true)
 
-## Data Sources
+## Data Sources :computer:
 
 ### Data Source #1: Community Data Snapshots 2024 from the Chicago Metropolitan Agency for Planning (CMAP)
 - A URL to the data source: [CMAP](https://datahub.cmap.illinois.gov/datasets/CMAPGIS::community-data-snapshots-2024/explore?layer=0)
@@ -138,7 +138,7 @@ We identified 4 different data sources that will be merged using geolocation dat
     16. % of the population with income below poverty
     17. Upward Mobility
 
-## Project Plan
+## Project Plan :construction_worker:
   1. Web Scrape Zillow and its correspondent webpages to have real data from rental prices and characteristics within the city of Chicago.
   2. Web Scrape AARP with the livability index of the 91 Zip Codes of the city of Chicago.
   3. We will merge Zillow and AARP through Zip Codes. Also, with steps 1-2 we can build an MVP that can characterize possible places to live in Chicago according to certain income and percentage of income to be spent on rent.
@@ -146,7 +146,7 @@ We identified 4 different data sources that will be merged using geolocation dat
   5. Complete characterization of places to live with services displayed by API from Google (optional).
   6. Work on data visualization, UX and UI (Create dynamic visualizations that allow users to filter by income and percentage they are willing to spend on Rent. The map should display characteristics (air quality, livability index, among others)
 
-### Short-term goal (due Feb 9):
+### Short-term goal (due Feb 9) :calendar:
 1. CMAP database:
     - Primary responsible: Agustín
     - Hellping: María José
@@ -160,7 +160,7 @@ We identified 4 different data sources that will be merged using geolocation dat
     - Primary responsible: María José
     - Helping: Agustín
   
-## Questions
+## Questions :question:
   1. How should we handle missing rental data (from Zillow) for certain Chicago neighborhoods? Are there additional sources we should consider to supplement Zillow rental data?
   2. What visualization techniques will best communicate affordability and livability insights?
   3. From your perspective, is the API of Google a one we can rely on considering its risks of being in pre-GA stage?
