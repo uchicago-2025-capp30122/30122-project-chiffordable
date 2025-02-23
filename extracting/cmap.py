@@ -86,9 +86,6 @@ def find_comm_and_zip_with_listing(lat : float , long : float, zip_code: int):
             return comm
 
 
-#print(zip_comms_features[60007])
-
-
 
 
 
