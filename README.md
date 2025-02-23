@@ -72,9 +72,11 @@ The AARP Livability Index is created from more than 50 unique sources of data ac
 
 ## Acknowledgments
 
-CAPP 122 Instructor - Professor James Turk
+CAPP 122 Instructor - James Turk
 
 CAPP 122 Project TA - Stacy
+
+[^1]: https://www.illinoispolicy.org/press-releases/housing-unaffordability-on-the-rise-one-third-of-illinoisans-pay-over-30-of-their-income-on-housing/
 
 # Project Repository Template
 
