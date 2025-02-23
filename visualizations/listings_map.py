@@ -39,7 +39,7 @@ def create_figure(filtered_df):
         filtered_df,
         lat=lat_col,
         lon=lon_col,
-        color="zipcode",
+        color="clean_price",
         hover_data=[
             "address",
             "price_formatted",
