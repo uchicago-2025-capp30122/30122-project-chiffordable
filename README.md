@@ -21,6 +21,24 @@ This project seeks to identify places where low-income families can afford renta
 
 << INSERT INSTRUCTIONS HERE >>
 
+## Structure of Software :hammer_and_wrench:
+This project is structured in the following sections:
+
+### Data (/data)
+- Data Extraction
+  - Pulls listings from Zillow.com, with price, number of baths, number of bedrooms and sqrfeet (/Zillow.py)
+  - Pulls data form CMAP that contains communities characteristics (/CMAP.py)
+  - Pulls data from Livability index from AARP by zip code (/Livability.py)
+- Data megre
+  - Takes the extracted files and merges based on polygons (/Merge.py)  
+    
+### Analysis (/analysis)
+- Calculates rental prices average by zip code and communities
+  
+### UI (/ui)
+- Creates maps (/map.py)
+- Creates Dash application (/dash.py)
+
 ## Data Sources :computer:
 
 ### Data Source #1: Zillow - Marketplace for housing [Zillow](https://www.zillow.com/chicago-il/rent-houses/?searchQueryState=%7B%22pagination%22%3A%7B%7D%2C%22isMapVisible%22%3Atrue%2C%22mapBounds%22%3A%7B%22west%22%3A-88.2828080184946%2C%22east%22%3A-87.06057901458836%2C%22south%22%3A41.559915483636956%2C%22north%22%3A42.17860982259146%7D%2C%22regionSelection%22%3A%5B%7B%22regionId%22%3A17426%2C%22regionType%22%3A6%7D%5D%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22value%22%3A%22priorityscore%22%7D%2C%22fr%22%3A%7B%22value%22%3Atrue%7D%2C%22fsba%22%3A%7B%22value%22%3Afalse%7D%2C%22fsbo%22%3A%7B%22value%22%3Afalse%7D%2C%22nc%22%3A%7B%22value%22%3Afalse%7D%2C%22cmsn%22%3A%7B%22value%22%3Afalse%7D%2C%22auc%22%3A%7B%22value%22%3Afalse%7D%2C%22fore%22%3A%7B%22value%22%3Afalse%7D%2C%22tow%22%3A%7B%22value%22%3Afalse%7D%2C%22mf%22%3A%7B%22value%22%3Afalse%7D%2C%22con%22%3A%7B%22value%22%3Afalse%7D%2C%22land%22%3A%7B%22value%22%3Afalse%7D%2C%22apa%22%3A%7B%22value%22%3Afalse%7D%2C%22manu%22%3A%7B%22value%22%3Afalse%7D%2C%22apco%22%3A%7B%22value%22%3Afalse%7D%7D%2C%22isListVisible%22%3Atrue%7D)
@@ -37,7 +55,11 @@ The AARP Livability Index is created from more than 50 unique sources of data ac
 
 
 
+### Acknowledgments
 
+CAPP 122 Instructor - Professor James Turk
+
+CAPP 122 Project TA - Stacy
 
 
 TO BE REPLACED:
