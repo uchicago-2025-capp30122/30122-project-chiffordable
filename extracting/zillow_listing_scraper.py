@@ -1,6 +1,7 @@
 import time
 import csv
 import re
+import pandas as pd
 from zillow_utils import fetch_page, parse_script_content, save_listings_to_csv
 
 
@@ -30,7 +31,7 @@ def get_listing_info(listings:list):
         min_price = listing.get("minPrice")
         max_price = listing.get("maxPrice")
         
-        if 'price' in listing.keys():
+        if listing.get("price"):
             price = listing.get('price')
 
             if min_price is None:
@@ -107,6 +108,9 @@ def get_missing_listings():
 
             else:
                 completed_data.append(row)
-
+    
+    # Save the cleaned data to CSV
     save_listings_to_csv(completed_data, "Zillow-complete.csv")
+
+
 

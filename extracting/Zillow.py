@@ -61,8 +61,8 @@ def nextpage_from_xpath(response_text):
     if next_page_element:
         next_url = complete_link(next_page_element[0])
         return next_url
-    else:
-        print("No more pages founded")
+    #else:
+        #print("No more pages founded")
         #raise TypeError("Pagination xpath is not working")
 
 
@@ -76,7 +76,7 @@ def paginate(url: str, max_pages: int = 20):
 
     while url and current_page <= max_pages:
         clean_url = url.replace("chicago-il-", "")
-        print(f"Fetching page {current_page}... {clean_url}")
+        #print(f"Fetching page {current_page}... {clean_url}")
 
         # Fetch the page
         html = fetch_page(clean_url)

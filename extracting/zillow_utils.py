@@ -81,13 +81,17 @@ def save_listings_to_csv(listings:list, filename, save_path="../extracted_data")
     fieldnames = ["address", "detailUrl", "statusType", "zipcode", "latitude", 
                   "longitude", "price", "clean_price", "livingarea", "status", "listingkey",
                   "bedrooms", "bathrooms"]
-    
+
+    # Convert list of dictionaries to DataFrame to drop duplicates
     listings_df = pd.DataFrame(listings)
-    listigs_noduplicates = listings_df.drop_duplicates()
+    listings_noduplicates = listings_df.drop_duplicates()
+    
+    # Convert back to a list of dictionaries
+    listings_dict = listings_noduplicates.to_dict("records")
 
     with open(full_path, mode="w", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
-        writer.writerows(listigs_noduplicates)
+        writer.writerows(listings_dict)
 
     print(f"Data saved to {full_path}")
