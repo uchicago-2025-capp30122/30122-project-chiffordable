@@ -19,7 +19,27 @@ This project seeks to identify places where low-income families can afford renta
 
 ## How to run run this project? :arrow_forward:
 
-<< INSERT INSTRUCTIONS HERE >>
+- Clone the project Repository to your local machine by running git clone ‘[[https://github.com/Chiffordable.git](https://github.com/uchicago-2025-capp30122/30122-project-chiffordable/edit/main/README.md)]’ to you preferred directory.
+- Run poetry install from the top-level directory to set up the working environment in Python. Note: this requires installing Python and Poetry.
+- Download our databases and place it in the data directory or scrape data yourself. See below for details on scraping data yourself.
+- Clean and analyze data by running...
+- Launch the dashboard by...
+
+## Structure of Software :hammer_and_wrench:
+This project is structured in the following sections:
+
+- Data (/data)
+  - Data Extraction
+    - Pulls listings from Zillow.com, with price, number of baths, number of bedrooms and sqrfeet (/Zillow.py)
+    - Pulls data form CMAP that contains communities characteristics (/CMAP.py)
+    - Pulls data from Livability index from AARP by zip code (/Livability.py)
+  - Data megre
+    - Takes the extracted files and merges based on polygons (/Merge.py) 
+- Analysis (/analysis)
+  - Calculates rental prices average by zip code and communities
+- UI (/ui)
+  - Creates maps (/map.py)
+  - Creates Dash application (/dash.py)
 
 ## Data Sources :computer:
 
@@ -37,10 +57,12 @@ The AARP Livability Index is created from more than 50 unique sources of data ac
 
 
 
+## Acknowledgments
 
+CAPP 122 Instructor - Professor James Turk
 
+CAPP 122 Project TA - Stacy
 
-TO BE REPLACED:
 # Project Repository Template
 
 This template is intentionally mostly empty, to give you experience starting a project from scratch.
