@@ -39,7 +39,7 @@ def create_figure(filtered_df):
         filtered_df,
         lat=lat_col,
         lon=lon_col,
-        # Hover data now uses the formatted price column (price_formatted)
+        color="zipcode",
         hover_data=[
             "address",
             "price_formatted",
@@ -54,7 +54,6 @@ def create_figure(filtered_df):
     fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
     return fig
 
-# Create the default figure using all listings.
 default_fig = create_figure(df)
 
 # Set up the Dash app layout.
