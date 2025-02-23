@@ -15,7 +15,12 @@ This project seeks to identify places where low-income families can afford renta
 
 ## Demo :beetle:
 
+### Listings visualizations
 - <img width="1710" alt="image" src="https://github.com/user-attachments/assets/9058005d-22bf-45c6-9147-887cca9a4d08" />
+
+### Communities visualizations
+<img width="1710" alt="image" src="https://github.com/user-attachments/assets/a3e5f794-6743-427e-849b-b5e3a473efcc" />
+
 << INSERT DEMO VIDEO HERE >>
 
 ## How to run run this project? :arrow_forward:
