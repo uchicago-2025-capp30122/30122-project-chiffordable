@@ -64,8 +64,6 @@ CAPP 122 Instructor - Professor James Turk
 
 CAPP 122 Project TA - Stacy
 
-
-TO BE REPLACED:
 # Project Repository Template
 
 This template is intentionally mostly empty, to give you experience starting a project from scratch.
