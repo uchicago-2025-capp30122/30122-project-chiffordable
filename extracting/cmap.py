@@ -45,13 +45,12 @@ for row in raw_data["features"]: #all data is in the key "features"
         elif head in racial_headers:
             local_data["race"][head] = round(row_dict[head] / total_race * 100, 0)
         elif head == "MED_RENT":
-            local_data["rent"]["median"] = round(row_dict[head], 0)
+            local_data["rent"]["median_rent"] = round(row_dict[head], 0)
         else:
             local_data["geo"][head] = row_dict[head]
     
     
     comm_id_features[local_data["geo"]["GEOID"]] = local_data
-
 # adding polygon to each community
 
 zip_comms_features = {}
@@ -64,9 +63,6 @@ with open (COMMS_TRACTS_CSV, "r") as coms_tracts, open(ZIP_TRACTS_CSV, "r") as z
         zip_code = int(zip["ZIP"])
         zip_poly = loads(zip["the_geom"]) #polygon of the zip code)
         zip_comms_features[zip_code] = {}
-        point = Point(-87.61116, 41.80262)
-        if zip_poly.contains(point):
-            print(f"zip code is {zip_code}")
 
         for com in comms:
             id_community = int(com["AREA_NUMBE"])
@@ -84,6 +80,18 @@ def find_comm_and_zip_with_listing(lat : float , long : float, zip_code: int):
         poly = comm["geo"]["comm_poly"]
         if poly.contains(listing):
             return comm
+        
+csv_format = []
+for features in comm_id_features.values():
+    flat_keys = {}
+    for v in features.values():
+        for k,val in v.items():
+            flat_keys[k] = val
+    csv_format.append(flat_keys)
+
+
+
+
 
 
 
