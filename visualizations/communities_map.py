@@ -21,33 +21,19 @@ df['geometry'] = df['comm_poly'].apply(lambda x: wkt.loads(x) if isinstance(x, s
 # Convert to GeoDataFrame
 gdf = gpd.GeoDataFrame(df, geometry='geometry')
 
-# Convert GeoDataFrame to a GeoJSON dictionary
-def gdf_to_geojson(gdf):
-    features = []
-    for _, row in gdf.iterrows():
-        feature = {
-            "type": "Feature",
-            "geometry": row["geometry"].__geo_interface__,
-            "communities": {"GEOG": row["GEOG"], "median_rent": row["median_rent"]}
-        }
-        features.append(feature)
-    return {"type": "FeatureCollection", "features": features}
-
-geojson_data = gdf_to_geojson(gdf)
+# Add centroid for plotting
+gdf['centroid'] = gdf['geometry'].centroid
+gdf['latitude'] = gdf['centroid'].y
+gdf['longitude'] = gdf['centroid'].x
 
 # Helper function to create the map figure
 def create_figure(filtered_gdf):
-    geojson_filtered = gdf_to_geojson(filtered_gdf)
-
-    fig = px.choropleth_mapbox(
+    fig = px.scatter_mapbox(
         filtered_gdf,
-        geojson=geojson_filtered,
-        locations=filtered_gdf.index,  # Index used to match with GeoJSON
-        featureidkey="communities.GEOG",  # Ensure it matches the property key in GeoJSON
-        color_discrete_sequence=["lightblue"],  # Use light blue color
-        hover_name="median_rent",
-        hover_data=["median_rent"],
-        center={"lat": 41.8781, "lon": -87.6298},  # Centered on Chicago
+        lat="latitude",
+        lon="longitude",
+        color="median_rent",
+        hover_data=["GEOG", "median_rent"],
         zoom=10,
         height=600
     )
@@ -67,7 +53,7 @@ app.layout = html.Div([
             id="rent-input", 
             type="number", 
             placeholder="Maximum rent", 
-            value=1500  # Default value; adjust as needed
+            value=3000  # Default value; adjust as needed
         )
     ], style={'padding': '10px', 'fontSize': '20px'}),
     dcc.Graph(id="chicago-map", figure=default_fig)
