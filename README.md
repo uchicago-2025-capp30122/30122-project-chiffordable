@@ -15,7 +15,7 @@ This project seeks to identify places where low-income families can afford renta
 
 ## Instructions :beetle:
 - Clone the project Repository to your local machine by running git clone ‘[[https://github.com/Chiffordable.git](https://github.com/uchicago-2025-capp30122/30122-project-chiffordable/edit/main/README.md)]’ to you preferred directory.
-- Run poetry install from the top-level directory to set up the working environment in Python. Note: this requires installing Python and Poetry, a - -- Python package manager and only need to be run the first time that this package is used.
+- Run poetry install from the top-level directory to set up the working environment in Python. Note: this requires installing Python and Poetry.
 - Download our databases and place it in the data directory or scrape data yourself. See below for details on scraping data yourself.
 - Clean and analyze data by running...
 - Launch the dashboard by...
