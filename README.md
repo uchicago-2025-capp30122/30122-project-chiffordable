@@ -13,7 +13,13 @@ The city of Chicago has identified “an affordable housing gap of around 120,00
 
 This project seeks to identify places where low-income families can afford rental housing within a specified income and a percentage of their income they are willing to spend on rent. Leveraging data analysis and geospatial mapping, it will also explore these neighborhoods' demographic, economic, and social characteristics. The findings aim to provide actionable insights for policymakers and community stakeholders, offering a comprehensive resource for addressing Chicago's affordable housing crisis.
 
-## Demo :beetle:
+## Instructions :beetle:
+- Clone the project Repository to your local machine by running git clone ‘[https://github.com/RMedina19/bus_pending.git]’ to you preferred directory.
+- Run poetry install from the top-level directory to set up the working environment in Python. Note: this requires installing Python and Poetry, a - -- Python package manager and only need to be run the first time that this package is used.
+- Download our databases and place it in the data directory or scrape data yourself. See below for details on scraping data yourself.
+- Clean and analyze data by running...
+- Launch the dashboard by...
+- Here's a demo of the dashboard being launched.
 
 << INSERT DEMO VIDEO HERE >>
 
