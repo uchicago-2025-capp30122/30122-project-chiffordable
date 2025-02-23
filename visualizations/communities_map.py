@@ -41,7 +41,17 @@ def create_figure(filtered_gdf):
     fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
     return fig
 
-default_fig = create_figure(gdf)
+def figure(filtered_gdf):
+    fig = px.choropleth_map(filtered_gdf, geojson=gdf, locations='geometry', color = 'median_rent',
+                            color_continuous_scale="Viridis",
+                            range_color=(0, 12),
+                            map_style="carto-positron",
+                            zoom=3, center = {"lat": 37.0902, "lon": -95.7129},
+                            opacity=0.5,
+                            labels={'unemp':'unemployment rate'}
+                            )
+
+default_fig = figure(gdf)
 
 # Set up the Dash app layout
 app = dash.Dash(__name__)
