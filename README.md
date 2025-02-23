@@ -23,16 +23,19 @@ This project seeks to identify places where low-income families can afford renta
 
 ## Structure of Software :hammer_and_wrench:
 This project is structured in the following sections:
-##### Data (/data)
+
+- Data (/data)
   - Data Extraction
     - Pulls listings from Zillow.com, with price, number of baths, number of bedrooms and sqrfeet (/Zillow.py)
     - Pulls data form CMAP that contains communities characteristics (/CMAP.py)
     - Pulls data from Livability index from AARP by zip code (/Livability.py)
   - Data megre
-    - Takes the extracted files and merges based on polygons (/Merge.py)  
-##### Analysis (/analysis)
+    - Takes the extracted files and merges based on polygons (/Merge.py)
+      
+- Analysis (/analysis)
   - Calculates rental prices average by zip code and communities
-##### UI (/ui)
+    
+- UI (/ui)
   - Creates maps (/map.py)
   - Creates Dash application (/dash.py)
 
