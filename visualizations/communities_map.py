@@ -8,41 +8,50 @@ import geopandas as gpd
 from shapely import wkt
 import plotly.express as px
 import sys  
-sys.path.append('./extracting')  # Add the folder to the Python path
-from cmap import csv_format  # Now you can import
+
+sys.path.append('./extracting')
+from cmap import csv_format  
 
 # Load the CSV file
 df = pd.DataFrame(csv_format)
 
-# Convert MultiPolygon from WKT to geometry
-df['geometry'] = df['comm_poly']#.apply(wkt.loads)
+# Ensure the 'comm_poly' column contains valid geometries
+df['geometry'] = df['comm_poly'].apply(lambda x: wkt.loads(x) if isinstance(x, str) else x)
 
-# Create a GeoDataFrame
+# Convert to GeoDataFrame
 gdf = gpd.GeoDataFrame(df, geometry='geometry')
 
-# Convert GeoDataFrame to GeoJSON
-geojson = gdf.__geo_interface__
+# Convert GeoDataFrame to a GeoJSON dictionary
+def gdf_to_geojson(gdf):
+    features = []
+    for _, row in gdf.iterrows():
+        feature = {
+            "type": "Feature",
+            "geometry": row["geometry"].__geo_interface__,
+            "communities": {"GEOG": row["GEOG"], "median_rent": row["median_rent"]}
+        }
+        features.append(feature)
+    return {"type": "FeatureCollection", "features": features}
 
-# Default figure
-def create_figure(gdf, threshold=None):
-    # Add a color column: 'gray' if median_rent <= threshold, else 'blue'
-    if threshold is not None:
-        gdf['color'] = gdf['median_rent'].apply(lambda x: 'gray' if x <= threshold else 'blue')
-    else:
-        gdf['color'] = 'blue'
+geojson_data = gdf_to_geojson(gdf)
 
-    fig = px.choropleth_map(
-        gdf,
-        geojson=geojson,
-        locations=gdf.index,
-        color="color",
-        hover_name="GEOG",
+# Helper function to create the map figure
+def create_figure(filtered_gdf):
+    geojson_filtered = gdf_to_geojson(filtered_gdf)
+
+    fig = px.choropleth_mapbox(
+        filtered_gdf,
+        geojson=geojson_filtered,
+        locations=filtered_gdf.index,  # Index used to match with GeoJSON
+        featureidkey="communities.GEOG",  # Ensure it matches the property key in GeoJSON
+        color_discrete_sequence=["lightblue"],  # Use light blue color
+        hover_name="median_rent",
         hover_data=["median_rent"],
-        center={"lat": 41.8781, "lon": -87.6298},
+        center={"lat": 41.8781, "lon": -87.6298},  # Centered on Chicago
         zoom=10,
-        height=600,
-        color_discrete_map={"gray": "gray", "blue": "blue"}
+        height=600
     )
+    fig.update_layout(mapbox_style="open-street-map")
     fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
     return fig
 
@@ -53,27 +62,28 @@ app = dash.Dash(__name__)
 app.layout = html.Div([
     html.H1("Chicago Community Areas Map"),
     html.Div([
-        html.Label("Filter by Maximum Median Rent:"),
+        html.Label("Enter maximum median rent:"),
         dcc.Input(
-            id="rent-input",
-            type="number",
-            placeholder="Enter maximum rent",
-            style={'width': '300px', 'padding': '5px', 'fontSize': '16px'}
+            id="rent-input", 
+            type="number", 
+            placeholder="Maximum rent", 
+            value=1500  # Default value; adjust as needed
         )
-    ], style={'padding': '10px'}),
+    ], style={'padding': '10px', 'fontSize': '20px'}),
     dcc.Graph(id="chicago-map", figure=default_fig)
 ])
 
-# Callback: update the map based on rent threshold
+# Callback: update the map based on user input for maximum rent
 @app.callback(
     Output("chicago-map", "figure"),
     Input("rent-input", "value")
 )
 def update_map(max_rent):
     if max_rent is None:
-        return create_figure(gdf)
+        filtered_gdf = gdf
     else:
-        return create_figure(gdf, threshold=max_rent)
+        filtered_gdf = gdf[gdf["median_rent"] <= max_rent]
+    return create_figure(filtered_gdf)
 
 if __name__ == '__main__':
     port = 8050
