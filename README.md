@@ -15,6 +15,7 @@ This project seeks to identify places where low-income families can afford renta
 
 ## Demo :beetle:
 
+- <img width="1710" alt="image" src="https://github.com/user-attachments/assets/9058005d-22bf-45c6-9147-887cca9a4d08" />
 << INSERT DEMO VIDEO HERE >>
 
 ## How to run run this project? :arrow_forward:
@@ -41,7 +42,7 @@ This project is structured in the following sections:
   - Creates maps (/map.py)
   - Creates Dash application (/dash.py)
  
-  - <img width="1710" alt="image" src="https://github.com/user-attachments/assets/9058005d-22bf-45c6-9147-887cca9a4d08" />
+  
 
 
 ## Data Sources :computer:
