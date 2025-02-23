@@ -43,6 +43,7 @@ def create_figure(filtered_gdf):
         locations=filtered_gdf.GEOG,  # Must match a community in the GeoJSON
         featureidkey="properties.GEOG",  # Make sure it matches the property name
         color="median_rent",
+        opacity = 0.4,
         hover_name="GEOG",
         hover_data=["median_rent"],
         center={"lat": 41.8674, "lon": -87.6275},  # Centered on Chicago
