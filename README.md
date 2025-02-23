@@ -24,7 +24,6 @@ This project seeks to identify places where low-income families can afford renta
 - Download our databases and place it in the data directory or scrape data yourself. See below for details on scraping data yourself.
 - Clean and analyze data by running...
 - Launch the dashboard by...
-- Here's a demo of the dashboard being launched.
 
 ## Structure of Software :hammer_and_wrench:
 This project is structured in the following sections:
@@ -58,7 +57,7 @@ The AARP Livability Index is created from more than 50 unique sources of data ac
 
 
 
-### Acknowledgments
+## Acknowledgments
 
 CAPP 122 Instructor - Professor James Turk
 
