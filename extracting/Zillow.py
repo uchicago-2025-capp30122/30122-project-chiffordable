@@ -5,65 +5,8 @@ import json
 import csv
 import os
 import re
-
-# ---------------------------- Utility Functions ----------------------------
-
-def complete_link(url: str) -> str:
-    """
-    Ensures the URL is complete. If the URL is incomplete (starts with '/'),
-    it will prepend the base URL ('https://www.zillow.com').
-    """
-    base_url = "https://www.zillow.com"
-
-    if not url:
-        return None
-
-    if url.startswith(base_url):
-        return url
-    
-    return base_url + url
-
-
-# -------------------------- Web Scraping Functions ------------------------
-
-def fetch_page(url: str) -> str:
-    """
-    Fetches the content of a webpage given a URL using httpx.
-    """
-    headers = {
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US,en;q=0.9",
-        "Cache-Control": "no-cache",
-        "Connection": "keep-alive",
-        "Host": "www.zillow.com",
-        "Pragma": "no-cache",
-        "Sec-Fetch-Dest": "document",
-        "Sec-Fetch-Mode": "navigate",
-        "Sec-Fetch-Site": "none",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Safari/605.1.15"
-    }
-
-    with httpx.Client(headers=headers, follow_redirects=True) as client:
-        response = client.get(url)
-        response.raise_for_status()  # Raise an exception for HTTP errors
-        return response.text
-
-
-def parse_script_content(html: str):
-    """
-    Parses the HTML content and extracts the script tag with the '__NEXT_DATA__' ID.
-    Returns the JSON content inside that script tag.
-    """
-    root = lxml.html.fromstring(html)
-    script_element = root.xpath('//script[@id="__NEXT_DATA__"]')
-
-    if script_element:
-        script_content = script_element[0].text_content()
-        return json.loads(script_content)
-        
-    print("Script tag with id '__NEXT_DATA__' not found.")
-    return {}
+from zillow_utils import complete_link, fetch_page, parse_script_content, save_listings_to_csv
+from zillow_listing_scraper import get_missing_listings
 
 
 def extract_listings(json_data: dict):
@@ -117,14 +60,14 @@ def nextpage_from_xpath(response_text):
     Extracts the URL for the next page using XPath.
     """
     tree = lxml.html.fromstring(response_text)
-    next_page_element = tree.xpath('//a[@rel="next" and contains(@class, "PaginationButton-c11n-8-109-1__sc-1i6hxyy-0")]/@href')
+    next_page_element = tree.xpath('//a[@rel="next" and @title="Next page"]/@href')
     
     if next_page_element:
         next_url = complete_link(next_page_element[0])
         return next_url
     else:
-        print("No more pages found.")
-        return None
+        print("No more pages founded")
+        #raise TypeError("Pagination xpath is not working")
 
 
 def paginate(url: str, max_pages: int = 20):
@@ -171,31 +114,6 @@ def paginate(url: str, max_pages: int = 20):
 
     return all_listings
 
-# ---------------------------- CSV Output ----------------------------
-
-def save_listings_to_csv(listings, filename="Zillow.csv", save_path="../extracted_data"):
-    """
-    Saves listings to a CSV file in a specified directory.
-    """
-    # Ensure the directory exists
-    os.makedirs(save_path, exist_ok=True)
-
-    # Construct the full path
-    full_path = os.path.join(save_path, filename)
-
-    fieldnames = ["address", "detailUrl", "statusType", "zipcode", "latitude", 
-                  "longitude", "price", "clean_price", "livingarea", "status", "listingkey",
-                  "bedrooms", "bathrooms"]
-
-    with open(full_path, mode="w", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(listings)
-
-    print(f"Data saved to {full_path}")
-
-
-
 # ---------------------------- Main Function ----------------------------
 
 def main(zip_codes: list):
@@ -216,10 +134,13 @@ def main(zip_codes: list):
             print(f"❌ No listings found in ZIP {zip_code}\n")
                   
         # Sleep for a bit between ZIP codes to avoid getting blocked
-        time.sleep(10)
+        time.sleep(1)
 
     # Save all results to CSV
-    save_listings_to_csv(all_results)
+    save_listings_to_csv(all_results, "Zillow-general.csv")
+
+    print("Now we have a general data base an will scrape for missing data")
+    get_missing_listings()
 
 
 # ---------------------------- Example Usage ----------------------------
@@ -240,3 +161,5 @@ if __name__ == "__main__":
 ]
 
     all_data = main(zip_codes)
+
+
