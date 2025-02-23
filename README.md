@@ -40,6 +40,9 @@ This project is structured in the following sections:
 - UI (/ui)
   - Creates maps (/map.py)
   - Creates Dash application (/dash.py)
+ 
+  - <img width="1710" alt="image" src="https://github.com/user-attachments/assets/9058005d-22bf-45c6-9147-887cca9a4d08" />
+
 
 ## Data Sources :computer:
 
