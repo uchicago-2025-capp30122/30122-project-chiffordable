@@ -30,11 +30,9 @@ This project is structured in the following sections:
     - Pulls data form CMAP that contains communities characteristics (/CMAP.py)
     - Pulls data from Livability index from AARP by zip code (/Livability.py)
   - Data megre
-    - Takes the extracted files and merges based on polygons (/Merge.py)
-      
+    - Takes the extracted files and merges based on polygons (/Merge.py) 
 - Analysis (/analysis)
   - Calculates rental prices average by zip code and communities
-    
 - UI (/ui)
   - Creates maps (/map.py)
   - Creates Dash application (/dash.py)
