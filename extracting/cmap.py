@@ -3,6 +3,7 @@ import csv
 from pathlib import Path
 from shapely.wkt import loads
 from shapely import intersects, Point, contains
+import pandas as pd
 
 
 FINAL_CSV_PATH = Path(__file__).parent.parent / "extracted_data" / "cmap.csv" #figure this thing out ------------------
@@ -51,10 +52,9 @@ for row in raw_data["features"]: #all data is in the key "features"
     
     
     comm_id_features[local_data["geo"]["GEOID"]] = local_data
-# adding polygon to each community
 
+# creating dictionary with zip codes and the communities that are intersected with
 zip_comms_features = {}
-#zip_codes_polys
 
 with open (COMMS_TRACTS_CSV, "r") as coms_tracts, open(ZIP_TRACTS_CSV, "r") as zips:
     comms = list(csv.DictReader(coms_tracts))
@@ -73,7 +73,18 @@ with open (COMMS_TRACTS_CSV, "r") as coms_tracts, open(ZIP_TRACTS_CSV, "r") as z
                 zip_comms_features[zip_code][id_community] = comm_id_features[id_community]
 
 
+# according to a Zillow listing, find the demographic characteristics of the area
 def find_comm_and_zip_with_listing(lat : float , long : float, zip_code: int):
+    """
+    Takes the latitude, longitude and zip code and returns a dictionary with the
+    demographic characteristics of the neighborhood.
+    Input:
+        lat: float
+        long: float
+        zip_code: int with 5 numbers
+    Return:
+        dictionary with keys geo, age, race and rent. Each value is another dictionary
+    """
     listing = Point(long, lat)
     communities = zip_comms_features[zip_code]
     for comm in communities.values():
@@ -81,6 +92,7 @@ def find_comm_and_zip_with_listing(lat : float , long : float, zip_code: int):
         if poly.contains(listing):
             return comm
         
+# converting the data from each community to a list opf dictionaries to convert them to pandas
 csv_format = []
 for features in comm_id_features.values():
     flat_keys = {}
@@ -88,6 +100,8 @@ for features in comm_id_features.values():
         for k,val in v.items():
             flat_keys[k] = val
     csv_format.append(flat_keys)
+
+
 
 
 
