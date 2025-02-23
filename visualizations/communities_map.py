@@ -26,6 +26,19 @@ gdf['centroid'] = gdf['geometry'].centroid
 gdf['latitude'] = gdf['centroid'].y
 gdf['longitude'] = gdf['centroid'].x
 
+# Convert GeoDataFrame to GeoJSON dictionary
+def gdf_to_geojson(gdf):
+    features = []
+    for _, row in gdf.iterrows():
+        feature = {
+            "type": "Feature",
+            "geometry": row["geometry"].__geo_interface__,  # Convert Shapely to GeoJSON
+            "properties": {"GEOG": row["GEOG"], "median_rent": row["median_rent"]}
+        }
+        features.append(feature)
+    return {"type": "FeatureCollection", "features": features}
+
+
 # Helper function to create the map figure
 def create_figure(filtered_gdf):
     fig = px.scatter_mapbox(
@@ -42,14 +55,25 @@ def create_figure(filtered_gdf):
     return fig
 
 def figure(filtered_gdf):
-    fig = px.choropleth_map(filtered_gdf, geojson=gdf, locations='geometry', color = 'median_rent',
-                            color_continuous_scale="Viridis",
-                            range_color=(0, 12),
-                            map_style="carto-positron",
-                            zoom=3, center = {"lat": 37.0902, "lon": -95.7129},
-                            opacity=0.5,
-                            labels={'unemp':'unemployment rate'}
-                            )
+    # Convert to GeoJSON
+    geojson_data = gdf_to_geojson(filtered_gdf)
+    fig = px.choropleth_map(
+        filtered_gdf,
+        geojson=geojson_data,  # Use full GeoJSON, not just geometry
+        locations=filtered_gdf.GEOG,  # Must match a community in the GeoJSON
+        featureidkey="properties.GEOG",  # Make sure it matches the property name
+        color="median_rent",
+        hover_name="GEOG",
+        hover_data=["median_rent"],
+        center={"lat": 41.8781, "lon": -87.6298},  # Centered on Chicago
+        zoom=11,
+        height=600
+    )
+    
+    fig.update_layout(mapbox_style="open-street-map")  # Correct property name
+    fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
+
+    return fig
 
 default_fig = figure(gdf)
 
@@ -79,7 +103,7 @@ def update_map(max_rent):
         filtered_gdf = gdf
     else:
         filtered_gdf = gdf[gdf["median_rent"] <= max_rent]
-    return create_figure(filtered_gdf)
+    return figure(filtered_gdf)
 
 if __name__ == '__main__':
     port = 8050
