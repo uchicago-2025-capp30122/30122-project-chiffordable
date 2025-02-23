@@ -19,7 +19,7 @@ This project seeks to identify places where low-income families can afford renta
 - <img width="1710" alt="image" src="https://github.com/user-attachments/assets/9058005d-22bf-45c6-9147-887cca9a4d08" />
 
 ### Communities visualizations
-<img width="1710" alt="image" src="https://github.com/user-attachments/assets/a3e5f794-6743-427e-849b-b5e3a473efcc" />
+- <img width="1710" alt="image" src="https://github.com/user-attachments/assets/ea51ffa8-0205-4c91-9ff5-4a7946e8add1" />
 
 << INSERT DEMO VIDEO HERE >>
 
