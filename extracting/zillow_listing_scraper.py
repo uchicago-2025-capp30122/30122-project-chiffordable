@@ -108,7 +108,5 @@ def get_missing_listings():
             else:
                 completed_data.append(row)
 
-    #return completed_data
-
     save_listings_to_csv(completed_data, "Zillow-complete.csv")
 

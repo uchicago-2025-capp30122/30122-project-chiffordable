@@ -125,12 +125,12 @@ def main(zip_codes: list):
         listings = paginate(url)
         if listings:
             all_results.extend(listings)
-            print(f"✅ {len(listings)} listings found in ZIP {zip_code}\n")
+            #print(f"✅ {len(listings)} listings found in ZIP {zip_code}\n")
         else:
-            print(f"❌ No listings found in ZIP {zip_code}\n")
+            #print(f"❌ No listings found in ZIP {zip_code}\n")
                   
         # Sleep for a bit between ZIP codes to avoid getting blocked
-        time.sleep(1)
+         time.sleep(1)
 
     # Save all results to CSV
     save_listings_to_csv(all_results, "Zillow-general.csv")
