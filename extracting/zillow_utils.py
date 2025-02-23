@@ -4,7 +4,6 @@ import lxml.html
 import json
 import csv
 import os
-import re
 import pandas as pd
 
 def complete_link(url: str) -> str:
@@ -69,7 +68,7 @@ def parse_script_content(html: str):
     return {}
 
 
-def save_listings_to_csv(listings, filename, save_path="../extracted_data"):
+def save_listings_to_csv(listings:list, filename, save_path="../extracted_data"):
     """
     Saves listings to a CSV file in a specified directory.
     """
@@ -82,10 +81,13 @@ def save_listings_to_csv(listings, filename, save_path="../extracted_data"):
     fieldnames = ["address", "detailUrl", "statusType", "zipcode", "latitude", 
                   "longitude", "price", "clean_price", "livingarea", "status", "listingkey",
                   "bedrooms", "bathrooms"]
+    
+    listings_df = pd.DataFrame(listings)
+    listigs_noduplicates = listings_df.drop_duplicates()
 
     with open(full_path, mode="w", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
-        writer.writerows(listings)
+        writer.writerows(listigs_noduplicates)
 
     print(f"Data saved to {full_path}")

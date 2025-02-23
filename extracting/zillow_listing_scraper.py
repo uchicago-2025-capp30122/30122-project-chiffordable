@@ -1,11 +1,6 @@
 import time
-import httpx
-import lxml.html
-import json
 import csv
-import os
 import re
-
 from zillow_utils import fetch_page, parse_script_content, save_listings_to_csv
 
 
@@ -114,5 +109,6 @@ def get_missing_listings():
                 completed_data.append(row)
 
     #return completed_data
-    
+
     save_listings_to_csv(completed_data, "Zillow-complete.csv")
+

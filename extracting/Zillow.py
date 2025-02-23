@@ -1,9 +1,5 @@
 import time
-import httpx
 import lxml.html
-import json
-import csv
-import os
 import re
 from zillow_utils import complete_link, fetch_page, parse_script_content, save_listings_to_csv
 from zillow_listing_scraper import get_missing_listings
