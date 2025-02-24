@@ -4,6 +4,13 @@ from pathlib import Path
 from shapely.wkt import loads
 from shapely import intersects, Point, contains
 import pandas as pd
+import dash
+import dash_leaflet as dl
+from shapely.geometry import Polygon, mapping
+import json
+import plotly.graph_objects as go
+from dash import html
+
 
 
 FINAL_CSV_PATH = Path(__file__).parent.parent / "extracted_data" / "cmap.csv" #figure this thing out ------------------
@@ -101,22 +108,84 @@ for features in comm_id_features.values():
             flat_keys[k] = val
     csv_format.append(flat_keys)
 
+# creating list with where communities only have polygons and not multypoligons
+comms_with_polys = []
+for com in csv_format:
+    poly_geoms = list(com["comm_poly"].geoms)
+    if len(poly_geoms) == 1:
+        com["comm_poly"] = poly_geoms[0]
+        comms_with_polys.append(com)
+    else:
+        for i, poly in enumerate(poly_geoms):
+            new_comm = com.copy()
+            new_comm["comm_poly"] = poly_geoms[i]
+            comms_with_polys.append(new_comm)
 
+print(comms_with_polys[0])
+# ---------------------------------------------------------------------------------------------
 
+import dash
+import dash_leaflet as dl
+import dash_html_components as html  # Ensure HTML components are imported
+from dash.dependencies import Input, Output
+import json
+from shapely.geometry import mapping
 
+# Convert to GeoJSON format
+geojson_data = {
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {"name": item["GEOG"]},
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": mapping(item["comm_poly"])["coordinates"]
+            }
+        }
+        for item in comms_with_polys
+    ]
+}
 
+# Dash App
+app = dash.Dash(__name__)
 
+geojson_layer = dl.GeoJSON(
+    data=geojson_data,
+    id="geojson-layer",
+    options={"style": {"color": "blue", "weight": 2, "fillOpacity": 0.3}},
+    zoomToBounds=True,
+    hoverStyle={"weight": 3, "color": "red", "fillOpacity": 0.5},  # Style when hovering
+    superClusterOptions={"disableClusteringAtZoom": 10},  # Ensures click detection
+)
 
+app.layout = html.Div([
+    dl.Map(
+        center=[41.8781, -87.6298],  # Chicago's latitude and longitude
+        zoom=10,
+        children=[
+            dl.TileLayer(),
+            geojson_layer
+        ],
+        style={'width': '100%', 'height': '600px'}
+    ),
+    html.Div(id="info-box", style={"margin-top": "10px", "fontSize": "20px"})
+])
 
+# Callback to update info when clicking on a polygon
+@app.callback(
+    Output("info-box", "children"),
+    Input("geojson-layer", "click_feature")
+)
+def display_popup(feature):
+    print("Feature received:", feature)  # Debugging line
 
+    if feature is None:
+        return "Click on a polygon to see details."
 
+    properties = feature.get("properties", {})
+    name = properties.get("name", "Unknown")
+    return f"Clicked on: {name}"
 
-
-
-
-
-
-
-
-
-
+if __name__ == '__main__':
+    app.run_server(debug=True)
