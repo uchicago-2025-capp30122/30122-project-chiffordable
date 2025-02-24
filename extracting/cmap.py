@@ -9,7 +9,7 @@ import pandas as pd
 FINAL_CSV_PATH = Path(__file__).parent.parent / "extracted_data" / "cmap.csv" #figure this thing out ------------------
 API_URL = "https://services5.arcgis.com/LcMXE3TFhi1BSaCY/arcgis/rest/services/Community_Data_Snapshots_2024/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson"
 
-COMMS_TRACTS_CSV = Path(__file__).parent.parent / "extracting" / "comms_tracts_chicago.csv"
+COMMS_TRACTS_CSV = Path(__file__).parent.parent / "extracting" / "archive" / "comms_tracts_chicago.csv"
 ZIP_TRACTS_CSV = Path(__file__).parent.parent / "extracting" / "zips_tracts.csv"
 
 
