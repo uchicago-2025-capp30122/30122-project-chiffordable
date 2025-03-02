@@ -102,8 +102,28 @@ def display_info(clickData):
             if not community_data.empty:
                 info = community_data.iloc[0]
                 table_data = {
-                    "Variable": ["Median Rent", "Age 5-19", "Age 20-34", "Age 35-49", "Age 50-64", "Age 65-74", "Age 75+", "White", "Hispanic", "Black", "Asian"],
-                    "Value": [info["median_rent"], info["A5_19"], info["A20_34"], info["A35_49"], info["A50_64"], info["A65_74"], info["A75_84"], info["WHITE"], info["HISP"], info["BLACK"], info["ASIAN"]]
+                    "Community characteristics": ["Median Rent", 
+                                                  "Age 5-19 (%)", 
+                                                  "Age 20-34 (%)", 
+                                                  "Age 35-49 (%)", 
+                                                  "Age 50-64 (%)", 
+                                                  "Age 65-74 (%)", 
+                                                  "Age 75+ (%)", 
+                                                  "White (%)", 
+                                                  "Hispanic (%)", 
+                                                  "Black (%)", 
+                                                  "Asian (%)"],
+                    " ": [info["median_rent"], 
+                          info["A5_19"], 
+                          info["A20_34"], 
+                          info["A35_49"], 
+                          info["A50_64"], 
+                          info["A65_74"], 
+                          info["A75_84"], 
+                          info["WHITE"], 
+                          info["HISP"], 
+                          info["BLACK"], 
+                          info["ASIAN"]]
                 }
                 return dash_table.DataTable(
                     columns=[{"name": col, "id": col} for col in table_data.keys()],
