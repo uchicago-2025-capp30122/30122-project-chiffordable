@@ -7,7 +7,7 @@ import pandas as pd
 import plotly.express as px
 
 # Construct the CSV file path using os.path.join
-csv_file = os.path.join("..", "extracted_data", "Zillow-complete.csv")
+csv_file = os.path.join("extracted_data", "Zillow-complete.csv")
 
 # Load the CSV file (assumes it contains only Chicago data)
 df = pd.read_csv(csv_file)
@@ -39,7 +39,7 @@ def create_figure(filtered_df):
         filtered_df,
         lat=lat_col,
         lon=lon_col,
-        color="clean_price",
+        #color="clean_price",
         hover_data=[
             "address",
             "price_formatted",
