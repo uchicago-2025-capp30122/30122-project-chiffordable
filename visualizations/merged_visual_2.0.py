@@ -1,13 +1,17 @@
 import os
 import webbrowser
 import dash
-from dash import dcc, html, dash_table
+from dash import dcc, html, dash_table, State, callback, Patch, clientside_callback
 from dash.dependencies import Input, Output
 import pandas as pd
 import geopandas as gpd
 from shapely.geometry import Point, Polygon
 import plotly.express as px
 import sys
+import dash_bootstrap_components as dbc
+from dash_bootstrap_templates import ThemeChangerAIO, template_from_url
+
+
 
 # Load listings data
 csv_file = os.path.join("extracted_data", "Zillow-complete.csv")
@@ -82,7 +86,7 @@ def get_community_from_name(name):
             return community
     return None
 
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.layout = html.Div([
     html.H1("Chicago Housing & Communities Map"),
     html.Div([
@@ -116,7 +120,6 @@ def display_info(clickData):
         elif "location" in selected_point:
             community_name = selected_point.get("location")
             community = get_community_from_name(community_name)
-        print(community)
         if community is not None:
             """
             table_data = {
