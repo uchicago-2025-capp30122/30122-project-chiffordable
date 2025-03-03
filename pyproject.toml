@@ -13,5 +13,7 @@ dependencies = [
     "geopandas>=1.0.1",
     "matplotlib>=3.10.0",
     "folium>=0.19.4",
-    "regex>=2024.11.6"
+    "regex>=2024.11.6",
+    "dash-bootstrap-components>=1.7.1",
+    "dash_bootstrap_templates>=2.1.0"
 ]
