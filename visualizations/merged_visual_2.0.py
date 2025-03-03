@@ -108,25 +108,37 @@ def update_map(max_rent):
 )
 def display_info(clickData):
     if clickData and "points" in clickData:
-        print(clickData)
         selected_point = clickData["points"][0]
         if "lat" in selected_point and "lon" in selected_point:
             lat, lon = selected_point.get("lat"), selected_point.get("lon")
             community = get_community_from_point(lat, lon)
+            community_name = community["GEOG"]
         elif "location" in selected_point:
             community_name = selected_point.get("location")
             community = get_community_from_name(community_name)
+        print(community)
         if community is not None:
-            info = community
+            """
             table_data = {
                 "Community characteristics": ["Median Rent", "Age 5-19 (%)", "Age 20-34 (%)", "Age 35-49 (%)", "Age 50-64 (%)", "Age 65-74 (%)", "Age 75+ (%)", "White (%)", "Hispanic (%)", "Black (%)", "Asian (%)"],
                 " ": [info["median_rent"], info["A5_19"], info["A20_34"], info["A35_49"], info["A50_64"], info["A65_74"], info["A75_84"], info["WHITE"], info["HISP"], info["BLACK"], info["ASIAN"]]
             }
-            return dash_table.DataTable(
-                columns=[{"name": col, "id": col} for col in table_data.keys()],
-                data=pd.DataFrame(table_data).to_dict("records"),
-                style_table={'overflowX': 'auto'}
-            )
+            """
+            age_data = pd.DataFrame({
+                "Age Group": ["5-19", "20-34", "35-49", "50-64", "65-74", "75+"],
+                "Percentage": [community["A5_19"], community["A20_34"], community["A35_49"], 
+                               community["A50_64"], community["A65_74"], community["A75_84"]]
+            })
+            race_data = pd.DataFrame({
+                "Race": ["White", "Hispanic", "Black", "Asian"],
+                "Percentage": [community["WHITE"], community["HISP"], community["BLACK"], community["ASIAN"]]
+            })
+            return html.Div([
+                html.H3(f"{community_name}"),
+                html.H4(f"Median Rent: ${community['median_rent']:,.0f}"),
+                dcc.Graph(figure=px.bar(age_data, x="Age Group", y="Percentage", title="Age Distribution")),
+                dcc.Graph(figure=px.bar(race_data, x="Race", y="Percentage", title="Racial Composition"))
+            ])
     return "Click on a community or listing to view details."
 
 if __name__ == '__main__':
