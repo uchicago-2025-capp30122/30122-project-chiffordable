@@ -130,8 +130,8 @@ def display_info(clickData):
                                community["A50_64"], community["A65_74"], community["A75_84"]]
             })
             race_data = pd.DataFrame({
-                "Race": ["White", "Hispanic", "Black", "Asian"],
-                "Percentage": [community["WHITE"], community["HISP"], community["BLACK"], community["ASIAN"]]
+                "Race": ["White", "Hispanic", "Black", "Asian", "Other"],
+                "Percentage": [community["WHITE"], community["HISP"], community["BLACK"], community["ASIAN"], community["OTHER"]]
             })
             return html.Div([
                 html.H3(f"{community_name}"),
