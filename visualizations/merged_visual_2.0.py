@@ -5,7 +5,7 @@ from dash import dcc, html, dash_table
 from dash.dependencies import Input, Output
 import pandas as pd
 import geopandas as gpd
-from shapely import wkt
+from shapely.geometry import Point, Polygon
 import plotly.express as px
 import sys
 
@@ -69,6 +69,19 @@ def create_combined_figure(max_rent):
     
     return fig
 
+def get_community_from_point(lat, lon):
+    point = Point(lon, lat)
+    for _, community in gdf_communities.iterrows():
+        if community.geometry.contains(point):
+            return community
+    return None
+
+def get_community_from_name(name):
+    for _, community in gdf_communities.iterrows():
+        if community.GEOG == name:
+            return community
+    return None
+
 app = dash.Dash(__name__)
 app.layout = html.Div([
     html.H1("Chicago Housing & Communities Map"),
@@ -95,42 +108,26 @@ def update_map(max_rent):
 )
 def display_info(clickData):
     if clickData and "points" in clickData:
+        print(clickData)
         selected_point = clickData["points"][0]
-        community_name = selected_point.get("location")
-        if community_name:
-            community_data = gdf_communities[gdf_communities["GEOG"] == community_name]
-            if not community_data.empty:
-                info = community_data.iloc[0]
-                table_data = {
-                    "Community characteristics": ["Median Rent", 
-                                                  "Age 5-19 (%)", 
-                                                  "Age 20-34 (%)", 
-                                                  "Age 35-49 (%)", 
-                                                  "Age 50-64 (%)", 
-                                                  "Age 65-74 (%)", 
-                                                  "Age 75+ (%)", 
-                                                  "White (%)", 
-                                                  "Hispanic (%)", 
-                                                  "Black (%)", 
-                                                  "Asian (%)"],
-                    " ": [info["median_rent"], 
-                          info["A5_19"], 
-                          info["A20_34"], 
-                          info["A35_49"], 
-                          info["A50_64"], 
-                          info["A65_74"], 
-                          info["A75_84"], 
-                          info["WHITE"], 
-                          info["HISP"], 
-                          info["BLACK"], 
-                          info["ASIAN"]]
-                }
-                return dash_table.DataTable(
-                    columns=[{"name": col, "id": col} for col in table_data.keys()],
-                    data=pd.DataFrame(table_data).to_dict("records"),
-                    style_table={'overflowX': 'auto'}
-                )
-    return "Click on a community to view details."
+        if "lat" in selected_point and "lon" in selected_point:
+            lat, lon = selected_point.get("lat"), selected_point.get("lon")
+            community = get_community_from_point(lat, lon)
+        elif "location" in selected_point:
+            community_name = selected_point.get("location")
+            community = get_community_from_name(community_name)
+        if community is not None:
+            info = community
+            table_data = {
+                "Community characteristics": ["Median Rent", "Age 5-19 (%)", "Age 20-34 (%)", "Age 35-49 (%)", "Age 50-64 (%)", "Age 65-74 (%)", "Age 75+ (%)", "White (%)", "Hispanic (%)", "Black (%)", "Asian (%)"],
+                " ": [info["median_rent"], info["A5_19"], info["A20_34"], info["A35_49"], info["A50_64"], info["A65_74"], info["A75_84"], info["WHITE"], info["HISP"], info["BLACK"], info["ASIAN"]]
+            }
+            return dash_table.DataTable(
+                columns=[{"name": col, "id": col} for col in table_data.keys()],
+                data=pd.DataFrame(table_data).to_dict("records"),
+                style_table={'overflowX': 'auto'}
+            )
+    return "Click on a community or listing to view details."
 
 if __name__ == '__main__':
     port = 8050
