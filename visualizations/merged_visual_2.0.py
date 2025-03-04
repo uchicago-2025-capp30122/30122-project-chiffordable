@@ -19,14 +19,21 @@ df_listings = pd.read_csv(csv_file)
 df_listings["clean_price"] = pd.to_numeric(df_listings["clean_price"], errors='coerce')
 df_listings["latitude"] = pd.to_numeric(df_listings["latitude"], errors='coerce')
 df_listings["longitude"] = pd.to_numeric(df_listings["longitude"], errors='coerce')
+df_listings['zipcode'] = df_listings['zipcode'].astype(str).str.zfill(5)
+
 
 # Load communities data
 sys.path.append('./extracting')
 from cmap import csv_format  # Importing external data
-
 df_communities = pd.DataFrame(csv_format)
 df_communities['geometry'] = df_communities['comm_poly'].apply(lambda x: wkt.loads(x) if isinstance(x, str) else x)
 gdf_communities = gpd.GeoDataFrame(df_communities, geometry='geometry')
+
+# Load livability index data
+livability_path = os.path.join("extracted_data", "livability_incompleted.csv")
+df_livability = pd.read_csv(livability_path)
+df_livability['zip_code'] = df_livability['zip_code'].astype(str).str.zfill(5)
+
 
 def gdf_to_geojson(gdf):
     features = []
@@ -86,6 +93,19 @@ def get_community_from_name(name):
             return community
     return None
 
+def get_livability_scores(zip_code):
+    scores = df_livability[df_livability['zip_code'] == zip_code]
+    scores_data = {
+        "Proximity": scores["score_prox"].values[0],
+        "Engagement": scores["score_engage"].values[0],
+        "Environment": scores["score_env"].values[0],
+        "Health": scores["score_health"].values[0],
+        "Housing": scores["score_house"].values[0],
+        "Opportunity": scores["score_opp"].values[0],
+        "Transportation": scores["score_trans"].values[0]
+    }
+    return scores_data
+
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.layout = html.Div([
     html.H1("Chicago Housing & Communities Map"),
@@ -115,33 +135,44 @@ def display_info(clickData):
         selected_point = clickData["points"][0]
         if "lat" in selected_point and "lon" in selected_point:
             lat, lon = selected_point.get("lat"), selected_point.get("lon")
+            listing = df_listings[(df_listings["latitude"] == lat) & (df_listings["longitude"] == lon)]
+            zip_code = listing["zipcode"].values[0]
+            livability = get_livability_scores(zip_code)
             community = get_community_from_point(lat, lon)
             community_name = community["GEOG"]
         elif "location" in selected_point:
             community_name = selected_point.get("location")
             community = get_community_from_name(community_name)
+            livability = None
         if community is not None:
-            """
-            table_data = {
-                "Community characteristics": ["Median Rent", "Age 5-19 (%)", "Age 20-34 (%)", "Age 35-49 (%)", "Age 50-64 (%)", "Age 65-74 (%)", "Age 75+ (%)", "White (%)", "Hispanic (%)", "Black (%)", "Asian (%)"],
-                " ": [info["median_rent"], info["A5_19"], info["A20_34"], info["A35_49"], info["A50_64"], info["A65_74"], info["A75_84"], info["WHITE"], info["HISP"], info["BLACK"], info["ASIAN"]]
-            }
-            """
             age_data = pd.DataFrame({
-                "Age Group": ["5-19", "20-34", "35-49", "50-64", "65-74", "75+"],
-                "Percentage": [community["A5_19"], community["A20_34"], community["A35_49"], 
-                               community["A50_64"], community["A65_74"], community["A75_84"]]
+                "Age Group": ["<5","5-19", "20-34", "35-49", "50-64", "65-74", "75-84", "85<"],
+                "Percentage": [community["UND5"], community["A5_19"], community["A20_34"], community["A35_49"], 
+                               community["A50_64"], community["A65_74"], community["A75_84"],community["OV85"]]
             })
             race_data = pd.DataFrame({
                 "Race": ["White", "Hispanic", "Black", "Asian", "Other"],
                 "Percentage": [community["WHITE"], community["HISP"], community["BLACK"], community["ASIAN"], community["OTHER"]]
             })
+            if livability is not None:
+                livability_data = pd.DataFrame({
+                    "Category": ["Proximity", "Engagement", "Environment", "Health", "Housing", "Opportunity", "Transportation"],
+                    "Score": [livability["Proximity"], livability["Engagement"], livability["Environment"],
+                            livability["Health"], livability["Housing"], livability["Opportunity"], livability["Transportation"]]
+                })
+                return html.Div([
+                    html.H3(f"{community_name}"),
+                    html.H4(f"Median Rent: ${community['median_rent']:,.0f}"),
+                    dcc.Graph(figure=px.bar(age_data, x="Age Group", y="Percentage", title="Age Distribution")),
+                    dcc.Graph(figure=px.bar(race_data, x="Race", y="Percentage", title="Racial Composition")),
+                    dcc.Graph(figure=px.bar(livability_data, x="Category", y="Score", title="Livability Scores")),
+                ])
             return html.Div([
-                html.H3(f"{community_name}"),
-                html.H4(f"Median Rent: ${community['median_rent']:,.0f}"),
-                dcc.Graph(figure=px.bar(age_data, x="Age Group", y="Percentage", title="Age Distribution")),
-                dcc.Graph(figure=px.bar(race_data, x="Race", y="Percentage", title="Racial Composition"))
-            ])
+                    html.H3(f"{community_name}"),
+                    html.H4(f"Median Rent: ${community['median_rent']:,.0f}"),
+                    dcc.Graph(figure=px.bar(age_data, x="Age Group", y="Percentage", title="Age Distribution")),
+                    dcc.Graph(figure=px.bar(race_data, x="Race", y="Percentage", title="Racial Composition")),
+                ])
     return "Click on a community or listing to view details."
 
 if __name__ == '__main__':
