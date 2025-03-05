@@ -67,8 +67,18 @@ def get_livability_scores(zip_code):
         "Transportation": scores["score_trans"].values[0]
     }
     return scores_data
+
+def calculate_rent(annual_income, share_on_rent):
+    if not annual_income:
+        return 0
+    elif not share_on_rent:
+        return annual_income
+    else:
+        return annual_income * share_on_rent / 100 / 12
     
-def create_combined_figure(max_rent):
+    
+def create_combined_figure(annual_income, share_on_rent):
+    max_rent = calculate_rent(annual_income, share_on_rent)
     filtered_listings = df_listings[df_listings["clean_price"] <= max_rent]
     filtered_communities = gdf_communities[gdf_communities["median_rent"] <= max_rent]
     geojson_data = gdf_to_geojson(filtered_communities)
@@ -129,9 +139,15 @@ visualizations_page = html.Div([
     html.H1("Housing & Communities Map"),
     dbc.Row([
         dbc.Col([
-            html.Label("Enter maximum rent:"),
-            dcc.Input(id="rent-input", type="number", placeholder="Maximum rent", value=1500)
-        ], width=3),
+            html.Label("My annual income is:"),
+            dcc.Input(id="rent-input", type="number", placeholder="Annual income", value=50000)
+        ], width=4),
+    ]),
+        dbc.Row([
+        dbc.Col([
+            html.Label("I want to spend (%) of my income:"),
+            dcc.Input(id="share-rent", type="number", placeholder="Share on rent", value=30)
+        ], width=4),
     ]),
     dbc.Row([
         dbc.Col(dcc.Graph(id="chicago-map"), width=4),
@@ -168,10 +184,11 @@ def update_tab(tab_name):
 @app.callback(
     Output("chicago-map", "figure"),
     Input("rent-input", "value"),
+    Input("share-rent", "value"),
     suppress_callback_exceptions=True
 )
-def update_map(max_rent):
-    return create_combined_figure(max_rent)
+def update_map(annual_income, share_on_rent):
+    return create_combined_figure(annual_income, share_on_rent)
 
 @app.callback(
     Output("community-info", "children"),
@@ -215,18 +232,16 @@ def display_info(clickData):
                     dbc.Row([
                         dbc.Col(dcc.Graph(figure=px.bar(age_data, x="Age Group", y="Percentage", title="Age Distribution")), width=4),
                         dbc.Col(dcc.Graph(figure=px.bar(race_data, x="Race", y="Percentage", title="Racial Composition")), width=4),
-                    ]),
-                    
-                    # Livability graph below
-                    dbc.Row([
-                        dbc.Col(dcc.Graph(figure=px.bar(livability_data, x="Score", y="Category", title="Livability Scores", orientation="h")), width=8),
+                        dbc.Col(dcc.Graph(figure=px.bar(livability_data, x="Score", y="Category", title="Livability Scores", orientation="h")), width=4),
                     ]),
                 ])
             return html.Div([
                     html.H3(f"{community_name}"),
                     html.H4(f"Median Rent: ${community['median_rent']:,.0f}"),
-                    dbc.Col(dcc.Graph(figure=px.bar(age_data, x="Age Group", y="Percentage", title="Age Distribution")), width=4),
-                    dbc.Col(dcc.Graph(figure=px.bar(race_data, x="Race", y="Percentage", title="Racial Composition")), width=4),
+                    dbc.Row([
+                        dbc.Col(dcc.Graph(figure=px.bar(age_data, x="Age Group", y="Percentage", title="Age Distribution")), width=4),
+                        dbc.Col(dcc.Graph(figure=px.bar(race_data, x="Race", y="Percentage", title="Racial Composition")), width=4),
+                    ]),
                 ])
     return "Click on a community or listing to view details."
 
