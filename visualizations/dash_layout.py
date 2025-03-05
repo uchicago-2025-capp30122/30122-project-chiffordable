@@ -102,29 +102,81 @@ def create_combined_figure(max_rent):
     
     return fig
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
-app.layout = html.Div([
+# Initialize Dash app
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.LUX], suppress_callback_exceptions=True)
+app.title = "Chicago Housing & Communities Map"
+
+# Define layout
+app.layout = dbc.Container([
+    dcc.Tabs(id="tabs", value="landing", children=[
+        dcc.Tab(label="Home", value="landing"),
+        dcc.Tab(label="Visualizations", value="visualizations"),
+        dcc.Tab(label="Considerations", value="considerations"),
+    ]),
+    html.Div(id='tabs-content')
+],
+fluid=True)
+
+# Landing Page Layout
+landing_page = html.Div([
     html.H1("Chicago Housing & Communities Map"),
-    html.Div([
-        html.Label("Enter maximum rent:"),
-        dcc.Input(id="rent-input", type="number", placeholder="Maximum rent", value=1500)
-    ], style={'padding': '10px', 'fontSize': '20px'}),
-    html.Div([
-        dcc.Graph(id="chicago-map", figure=create_combined_figure(1500)),
-        html.Div(id="community-info", style={'width': '30%', 'display': 'inline-block', 'verticalAlign': 'top', 'padding': '10px'})
-    ], style={'display': 'flex'}),
+    html.P("[Abstract goes here]"),
+    html.H3("How to use this tool"),
+    html.P("[Instructions go here]")
+])
+# Visualization Page Layout
+visualizations_page = html.Div([
+    html.H1("Housing & Communities Map"),
+    dbc.Row([
+        dbc.Col([
+            html.Label("Enter maximum rent:"),
+            dcc.Input(id="rent-input", type="number", placeholder="Maximum rent", value=1500)
+        ], width=3),
+    ]),
+    dbc.Row([
+        dbc.Col(dcc.Graph(id="chicago-map"), width=4),
+        dbc.Col(html.Div(id="community-info"), width=8),
+    ])
 ])
 
+# Considerations Page Layout
+considerations_page = html.Div([
+    html.H1("Considerations"),
+    html.H3("Data Sources"),
+    html.P("[List data sources here]"),
+    html.H3("GitHub Repository"),
+    html.A("[Link to repository]", href="#", target="_blank"),
+    html.H3("Authors & Acknowledgements"),
+    html.P("[Author names and acknowledgements here]")
+])
+
+# Update page content based on selected tab
+@app.callback(
+    Output('tabs-content', 'children'),
+    Input('tabs', 'value'),
+    suppress_callback_exceptions=True
+)
+def update_tab(tab_name):
+    if tab_name == "landing":
+        return landing_page
+    elif tab_name == "visualizations":
+        return visualizations_page
+    elif tab_name == "considerations":
+        return considerations_page
+
+# Visualization Page Callbacks
 @app.callback(
     Output("chicago-map", "figure"),
-    Input("rent-input", "value")
+    Input("rent-input", "value"),
+    suppress_callback_exceptions=True
 )
 def update_map(max_rent):
     return create_combined_figure(max_rent)
 
 @app.callback(
     Output("community-info", "children"),
-    Input("chicago-map", "clickData")
+    Input("chicago-map", "clickData"),
+    suppress_callback_exceptions=True
 )
 def display_info(clickData):
     if clickData and "points" in clickData:
@@ -159,15 +211,22 @@ def display_info(clickData):
                 return html.Div([
                     html.H3(f"{community_name}"),
                     html.H4(f"Median Rent: ${community['median_rent']:,.0f}"),
-                    dcc.Graph(figure=px.bar(age_data, x="Age Group", y="Percentage", title="Age Distribution")),
-                    dcc.Graph(figure=px.bar(race_data, x="Race", y="Percentage", title="Racial Composition")),
-                    dcc.Graph(figure=px.bar(livability_data, x="Category", y="Score", title="Livability Scores")),
+                    # Two columns for Age and Race graphs
+                    dbc.Row([
+                        dbc.Col(dcc.Graph(figure=px.bar(age_data, x="Age Group", y="Percentage", title="Age Distribution")), width=4),
+                        dbc.Col(dcc.Graph(figure=px.bar(race_data, x="Race", y="Percentage", title="Racial Composition")), width=4),
+                    ]),
+                    
+                    # Livability graph below
+                    dbc.Row([
+                        dbc.Col(dcc.Graph(figure=px.bar(livability_data, x="Score", y="Category", title="Livability Scores", orientation="h")), width=8),
+                    ]),
                 ])
             return html.Div([
                     html.H3(f"{community_name}"),
                     html.H4(f"Median Rent: ${community['median_rent']:,.0f}"),
-                    dcc.Graph(figure=px.bar(age_data, x="Age Group", y="Percentage", title="Age Distribution")),
-                    dcc.Graph(figure=px.bar(race_data, x="Race", y="Percentage", title="Racial Composition")),
+                    dbc.Col(dcc.Graph(figure=px.bar(age_data, x="Age Group", y="Percentage", title="Age Distribution")), width=4),
+                    dbc.Col(dcc.Graph(figure=px.bar(race_data, x="Race", y="Percentage", title="Racial Composition")), width=4),
                 ])
     return "Click on a community or listing to view details."
 
