@@ -17,4 +17,5 @@ dependencies = [
     "dash-bootstrap-components>=1.7.1",
     "dash_bootstrap_templates>=2.1.0",
     "pytest>=8.3.5",
+    "lxml>=4.9.3",
 ]
