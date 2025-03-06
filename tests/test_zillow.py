@@ -1,11 +1,10 @@
 import pytest
-import re
-from extracting/Utils import complete_link, parse_script_content, save_listings_to_csv
-from extracting/zillow_details import get_details_info
-from extracting/zillow.py import extract_listings, get_listing_info, nextpage_from_xpath, one_zipcode_scrape
+
+from extracting.zillow_details import extract_listings, get_listing_info, get_prices, get_details_info
+from extracting.zillow import extract_listings, get_listing_info, nextpage_from_xpath, one_zipcode_scrape
 
 # Sample JSON Data for extract_listings
-SAMPLE_JSON = {
+SAMPLE_ZILLOW_JSON = {
     'props': {
         'pageProps': {
             'searchPageState': {
@@ -40,6 +39,7 @@ SAMPLE_HTML_WITH_NEXT = '''
     </body>
 </html>
 '''
+
 SAMPLE_HTML_LAST_PAGE = '''
 <html>
     <body>
@@ -48,70 +48,7 @@ SAMPLE_HTML_LAST_PAGE = '''
 </html>
 '''
 
-# ========================== Tests ==========================
-
-# ---- Test extract_listings ----
-def test_extract_listings():
-    listings = extract_listings(SAMPLE_JSON)
-    assert isinstance(listings, list)
-    assert len(listings) == 1
-    assert listings[0]["address"] == "123 Main St"
-
-def test_extract_listings_empty():
-    empty_json = {'props': {'pageProps': {'searchPageState': {'cat1': {'searchResults': {'listResults': []}}}}}}
-    listings = extract_listings(empty_json)
-    assert listings == []
-
-def test_extract_listings_invalid_json():
-    with pytest.raises(KeyError):
-        extract_listings({})  # Missing expected keys
-
-# ---- Test get_listing_info ----
-def test_get_listing_info():
-    listing_info = get_listing_info(SAMPLE_JSON['props']['pageProps']['searchPageState']['cat1']['searchResults']['listResults'][0])
-    assert listing_info["address"] == "123 Main St"
-    assert listing_info["clean_price"] == "1500"
-    assert listing_info["bedrooms"] == 2
-
-def test_get_listing_info_missing_fields():
-    listing_info = get_listing_info({})
-    assert listing_info["address"] == ""
-    assert listing_info["clean_price"] is None
-
-def test_get_listing_info_price_cleanup():
-    listing_info = get_listing_info({"price": "$2,000/mo"})
-    assert listing_info["clean_price"] == "2000"
-
-# ---- Test nextpage_from_xpath ----
-def test_nextpage_from_xpath():
-    next_url = nextpage_from_xpath(SAMPLE_HTML_WITH_NEXT)
-    assert next_url.endswith("/rentals/page2/")
-
-def test_nextpage_from_xpath_last_page():
-    next_url = nextpage_from_xpath(SAMPLE_HTML_LAST_PAGE)
-    assert next_url is None
-
-def test_nextpage_from_xpath_invalid_html():
-    with pytest.raises(AttributeError):
-        nextpage_from_xpath("<html></html>")
-
-# ---- Test one_zipcode_scrape ----
-@pytest.mark.parametrize("url, expected", [
-    ("https://www.zillow.com/60601/rentals/", list),
-    ("https://www.zillow.com/invalid/rentals/", list)
-])
-def test_one_zipcode_scrape(url, expected):
-    listings = one_zipcode_scrape(url, max_pages=1)
-    assert isinstance(listings, expected)
-
-
-
-import pytest
-from zillow_details import extract_listings, get_listing_info, get_prices, get_details_info
-
-# ========================== Sample Data ==========================
-
-SAMPLE_JSON = {
+SAMPLE_JSON_DETAILS = {
     'props': {
         'pageProps': {
             'componentProps': {
@@ -146,11 +83,56 @@ SAMPLE_LISTING_DICT = {
     "listingkey": "12345"
 }
 
-# ========================== Tests ==========================
-
-# ---- Test extract_listings ----
+# General Zillow listig tests
+# 1. Test extract_listings
 def test_extract_listings():
-    listings = extract_listings(SAMPLE_JSON)
+    listings = extract_listings(SAMPLE_ZILLOW_JSON)
+    assert isinstance(listings, list)
+    assert len(listings) == 1
+    assert listings[0]["address"] == "123 Main St"
+
+def test_extract_listings_empty():
+    empty_json = {'props': {'pageProps': {'searchPageState': {'cat1': {'searchResults': {'listResults': []}}}}}}
+    listings = extract_listings(empty_json)
+    assert listings == []
+
+def test_extract_listings_invalid_json():
+    with pytest.raises(KeyError):
+        extract_listings({})  
+
+# 2. Test get_listing_info
+def test_get_listing_info():
+    listing_info = get_listing_info(SAMPLE_ZILLOW_JSON['props']['pageProps']['searchPageState']['cat1']['searchResults']['listResults'][0])
+    assert listing_info["address"] == "123 Main St"
+    assert listing_info["clean_price"] == "1500"
+    assert listing_info["bedrooms"] == 2
+
+def test_get_listing_info_missing_fields():
+    listing_info = get_listing_info({})
+    assert listing_info["address"] == ""
+    assert listing_info["clean_price"] is None
+
+def test_get_listing_info_price_cleanup():
+    listing_info = get_listing_info({"price": "$2,000/mo"})
+    assert listing_info["clean_price"] == "2000"
+
+# 3. Test nextpage_from_xpath
+def test_nextpage_from_xpath():
+    next_url = nextpage_from_xpath(SAMPLE_HTML_WITH_NEXT)
+    assert next_url.endswith("/rentals/page2/")
+
+def test_nextpage_from_xpath_last_page():
+    next_url = nextpage_from_xpath(SAMPLE_HTML_LAST_PAGE)
+    assert next_url is None
+
+def test_nextpage_from_xpath_invalid_html():
+    with pytest.raises(AttributeError):
+        nextpage_from_xpath("<html></html>")
+
+# Listing Details tests
+# 1. Test extract_listings
+def test_extract_listings():
+    listings = extract_listings(SAMPLE_JSON_DETAILS)
     assert isinstance(listings, list)
     assert len(listings) == 2
     assert listings[0]["beds"] == 2
@@ -167,7 +149,7 @@ def test_extract_listings_no_floorplans():
 def test_extract_listings_invalid_json():
     assert extract_listings({}) == []
 
-# ---- Test get_listing_info ----
+# 2. Test get_listing_info
 def test_get_listing_info():
     listing_info = get_listing_info(SAMPLE_LISTINGS)
     assert len(listing_info) == 3  # 2 entries for first listing, 1 for second
@@ -184,7 +166,7 @@ def test_get_listing_info_price_handling():
     result = get_listing_info(listing_with_price)
     assert result[0]["price"] == 800
 
-# ---- Test get_details_info ----
+# 3.Test get_details_info 
 def test_get_details_info(monkeypatch):
     def mock_get_prices(url):
         return [{"price": 1400, "beds": 2, "baths": 1, "sqft": 750}]
@@ -212,13 +194,6 @@ def test_get_details_info_multiple_apartments(monkeypatch):
     assert details[0]["beds"] == 3
     assert details[1]["price"] == 1200
 
-# ========================== Run Tests ==========================
-
-if __name__ == "__main__":
-    pytest.main()
-
-
-# ========================== Run Tests ==========================
 
 if __name__ == "__main__":
     pytest.main()

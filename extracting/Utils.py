@@ -44,11 +44,17 @@ def fetch_page(url: str, headers_input = {}) -> str:
     Raises:
         httpx.HTTPStatusError: If the response status code is not 2xx.
     """
-    print(url)
+    #print(url)
     with httpx.Client(headers=headers_input, follow_redirects=True) as client:
         response = client.get(url)
-        response.raise_for_status()
-    
+        
+        if response.status_code != 200:  # Check if response is not OK
+            raise httpx.HTTPStatusError(
+                f"Error {response.status_code} in the scraping of {url}", request=response.request, response=response
+            )
+
+        response.raise_for_status()  # This raises an HTTPStatusError if there's an issue
+
     return response.text
     
     

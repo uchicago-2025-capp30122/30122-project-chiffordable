@@ -96,18 +96,21 @@ def get_prices(url)-> list:
          Returns a list of  dictionaries with the 
          information of the individual listing
      """
-     
      detail_link = str(url)
-     html = fetch_page(detail_link, INDIVIDUAL_HEADERS )
-
+    #  try:
+    #     html = fetch_page(detail_link, INDIVIDUAL_HEADERS)
+    #  except httpx.HTTPStatusError as e:
+    #     print(f"Skipping {url} due to error: {e}")
+    #     return []  # Return an empty list or handle it as needed
+     html = fetch_page(detail_link, INDIVIDUAL_HEADERS)
      if html:
-        json_data = parse_script_content(html.text)
+        json_data = parse_script_content(html)
         if json_data:
             listings = extract_listings(json_data)
-            #print("Fetching URl:", url)
             if listings:
-                info = get_listing_info(listings)
-                return info
+                return get_listing_info(listings)
+
+     return {}
             
             
 def get_details_info(listing: dict)-> list:
