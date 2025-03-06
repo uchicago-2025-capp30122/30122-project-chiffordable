@@ -12,7 +12,7 @@ import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import ThemeChangerAIO, template_from_url
 
 # Load listings data
-csv_file = os.path.join("extracted_data", "Zillow-complete.csv")
+csv_file = os.path.join("extracted_data", "Zillow.csv")
 df_listings = pd.read_csv(csv_file)
 df_listings["clean_price"] = pd.to_numeric(df_listings["clean_price"], errors='coerce')
 df_listings["latitude"] = pd.to_numeric(df_listings["latitude"], errors='coerce')
