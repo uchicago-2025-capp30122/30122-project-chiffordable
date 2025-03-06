@@ -7,21 +7,18 @@ from zillow_details import get_details_info
 BASE_URL = "https://www.zillow.com"
 
 ZILLOW_HEADERS = {
-      "method": "GET",
-    "scheme": "https",
-    "authority": "www.zillow.com",
-    "path": "/apartments/elk-grove-village-il/willow-crossing-apartments/5Xt94L/",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Encoding": "gzip, deflate, br",
     "Accept-Language": "en-US,en;q=0.9",
+    "Cache-Control": "no-cache",
     "Connection": "keep-alive",
-    "Cookie": "sessionid=abc123",
     "Host": "www.zillow.com",
+    "Pragma": "no-cache",
     "Sec-Fetch-Dest": "document",
     "Sec-Fetch-Mode": "navigate",
     "Sec-Fetch-Site": "none",
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Safari/605.1.15"
-}
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Safari/605.1.15",
+    "Cookie": "sessionid=abc123",}
 
 FILE_COLS = ["address", "detailUrl", "statusType", "zipcode", "latitude", 
                 "longitude", "price", "clean_price", "livingarea", 
@@ -98,6 +95,7 @@ def one_zipcode_scrape (url: str, max_pages: int = 20):
 
     """
     all_listings = []
+    fetched = set()
     current_page = 1
 
     # Two control methods to avoid looping in one zipcode
@@ -106,37 +104,41 @@ def one_zipcode_scrape (url: str, max_pages: int = 20):
     while url and current_page <= max_pages:
         clean_url = url.replace("chicago-il-", "")
 
-        # 1. Fetch the page
-        html = fetch_page(clean_url, ZILLOW_HEADERS)
+        if url not in fetched:
+            # 1. Fetch the page
+            html = fetch_page(clean_url, ZILLOW_HEADERS)
+            fetched.add(url)
 
-        # 2. Parse the response 
-        json_data = parse_script_content(html)
+            # 2. Parse the response 
+            json_data = parse_script_content(html)
 
-        # 3. Extract listings and add their URLs to the list
-        listings = extract_listings(json_data)
+            # 3. Extract listings and add their URLs to the list
+            listings = extract_listings(json_data)
 
-        for listing in listings:
-            listing_info = get_listing_info(listing)
-            
-            # Check if the listing needs details check
-            if not listing_info['price']:
-                detils_info = get_details_info(listing_info)
-                all_listings.extend(detils_info)
+            for listing in listings:
+                listing_info = get_listing_info(listing)
 
-            # Case when we have a unique price in the listing
-            else: 
-                all_listings.append(listing_info )
+                # Case when we have a unique price in the listing
+                if listing_info['price']:
+                    all_listings.append(listing_info )
+                
+                # Check if the listing needs details check
+                elif not listing_info['price'] and listing_info['status'] =="FOR_RENT":
+                    if listing_info["detailUrl"] not in fetched:
+                        detils_info = get_details_info(listing_info)
+                        all_listings.extend(detils_info)
+                        fetched.add(listing_info["detailUrl"])
 
-        # 4. Move to the next page
-        next_url = nextpage_from_xpath(html)
+            # 4. Move to the next page
+            next_url = nextpage_from_xpath(html)
 
-        # Check that the new page is a different one
-        if next_url  == url:
-            break
+            # Check that the new page is a different one
+            if next_url  == url:
+                break
 
-        # Update with paginated url and continue
-        url = next_url
-        current_page += 1
+            # Update with paginated url and continue
+            url = next_url
+            current_page += 1
 
     return all_listings
 
@@ -150,7 +152,7 @@ def main(zip_codes: list):
     all_results = []
 
     for zip_code in zip_codes:
-        print(f"\nScraping ZIP Code: {zip_code}\n")
+        print(f"\nScraping ZIP Code: {zip_code}...\n")
         url = f"https://www.zillow.com/{zip_code}/rentals/"
         
         listings = one_zipcode_scrape(url)
@@ -162,7 +164,7 @@ def main(zip_codes: list):
             print(f"No listings found in ZIP {zip_code}\n")
                   
         # Sleep for a bit between ZIP codes to avoid getting blocked
-        time.sleep(0.5)
+        time.sleep(0.1)
 
     # Save all results to CSV
     save_listings_to_csv(all_results, "Zillow.csv", FILE_COLS)

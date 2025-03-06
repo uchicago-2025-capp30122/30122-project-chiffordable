@@ -8,8 +8,7 @@ import pandas as pd
 
 
 ZIP_CODES = [
-    60007, 60018, 60106, #60127, 
-    60131, 60601, 60602, 60603, 60604, 60605,
+    60007, 60018, 60106, 60131, 60601, 60602, 60603, 60604, 60605,
     60606, 60607, 60608, 60609, 60610, 60611, 60612, 60613, 60614, 60615,
     60616, 60617, 60618, 60619, 60620, 60621, 60622, 60623, 60624, 60625,
     60626, 60628, 60629, 60630, 60631, 60632, 60633, 60634, 60636, 60637,
@@ -44,11 +43,17 @@ def fetch_page(url: str, headers_input = {}) -> str:
     Raises:
         httpx.HTTPStatusError: If the response status code is not 2xx.
     """
-    print(url)
+    #print(url)
     with httpx.Client(headers=headers_input, follow_redirects=True) as client:
         response = client.get(url)
-        response.raise_for_status()
-    
+        
+        if response.status_code != 200:  # Check if response is not OK
+            raise httpx.HTTPStatusError(
+                f"Error {response.status_code} in the scraping of {url}", request=response.request, response=response
+            )
+
+        response.raise_for_status()  # This raises an HTTPStatusError if there's an issue
+
     return response.text
     
     
