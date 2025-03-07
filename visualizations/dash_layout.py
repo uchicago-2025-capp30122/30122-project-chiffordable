@@ -5,14 +5,16 @@ from dash import dcc, html, dash_table, State, callback, Patch, clientside_callb
 from dash.dependencies import Input, Output
 import pandas as pd
 import geopandas as gpd
+from shapely import wkt
 from shapely.geometry import Point, Polygon
 import plotly.express as px
 import sys
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import ThemeChangerAIO, template_from_url
+import met_brewer
 
 # Load listings data
-csv_file = os.path.join("extracted_data", "Zillow.csv")
+csv_file = os.path.join("extracted_data", "Zillow_archive.csv")
 df_listings = pd.read_csv(csv_file)
 df_listings["clean_price"] = pd.to_numeric(df_listings["clean_price"], errors='coerce')
 df_listings["latitude"] = pd.to_numeric(df_listings["latitude"], errors='coerce')
@@ -76,6 +78,9 @@ def calculate_rent(annual_income, share_on_rent):
     else:
         return annual_income * share_on_rent / 100 / 12
     
+colors_communities = met_brewer.met_brew(name="Hokusai1", n=20, brew_type="continuous")
+colors_details = met_brewer.met_brew(name="Hokusai1", n=3, brew_type="discrete")
+    
     
 def create_combined_figure(annual_income, share_on_rent):
     max_rent = calculate_rent(annual_income, share_on_rent)
@@ -89,8 +94,8 @@ def create_combined_figure(annual_income, share_on_rent):
         locations=filtered_communities.GEOG,
         featureidkey="properties.GEOG",
         color="median_rent",
-        color_continuous_scale="Plasma",
-        opacity=0.4,
+        color_continuous_scale=colors_communities,
+        opacity=0.8,
         hover_name="GEOG",
         hover_data=["median_rent"],
         center={"lat": 41.8674, "lon": -87.6275},
@@ -107,7 +112,8 @@ def create_combined_figure(annual_income, share_on_rent):
         name="Listings"
     )
     
-    fig.update_layout(mapbox_style="open-street-map")
+    fig.update_layout(mapbox_style="open-street-map",
+                      coloraxis_colorbar=dict(title="Median rent"))
     fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
     
     return fig

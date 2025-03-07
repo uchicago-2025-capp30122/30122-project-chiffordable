@@ -4,27 +4,30 @@ import json
 import csv
 import os
 import pandas as pd
-from Utils import parse_script_content, fetch_page
+from extracting.Utils import parse_script_content, fetch_page
 
 INDIVIDUAL_HEADERS = {
+"authority": "www.zillow.com",
     "method": "GET",
+    "path": "/60615/rentals/",
     "scheme": "https",
-    "authority": "www.zillow.com",
-    "path": "/apartments/elk-grove-village-il/willow-crossing-apartments/5Xt94L/",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-    "Accept-Encoding": "gzip, deflate, br",
-    "Accept-Language": "en-US,en;q=0.9",
-    "Connection": "keep-alive",
-    "Cookie": "sessionid=abc123",
-    "Host": "www.zillow.com",
-    "Sec-Fetch-Dest": "document",
-    "Sec-Fetch-Mode": "navigate",
-    "Sec-Fetch-Site": "none",
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Safari/605.1.15"
+    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "accept-encoding": "gzip, deflate, br",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "connection": "keep-alive",
+    "cookie": "sessionid=abc1234",
+    "pragma": "no-cache",
+    "referer": "https://www.zillow.com/",
+    "sec-fetch-dest": "document",
+    "sec-fetch-mode": "navigate",
+    "sec-fetch-site": "none",
+    "upgrade-insecure-requests": "1",
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
 }
 
 
-def extract_listings(json_data: dict):
+def extract_details(json_data: dict):
     """
     Extracts the list of property listings from the parsed JSON data.
     """
@@ -44,7 +47,7 @@ def extract_listings(json_data: dict):
         return []
 
 
-def get_listing_info(listings:list):
+def get_details_info(listings:list):
     """
     Extract data from a specific listing and returns a clean dictionary
     with price, number of beds, number of bathrooms, etc)
@@ -97,18 +100,19 @@ def get_prices(url)-> list:
          information of the individual listing
      """
      detail_link = str(url)
-    #  try:
-    #     html = fetch_page(detail_link, INDIVIDUAL_HEADERS)
-    #  except httpx.HTTPStatusError as e:
-    #     print(f"Skipping {url} due to error: {e}")
-    #     return []  # Return an empty list or handle it as needed
-     html = fetch_page(detail_link, INDIVIDUAL_HEADERS)
+     try:
+         html = fetch_page(detail_link, INDIVIDUAL_HEADERS)
+         
+     except httpx.HTTPStatusError as e:
+         print(f"Skipping {url} due to error: {e}")
+         return []  # Return an empty list or handle it as needed
+
      if html:
         json_data = parse_script_content(html)
         if json_data:
-            listings = extract_listings(json_data)
+            listings = extract_details(json_data)
             if listings:
-                return get_listing_info(listings)
+                return get_details_info(listings)
 
      return {}
             
