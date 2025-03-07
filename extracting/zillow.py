@@ -2,8 +2,8 @@ import time
 import lxml.html
 import re
 import httpx
-from Utils import complete_link, fetch_page, parse_script_content, save_listings_to_csv, ZIP_CODES
-from zillow_details import get_details_info
+from extracting.Utils import complete_link, fetch_page, parse_script_content, save_listings_to_csv, ZIP_CODES
+from extracting.zillow_details import get_details_info
 
 BASE_URL = "https://www.zillow.com"
 
@@ -154,7 +154,7 @@ def one_zipcode_scrape (url: str, max_pages: int = 20):
 
     return all_listings
 
-# ---------------------------- Main Function ----------------------------
+# Main Function
 
 def main(zip_codes: list):
     """
@@ -176,13 +176,9 @@ def main(zip_codes: list):
             print(f"No listings found in ZIP {zip_code}\n")
                   
         # Sleep for a bit between ZIP codes to avoid getting blocked
-        time.sleep(0.1)
+        time.sleep(2)
 
     # Save all results to CSV
     save_listings_to_csv(all_results, "Zillow.csv", FILE_COLS)
     print(f"Scraping is done, we found {len(all_results)} rental places")
     print("The results were saved into Zillow.csv in the extracted data folder")
-
-main(ZIP_CODES)
-
-

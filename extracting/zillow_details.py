@@ -4,7 +4,7 @@ import json
 import csv
 import os
 import pandas as pd
-from Utils import parse_script_content, fetch_page
+from extracting.Utils import parse_script_content, fetch_page
 
 INDIVIDUAL_HEADERS = {
 "authority": "www.zillow.com",
@@ -27,7 +27,7 @@ INDIVIDUAL_HEADERS = {
 }
 
 
-def extract_listings(json_data: dict):
+def extract_details(json_data: dict):
     """
     Extracts the list of property listings from the parsed JSON data.
     """
@@ -47,7 +47,7 @@ def extract_listings(json_data: dict):
         return []
 
 
-def get_listing_info(listings:list):
+def get_details_info(listings:list):
     """
     Extract data from a specific listing and returns a clean dictionary
     with price, number of beds, number of bathrooms, etc)
@@ -110,9 +110,9 @@ def get_prices(url)-> list:
      if html:
         json_data = parse_script_content(html)
         if json_data:
-            listings = extract_listings(json_data)
+            listings = extract_details(json_data)
             if listings:
-                return get_listing_info(listings)
+                return get_details_info(listings)
 
      return {}
             
