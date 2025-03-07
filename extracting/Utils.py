@@ -20,7 +20,8 @@ ZIP_CODES = [
         60803, 60804, 60827
     ]
 
-def complete_link( base_url, url: str) -> str:
+
+def complete_link(base_url, url: str) -> str:
     """
     Ensures the URL is complete. If the URL is incomplete (starts with '/'),
     it will prepend the base URL for example ('https://www.zillow.com').
@@ -30,10 +31,11 @@ def complete_link( base_url, url: str) -> str:
 
     if url.startswith(base_url):
         return url
-    
+
     return base_url + url
 
-def fetch_page(url: str, headers_input = {}) -> str:
+
+def fetch_page(url: str, headers_input={}) -> str:
     """
     Fetches the content of a webpage given a URL using httpx.
 
@@ -43,20 +45,22 @@ def fetch_page(url: str, headers_input = {}) -> str:
     Raises:
         httpx.HTTPStatusError: If the response status code is not 2xx.
     """
-    #print(url)
+    # print(url)
     with httpx.Client(headers=headers_input, follow_redirects=True) as client:
         response = client.get(url)
-        
+
         if response.status_code != 200:  # Check if response is not OK
             raise httpx.HTTPStatusError(
-                f"Error {response.status_code} in the scraping of {url}", request=response.request, response=response
+                f"Error {response.status_code} in the scraping of {url}",
+                request=response.request,
+                response=response,
             )
 
         response.raise_for_status()  # This raises an HTTPStatusError if there's an issue
 
     return response.text
-    
-    
+
+
 def parse_script_content(html: str):
     """
     Parses the HTML content and extracts the script tag with the '__NEXT_DATA__' ID.
@@ -68,12 +72,12 @@ def parse_script_content(html: str):
     if script_element:
         script_content = script_element[0].text_content()
         return json.loads(script_content)
-        
+
     print("Script tag with id '__NEXT_DATA__' not found.")
     return {}
 
 
-def save_to_csv(listings:list, filename, file_cols, save_path="../extracted_data"):
+def save_to_csv(listings: list, filename, file_cols, save_path="../extracted_data"):
     """
     Saves listings to a CSV file in a specified directory.
     """
@@ -86,7 +90,7 @@ def save_to_csv(listings:list, filename, file_cols, save_path="../extracted_data
     # Convert list of dictionaries to DataFrame to drop duplicates
     listings_df = pd.DataFrame(listings)
     listings_noduplicates = listings_df.drop_duplicates()
-    
+
     # Convert back to a list of dictionaries
     listings_dict = listings_noduplicates.to_dict("records")
 
