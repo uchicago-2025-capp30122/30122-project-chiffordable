@@ -11,7 +11,7 @@ def update_zillow_data():
     """
     Runs the Zillow scraper after showing a warning.
     """
-    print("\n⚠️ WARNING: Zillow headers might have changed.\n \n  If scraping fails, update headers in `zillow.py`.")
+    print("\n\n⚠️ WARNING: \n Zillow headers might have changed.\n \n  If scraping fails, update headers in `zillow.py`.")
     print("⏳ Scraping could take approximately 25 minutes to complete,\n We wolud do all the scrapes for each listing in the City of Chicago \n (approx 12k listings9\n")
     
     # Ask for user confirmation
