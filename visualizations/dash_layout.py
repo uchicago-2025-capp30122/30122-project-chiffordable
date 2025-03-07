@@ -5,6 +5,7 @@ from dash import dcc, html, dash_table, State, callback, Patch, clientside_callb
 from dash.dependencies import Input, Output
 import pandas as pd
 import geopandas as gpd
+from shapely import wkt
 from shapely.geometry import Point, Polygon
 import plotly.express as px
 import sys
@@ -12,7 +13,7 @@ import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import ThemeChangerAIO, template_from_url
 
 # Load listings data
-csv_file = os.path.join("extracted_data", "Zillow.csv")
+csv_file = os.path.join("extracted_data", "Zillow_archive.csv")
 df_listings = pd.read_csv(csv_file)
 df_listings["clean_price"] = pd.to_numeric(df_listings["clean_price"], errors='coerce')
 df_listings["latitude"] = pd.to_numeric(df_listings["latitude"], errors='coerce')
@@ -107,7 +108,8 @@ def create_combined_figure(annual_income, share_on_rent):
         name="Listings"
     )
     
-    fig.update_layout(mapbox_style="open-street-map")
+    fig.update_layout(mapbox_style="open-street-map",
+                      coloraxis_colorbar=dict(title="Median rent"))
     fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
     
     return fig
