@@ -11,6 +11,7 @@ import plotly.express as px
 import sys
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import ThemeChangerAIO, template_from_url
+import met_brewer
 
 # Load listings data
 csv_file = os.path.join("extracted_data", "Zillow_archive.csv")
@@ -77,6 +78,9 @@ def calculate_rent(annual_income, share_on_rent):
     else:
         return annual_income * share_on_rent / 100 / 12
     
+colors_communities = met_brewer.met_brew(name="Hokusai1", n=20, brew_type="continuous")
+colors_details = met_brewer.met_brew(name="Hokusai1", n=3, brew_type="discrete")
+    
     
 def create_combined_figure(annual_income, share_on_rent):
     max_rent = calculate_rent(annual_income, share_on_rent)
@@ -90,8 +94,8 @@ def create_combined_figure(annual_income, share_on_rent):
         locations=filtered_communities.GEOG,
         featureidkey="properties.GEOG",
         color="median_rent",
-        color_continuous_scale="Plasma",
-        opacity=0.4,
+        color_continuous_scale=colors_communities,
+        opacity=0.8,
         hover_name="GEOG",
         hover_data=["median_rent"],
         center={"lat": 41.8674, "lon": -87.6275},

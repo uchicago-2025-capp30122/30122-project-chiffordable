@@ -18,4 +18,5 @@ dependencies = [
     "dash_bootstrap_templates>=2.1.0",
     "pytest>=8.3.5",
     "lxml>=4.9.3",
+    "met_brewer"
 ]
