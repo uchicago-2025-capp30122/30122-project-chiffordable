@@ -1,24 +1,32 @@
 import time
 import lxml.html
 import re
+import httpx
 from Utils import complete_link, fetch_page, parse_script_content, save_listings_to_csv, ZIP_CODES
 from zillow_details import get_details_info
 
 BASE_URL = "https://www.zillow.com"
 
 ZILLOW_HEADERS = {
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-    "Accept-Encoding": "gzip, deflate, br",
-    "Accept-Language": "en-US,en;q=0.9",
-    "Cache-Control": "no-cache",
-    "Connection": "keep-alive",
-    "Host": "www.zillow.com",
-    "Pragma": "no-cache",
-    "Sec-Fetch-Dest": "document",
-    "Sec-Fetch-Mode": "navigate",
-    "Sec-Fetch-Site": "none",
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Safari/605.1.15",
-    "Cookie": "sessionid=abc123",}
+    "authority": "www.zillow.com",
+    "method": "GET",
+    "path": "/60615/rentals/",
+    "scheme": "https",
+    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "accept-encoding": "gzip, deflate, br",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "connection": "keep-alive",
+    "cookie": "sessionid=abc1234",
+    "pragma": "no-cache",
+    "referer": "https://www.zillow.com/",
+    "sec-fetch-dest": "document",
+    "sec-fetch-mode": "navigate",
+    "sec-fetch-site": "none",
+    "upgrade-insecure-requests": "1",
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+
+}
 
 FILE_COLS = ["address", "detailUrl", "statusType", "zipcode", "latitude", 
                 "longitude", "price", "clean_price", "livingarea", 
@@ -106,8 +114,12 @@ def one_zipcode_scrape (url: str, max_pages: int = 20):
 
         if url not in fetched:
             # 1. Fetch the page
-            html = fetch_page(clean_url, ZILLOW_HEADERS)
-            fetched.add(url)
+            try:
+                html = fetch_page(url, ZILLOW_HEADERS)
+                fetched.add(url)
+            
+            except httpx.HTTPStatusError as e:
+                print(f"Skipping {url} due to error: {e}")
 
             # 2. Parse the response 
             json_data = parse_script_content(html)
