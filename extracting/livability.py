@@ -50,7 +50,6 @@ def extract_next_chars(text, categories):
 
     for category in categories:
         matches = re.findall(re.escape(category) + r'(.....)', text)
-        #print(f"Category: {category}, Matches: {matches}")
         if len(matches) >= 3:
             results[category] = matches[2]
             results[category] = results[category][3:]
