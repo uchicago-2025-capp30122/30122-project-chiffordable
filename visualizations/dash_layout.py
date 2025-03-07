@@ -78,8 +78,8 @@ def calculate_rent(annual_income, share_on_rent):
     else:
         return annual_income * share_on_rent / 100 / 12
     
-colors_communities = met_brewer.met_brew(name="Hokusai1", n=20, brew_type="continuous")
-colors_details = met_brewer.met_brew(name="Hokusai1", n=3, brew_type="discrete")
+colors_communities = met_brewer.met_brew(name="Tam", n=20, brew_type="continuous")
+colors_details = met_brewer.met_brew(name="Tam", n=3, brew_type="discrete")
     
     
 def create_combined_figure(annual_income, share_on_rent):
