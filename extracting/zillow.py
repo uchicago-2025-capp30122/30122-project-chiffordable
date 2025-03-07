@@ -3,7 +3,7 @@ import lxml.html
 import re
 import httpx
 from extracting.Utils import complete_link, fetch_page, parse_script_content, save_listings_to_csv, ZIP_CODES
-from extracting.zillow_details import get_details_info
+from extracting.zillow_details import get_details
 
 BASE_URL = "https://www.zillow.com"
 
@@ -137,7 +137,7 @@ def one_zipcode_scrape (url: str, max_pages: int = 20):
                 # Check if the listing needs details check
                 elif not listing_info['price'] and listing_info['status'] =="FOR_RENT":
                     if listing_info["detailUrl"] not in fetched:
-                        detils_info = get_details_info(listing_info)
+                        detils_info = get_details(listing_info)
                         all_listings.extend(detils_info)
                         fetched.add(listing_info["detailUrl"])
 

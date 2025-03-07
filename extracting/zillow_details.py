@@ -33,7 +33,8 @@ def extract_details(json_data: dict):
     """
     try:
         partial_extract = json_data['props']['pageProps']['componentProps']['initialReduxState']['gdp']['building']
-        # The details Zillow listings are under two structures and are randomply asigned 
+        # The details Zillow listings are under two structures and are randomly asigned to the listings
+        # We need to check both structures and have a resilient scraper
         # 1. under the floorPlans name
         listings = partial_extract.get('floorPlans')
 
@@ -51,6 +52,9 @@ def get_details_info(listings:list):
     """
     Extract data from a specific listing and returns a clean dictionary
     with price, number of beds, number of bathrooms, etc)
+
+    - One different entry for each "appartment" inside a building
+    - listings: list of ditionaries for each individual apparment in the listing
     """
 
     results = []
@@ -71,8 +75,12 @@ def get_details_info(listings:list):
             if max_price is None:
                 max_price = price
 
+        # Do not add listings without any price   
+        if min_price is None and max_price is None:
+            continue
+
         if listingType == 'FOR_RENT' or listingType is None:
-            if min_price != max_price:
+            if min_price != max_price :
                 results.append({
                     "price": max_price,
                     "beds": beds,
@@ -89,6 +97,40 @@ def get_details_info(listings:list):
                 "type": listingType,
             })
     return results
+
+def combine_details(listing: dict, details:list) -> dict:
+    """ this function combines the general listing info with the details 
+        with each appartment. 
+
+        Returns a list of dictionaries with individual appartments information.
+        The dictionaries include: address,   detailUrl,    statusType,
+                                  zipcode,   latitude,     longitude,
+                                  price,     clean_price,  livingarea (srft),
+                                  status,    listingkey,   bedrooms, 
+                                  bathrooms
+    """
+    completed_data = []
+
+    for appartment in details:
+            apparment_data = {
+                "address": listing['address'],
+                "detailUrl": listing['detailUrl'],
+                "statusType": listing['statusType'],
+                "zipcode": listing['zipcode'],
+                "latitude": listing['latitude'],
+                "longitude": listing['longitude'],
+                "price": appartment['price'],
+                "clean_price": appartment['price'],
+                "livingarea": appartment['sqft'],
+                "status": listing['status'],
+                "listingkey": listing['listingkey'],
+                "bedrooms": appartment['beds'], 
+                "bathrooms": appartment['baths'] ,
+                }
+            
+            completed_data.append(apparment_data)
+
+    return completed_data
 
 
 
@@ -117,18 +159,11 @@ def get_prices(url)-> list:
      return {}
             
             
-def get_details_info(listing: dict)-> list:
+def get_details(listing: dict)-> list:
     """ This function takes a dictionary of a listing and returns 
         the information from sublistings.
 
         - listing: dictionary with general scrape from main Zillow webpage
-
-        Returns a list of dictionaries with individual appartments information.
-        The dictionaries include: address,   detailUrl,    statusType,
-                                  zipcode,   latitude,     longitude,
-                                  price,     clean_price,  livingarea (srft),
-                                  status,    listingkey,   bedrooms, 
-                                  bathrooms
     """
     
     url = listing['detailUrl']
@@ -136,30 +171,12 @@ def get_details_info(listing: dict)-> list:
     # Get all appartments information
     individual_info = get_prices(url)
 
-    completed_data = []
     # Get each appartment information in the formar for the CSV 
     # and with the information from general listing (latitude, longitude, 
     # address, detail URL, zipcode, status type, listing key)
     if individual_info:
-        for appartment in individual_info:
-            apparment_data = {
-                "address": listing['address'],
-                "detailUrl": listing['detailUrl'],
-                "statusType": listing['statusType'],
-                "zipcode": listing['zipcode'],
-                "latitude": listing['latitude'],
-                "longitude": listing['longitude'],
-                "price": appartment['price'],
-                "clean_price": appartment['price'],
-                "livingarea": appartment['sqft'],
-                "status": listing['status'],
-                "listingkey": listing['listingkey'],
-                "bedrooms": appartment['beds'], 
-                "bathrooms": appartment['baths'] ,
-                }
-            
-            completed_data.append(apparment_data)
+        return combine_details (listing, individual_info)
 
-    return completed_data
+       
 
 
