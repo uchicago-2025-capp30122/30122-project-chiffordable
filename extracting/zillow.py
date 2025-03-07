@@ -2,7 +2,7 @@ import time
 import lxml.html
 import re
 import httpx
-from extracting.Utils import complete_link, fetch_page, parse_script_content, save_listings_to_csv, ZIP_CODES
+from extracting.Utils import complete_link, fetch_page, parse_script_content, save_to_csv, ZIP_CODES
 from extracting.zillow_details import get_details
 
 BASE_URL = "https://www.zillow.com"
@@ -179,6 +179,6 @@ def main(zip_codes: list):
         time.sleep(2)
 
     # Save all results to CSV
-    save_listings_to_csv(all_results, "Zillow.csv", FILE_COLS)
+    save_to_csv(all_results, "Zillow.csv", FILE_COLS)
     print(f"Scraping is done, we found {len(all_results)} rental places")
     print("The results were saved into Zillow.csv in the extracted data folder")

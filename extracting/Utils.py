@@ -73,7 +73,7 @@ def parse_script_content(html: str):
     return {}
 
 
-def save_listings_to_csv(listings:list, filename, file_cols, save_path="../extracted_data"):
+def save_to_csv(listings:list, filename, file_cols, save_path="../extracted_data"):
     """
     Saves listings to a CSV file in a specified directory.
     """
