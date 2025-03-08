@@ -11,8 +11,8 @@ def update_zillow_data():
     """
     Runs the Zillow scraper after showing a warning.
     """
-    print("\n⚠️ WARNING: Zillow headers might have changed. If scraping fails, update headers in `zillow.py`.")
-    print("⏳ Scraping could take approximately 25 minutes to complete,\n we are doing all the scrapes for each listing in The City of Chicago\n")
+    print("\n 🛑 WARNING: \n   Zillow headers might have changed.\n   If scraping fails, update headers in `zillow.py`.")
+    print(" \n⏳ Scraping could take approximately 25 minutes to complete,\n   We wolud do all the scrapes for each listing in the City of Chicago. \n   We are getting around 12k listings.\n")
     
     # Ask for user confirmation
     choice = input("Do you want to update the Zillow data? (yes/no): ").strip().lower()
@@ -28,7 +28,7 @@ def main():
     """
     Main function to run visualizations and optionally update Zillow data.
     """
-    print("🔹 Welcome to the Chicago Rental Data Dashboard 🔹\n")
+    print("\n\n🔹 Welcome to the Chicago Rental Data Dashboard 🔹\n")
 
     # Ask the user if the want to update the Livability data
 
