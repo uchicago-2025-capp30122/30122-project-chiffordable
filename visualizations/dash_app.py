@@ -7,7 +7,7 @@ import pandas as pd
 import dash_bootstrap_components as dbc
 
 from Utils_app import get_community_from_point, get_community_from_name, get_livability_scores
-from Utils_app import abstract, instructions
+from Utils_app import abstract_str, instructions_str, data_sources_str, repo_str, authors_str
 from visualizations import df_listings, df_communities, df_livability
 from visualizations import create_combined_figure, age_figure, race_figure, livability_figure
 
@@ -30,9 +30,9 @@ fluid=True)
 # Home Page Layout
 landing_page = html.Div([
     html.H1("CHI-ffordable"),
-    html.P(abstract),
+    html.P(abstract_str),
     html.H3("How to use this tool"),
-    html.P(instructions)
+    html.P(instructions_str)
 ])
 # Visualization Page Layout
 visualizations_page = html.Div([
@@ -65,11 +65,11 @@ visualizations_page = html.Div([
 considerations_page = html.Div([
     html.H1("Considerations"),
     html.H3("Data Sources"),
-    html.P("[List data sources here]"),
+    html.P(data_sources_str),
     html.H3("GitHub Repository"),
-    html.A("[Link to repository]", href="#", target="_blank"),
+    html.A(repo_str, href="#", target="_blank"),
     html.H3("Authors & Acknowledgements"),
-    html.P("[Author names and acknowledgements here]")
+    html.P(authors_str)
 ])
 
 # Update page content based on selected tab
