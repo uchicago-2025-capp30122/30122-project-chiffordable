@@ -162,14 +162,14 @@ def livability_figure(dataframe):
 
 # Initialize Dash app
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.LUX], suppress_callback_exceptions=True)
-app.title = "Chicago Housing & Communities Map"
+app.title = "CHI-ffordable"
 
 # Define layout
 app.layout = dbc.Container([
     dcc.Tabs(id="tabs", value="landing", children=[
         dcc.Tab(label="Home", value="landing"),
-        dcc.Tab(label="Visualizations", value="visualizations"),
-        dcc.Tab(label="Considerations", value="considerations"),
+        dcc.Tab(label="Explore", value="visualizations"),
+        dcc.Tab(label="About", value="considerations"),
     ]),
     html.Div(id='tabs-content')
 ],
@@ -177,14 +177,14 @@ fluid=True)
 
 # Landing Page Layout
 landing_page = html.Div([
-    html.H1("Chicago Housing & Communities Map"),
+    html.H1("CHI-ffordable"),
     html.P("[Abstract goes here]"),
     html.H3("How to use this tool"),
     html.P("[Instructions go here]")
 ])
 # Visualization Page Layout
 visualizations_page = html.Div([
-    html.H1("Housing & Communities Map"),
+    html.H1("CHI-ffordable"),
     dbc.Row([
         dbc.Col([
             html.Label("My annual income is:"),
