@@ -33,12 +33,14 @@ def mock_response():
 
 @patch("extracting.livability.extract_next_chars")
 @patch("httpx.Client.get")
-def test_make_table_request_success(mock_extract_next_chars, mock_get, mock_response):
+def test_make_table_request_success(mock_get, mock_extract_next_chars, mock_response):
     """
     Testing function make_table_request is returning data 
     """
 
-    mock_http_response = httpx.Response(200, json=mock_response)
+    mock_http_response = httpx.Response(
+        status_code = 200, content =json.dumps(mock_response).encode("utf-8"))
+    
     mock_get.return_value = mock_http_response  
 
     mock_extract_next_chars.return_value = mock_response  
