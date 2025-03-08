@@ -5,7 +5,7 @@ def run_visualizations():
     Runs the dashboard script.
     """
     print("\n📊 Running dashboard...\n")
-    os.system("python visualizations/dash_layout.py")  
+    os.system("python visualizations/dash_app.py")  
 
 def update_zillow_data():
     """

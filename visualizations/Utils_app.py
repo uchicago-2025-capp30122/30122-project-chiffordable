@@ -1,5 +1,4 @@
-import geopandas as gpd
-from shapely.geometry import Point, Polygon
+from shapely.geometry import Point
 import met_brewer
 
 colors_communities = met_brewer.met_brew(name="Tam", n=20, brew_type="continuous")
