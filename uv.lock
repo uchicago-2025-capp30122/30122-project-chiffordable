@@ -16,6 +16,7 @@ dependencies = [
     { name = "matplotlib" },
     { name = "met-brewer" },
     { name = "pandas" },
+    { name = "patch" },
     { name = "path" },
     { name = "pytest" },
     { name = "regex" },
@@ -34,6 +35,7 @@ requires-dist = [
     { name = "matplotlib", specifier = ">=3.10.0" },
     { name = "met-brewer" },
     { name = "pandas", specifier = ">=2.2.3" },
+    { name = "patch" },
     { name = "path", specifier = ">=17.1.0" },
     { name = "pytest", specifier = ">=8.3.5" },
     { name = "regex", specifier = ">=2024.11.6" },
@@ -617,6 +619,12 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/cc/57/0f72a10f9db6a4628744c8e8f0df4e6e21de01212c7c981d31e50ffc8328/pandas-2.2.3-cp313-cp313t-musllinux_1_2_aarch64.whl", hash = "sha256:15c0e1e02e93116177d29ff83e8b1619c93ddc9c49083f237d4312337a61165d", size = 15711620 },
     { url = "https://files.pythonhosted.org/packages/ab/5f/b38085618b950b79d2d9164a711c52b10aefc0ae6833b96f626b7021b2ed/pandas-2.2.3-cp313-cp313t-musllinux_1_2_x86_64.whl", hash = "sha256:ad5b65698ab28ed8d7f18790a0dc58005c7629f227be9ecc1072aa74c0c1d43a", size = 13098436 },
 ]
+
+[[package]]
+name = "patch"
+version = "1.16"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/da/74/0815f03c82f4dc738e2bfc5f8966f682bebcc809f30c8e306e6cc7156a99/patch-1.16.zip", hash = "sha256:c62073f356cff054c8ac24496f1a3d7cfa137835c31e9af39a9f5292fd75bd9f", size = 12809 }
 
 [[package]]
 name = "path"

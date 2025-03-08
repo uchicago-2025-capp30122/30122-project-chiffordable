@@ -40,9 +40,9 @@ This project is structured in the following sections:
 
 - Data (/data)
   - Data Extraction
-    - Pulls listings from Zillow.com, with price, number of baths, number of bedrooms and sqrfeet (/Zillow.py)
+    - Pulls listings from Zillow.com, with price, number of baths, number of bedrooms and sq ft (/Zillow.py)
     - Pulls data form CMAP that contains communities characteristics (/CMAP.py)
-    - Pulls data from Livability index from AARP by zip code (/Livability.py)
+    - Pulls data from Livability index from AARP by zip code (/livability.py)
   - Data megre
     - Takes the extracted files and merges based on polygons (/Merge.py) 
 - Analysis (/analysis)
@@ -74,7 +74,7 @@ The AARP Livability Index is created from more than 50 unique sources of data ac
 
 CAPP 122 Instructor - James Turk
 
-CAPP 122 Project TA - Stacey
+CAPP 122 Project TA - Stacey George
 
 [^1]: https://www.illinoispolicy.org/press-releases/housing-unaffordability-on-the-rise-one-third-of-illinoisans-pay-over-30-of-their-income-on-housing/
 

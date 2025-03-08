@@ -91,9 +91,13 @@ def livindex_by_zc(chicago_zip_codes: list):
 
     for zip_code in chicago_zip_codes:
         scores_by_zip = make_table_request(zip_code)
-        scores_by_zip["zip_code"] = zip_code
-        list_by_zip.append(scores_by_zip)
-    
+
+        if scores_by_zip is None:
+            list_by_zip.append({"zip_code": zip_code})
+        else:
+            scores_by_zip["zip_code"] = zip_code
+            list_by_zip.append(scores_by_zip)
+        
     return list_by_zip
             
     
