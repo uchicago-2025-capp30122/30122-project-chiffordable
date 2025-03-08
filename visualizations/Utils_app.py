@@ -39,11 +39,9 @@ authors_str = (
     "**José Manuel Cardona** - jmcarias@uchicago.edu  \n"
 
     "**Agustín Eyzaguirre** - aeyzaguirre@uchicago.edu  \n"
-    
+
     "**María José Reyes** - mjreyes13@uchicago.edu"
 )
-
-
 
 # ---------------------------- Utility functions ------------------------
 def gdf_to_geojson(gdf):
