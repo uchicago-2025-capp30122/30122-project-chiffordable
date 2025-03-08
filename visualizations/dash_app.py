@@ -1,4 +1,5 @@
 import webbrowser
+import random
 import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output
@@ -6,13 +7,16 @@ import pandas as pd
 import dash_bootstrap_components as dbc
 
 from Utils_app import get_community_from_point, get_community_from_name, get_livability_scores
-from visualizations import df_listings, df_communities, df_livability, create_combined_figure, age_figure, race_figure, livability_figure
+from Utils_app import abstract, instructions
+from visualizations import df_listings, df_communities, df_livability
+from visualizations import create_combined_figure, age_figure, race_figure, livability_figure
 
-# Initialize Dash app
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.LUX], suppress_callback_exceptions=True)
+# ---------------------------- Init App ---------------------------------------
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.LUX], 
+                suppress_callback_exceptions=True)
 app.title = "CHI-ffordable"
 
-# Define layout
+# ---------------------------- Define Layout ----------------------------------
 app.layout = dbc.Container([
     dcc.Tabs(id="tabs", value="landing", children=[
         dcc.Tab(label="Home", value="landing"),
@@ -23,12 +27,12 @@ app.layout = dbc.Container([
 ],
 fluid=True)
 
-# Landing Page Layout
+# Home Page Layout
 landing_page = html.Div([
     html.H1("CHI-ffordable"),
-    html.P("[Abstract goes here]"),
+    html.P(abstract),
     html.H3("How to use this tool"),
-    html.P("[Instructions go here]")
+    html.P(instructions)
 ])
 # Visualization Page Layout
 visualizations_page = html.Div([
@@ -36,13 +40,19 @@ visualizations_page = html.Div([
     dbc.Row([
         dbc.Col([
             html.Label("My annual income is:"),
-            dcc.Input(id="rent-input", type="number", placeholder="Annual income", value=50000)
+            dcc.Input(id="rent-input", 
+                      type="number", 
+                      placeholder="Annual income", 
+                      value=50000)
         ], width=4),
     ]),
         dbc.Row([
         dbc.Col([
             html.Label("I want to spend (%) of my income:"),
-            dcc.Input(id="share-rent", type="number", placeholder="Share on rent", value=30)
+            dcc.Input(id="share-rent", 
+                      type="number", 
+                      placeholder="Share on rent", 
+                      value=30)
         ], width=4),
     ]),
     dbc.Row([
@@ -144,7 +154,8 @@ def display_info(clickData):
     return "Click on a community or listing to view details."
 
 if __name__ == '__main__':
-    port = 8050
+    port = 8052
+    print(port)
     url = f"http://127.0.0.1:{port}/"
     print(f"Running on {url}")
     webbrowser.open(url, new=2)

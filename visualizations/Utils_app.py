@@ -5,6 +5,10 @@ import met_brewer
 colors_communities = met_brewer.met_brew(name="Tam", n=20, brew_type="continuous")
 colors_details = met_brewer.met_brew(name="Tam", n=3, brew_type="discrete")
 
+# ---------------------------- Text for descriptions --------------------
+abstract = "[Abstract goes here]"
+instructions = "[Instructions go here]"
+
 # ---------------------------- Utility functions ------------------------
 def gdf_to_geojson(gdf):
     """
