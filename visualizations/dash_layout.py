@@ -95,9 +95,9 @@ def create_combined_figure(annual_income, share_on_rent):
         featureidkey="properties.GEOG",
         color="median_rent",
         color_continuous_scale=colors_communities,
-        opacity=0.8,
+        opacity=0.7,
         hover_name="GEOG",
-        hover_data=["median_rent"],
+        hover_data = {"GEOG":False, "median_rent":False},
         center={"lat": 41.8674, "lon": -87.6275},
         zoom=9.5,
         height=600
@@ -108,7 +108,9 @@ def create_combined_figure(annual_income, share_on_rent):
         lon=filtered_listings["longitude"],
         mode="markers",
         marker=dict(size=6, color="grey"),
-        hovertext=filtered_listings["clean_price"].apply(lambda x: f"${x:,.0f}" if pd.notnull(x) else "N/A"),
+        hovertext=filtered_listings.apply(lambda row: f"Price: ${row['clean_price']:,.0f}, {round(row['bedrooms'])} Bed, {round(row['bathrooms'])} Bath" 
+                                   if pd.notnull(row['clean_price']) else "N/A", axis=1),
+        hoverinfo="text",
         name="Listings"
     )
     
@@ -117,6 +119,46 @@ def create_combined_figure(annual_income, share_on_rent):
     fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
     
     return fig
+
+def age_figure(dataframe):
+    figure = px.bar(dataframe, 
+                  x="Age Group", 
+                  y="Percentage", 
+                  title="Age Distribution",
+                  color="Age Group",
+                  color_discrete_sequence=[colors_details[0]]*8)
+    figure.update_layout(showlegend=False,
+                         plot_bgcolor='white')
+    figure.update_xaxes(showgrid=False)
+    figure.update_yaxes(showgrid=False)
+    return figure
+
+def race_figure(dataframe):
+    figure = px.bar(dataframe, 
+                  x="Race", 
+                  y="Percentage", 
+                  title="Racial Composition",
+                  color="Race",
+                  color_discrete_sequence=[colors_details[1]]*8)
+    figure.update_layout(showlegend=False,
+                         plot_bgcolor='white')
+    figure.update_xaxes(showgrid=False)
+    figure.update_yaxes(showgrid=False)
+    return figure
+
+def livability_figure(dataframe):
+    figure = px.bar(dataframe, 
+                  x="Score", 
+                  y="Category", 
+                  title="Livability Scores",
+                  color="Category",
+                  color_discrete_sequence=[colors_details[2]]*8,
+                  orientation = "h")
+    figure.update_layout(showlegend=False,
+                         plot_bgcolor='white')
+    figure.update_xaxes(showgrid=False)
+    figure.update_yaxes(showgrid=False)
+    return figure
 
 # Initialize Dash app
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.LUX], suppress_callback_exceptions=True)
@@ -211,6 +253,7 @@ def display_info(clickData):
             livability = get_livability_scores(zip_code)
             community = get_community_from_point(lat, lon)
             community_name = community["GEOG"]
+            zillow_url = listing["detailUrl"].values[0]  # Extract the Zillow link
         elif "location" in selected_point:
             community_name = selected_point.get("location")
             community = get_community_from_name(community_name)
@@ -234,19 +277,20 @@ def display_info(clickData):
                 return html.Div([
                     html.H3(f"{community_name}"),
                     html.H4(f"Median Rent: ${community['median_rent']:,.0f}"),
-                    # Two columns for Age and Race graphs
                     dbc.Row([
-                        dbc.Col(dcc.Graph(figure=px.bar(age_data, x="Age Group", y="Percentage", title="Age Distribution")), width=4),
-                        dbc.Col(dcc.Graph(figure=px.bar(race_data, x="Race", y="Percentage", title="Racial Composition")), width=4),
-                        dbc.Col(dcc.Graph(figure=px.bar(livability_data, x="Score", y="Category", title="Livability Scores", orientation="h")), width=4),
+                        dbc.Col(dcc.Graph(figure=age_figure(age_data)), width=4),
+                        dbc.Col(dcc.Graph(figure=race_figure(race_data)), width=4),
+                        dbc.Col(dcc.Graph(figure=livability_figure(livability_data)), width=4),
                     ]),
+                    html.Br(),
+                    html.A("View Listing details", href=zillow_url, target="_blank", style={"font-size": "16px", "color": "blue"}),
                 ])
             return html.Div([
                     html.H3(f"{community_name}"),
                     html.H4(f"Median Rent: ${community['median_rent']:,.0f}"),
                     dbc.Row([
-                        dbc.Col(dcc.Graph(figure=px.bar(age_data, x="Age Group", y="Percentage", title="Age Distribution")), width=4),
-                        dbc.Col(dcc.Graph(figure=px.bar(race_data, x="Race", y="Percentage", title="Racial Composition")), width=4),
+                        dbc.Col(dcc.Graph(figure=age_figure(age_data)), width=4),
+                        dbc.Col(dcc.Graph(figure=race_figure(race_data)), width=4),
                     ]),
                 ])
     return "Click on a community or listing to view details."
