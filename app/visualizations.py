@@ -72,7 +72,7 @@ def create_combined_figure(annual_income, share_on_rent):
         lat=filtered_listings["latitude"],
         lon=filtered_listings["longitude"],
         mode="markers",
-        marker=dict(size=6, color="grey"),
+        marker=dict(size=6, color="#a6a9ad"),
         # Text to be displayed is clean price, # of bedrooms and # of bathrooms
         hovertext=filtered_listings.apply(
             lambda row: f"Price: ${row['clean_price']:,.0f}, {'Studio' if round(row['bedrooms']) == 0 else f'{round(row["bedrooms"])} Bed'}, {round(row['bathrooms'])} Bath"
