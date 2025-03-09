@@ -19,8 +19,7 @@ df_listings['zipcode'] = df_listings['zipcode'].astype(str).str.zfill(5)
 
 # 2. CMAP community-level data
 sys.path.append('./extracting')
-from cmap import csv_format  # Importing external data
-df_communities = pd.DataFrame(csv_format)
+df_communities = pd.read_csv("../extracted_data/cmap.csv") # Importing external data
 # Convert each polygon into a geometric object
 df_communities['geometry'] = df_communities['comm_poly'].apply(lambda x: wkt.loads(x) if isinstance(x, str) else x)
 # Transform to geopandas dataframe
