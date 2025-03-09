@@ -1,20 +1,5 @@
 # :snowflake: CHIffordable :house:
 
-## Contributors :couple::couple:
-
-- Daniela Ayala <danayala@uchicago.edu>
-- José Manuel Cardona <jmcarias@uchicago.edu>
-- Agustín Eyzaguirre <aeyzaguirre@uchicago.edu>
-- María José Reyes  <mjreyes13@uchicago.edu>
-
-| Member        | Lead           | Contributions  |
-| ------------- |:-------------:| -----:|
-| Daniela Ayala <danayala@uchicago.edu>      | Lead | Cont |
-| José Manuel Cardona <jmcarias@uchicago.edu>      | Lead      |   Cont |
-| Agustín Eyzaguirre <aeyzaguirre@uchicago.edu> | Lead      |    Cont |
-| María José Reyes  <mjreyes13@uchicago.edu> | Lead      |    Cont |
-
-
 ## Abstract :page_with_curl:
 
 The city of Chicago has identified “an affordable housing gap of around 120,000 homes and 240,000 rental units”[^1], 42% of its residents are burdened by housing costs that exceed 30% of their income and “22% pay more than half of their income”. 
@@ -75,7 +60,14 @@ The Community Data Snapshots (CDS) project collects a variety of demographic, ho
 
 The AARP Livability Index is created from more than 50 unique sources of data across the seven livability categories. Using these metrics and policies, the AARP Livability Index scores communities by looking at how livable each neighborhood is within the community. The categories each provide important pieces of the picture of livability in a community: Housing, Neighborhood characteristics, Transportation, Environment, Health, Engagement and Opportunities.
 
+## Contributors :couple::couple:
 
+| Member        | Lead           | Contributions  |
+| ------------- |:-------------:| -----:|
+| Daniela Ayala <danayala@uchicago.edu>      | Zillow scraper and extracting utils and correspondent test functions | Data visualizations |
+| José Manuel Cardona <jmcarias@uchicago.edu>      | Data reconciliation, data visualizations, interactive app and App utils tests      |   AARP scraping |
+| Agustín Eyzaguirre <aeyzaguirre@uchicago.edu> | CMAP API calls and       |    Cont |
+| María José Reyes  <mjreyes13@uchicago.edu> | AARP scaping and      |    Cont |
 
 ## Acknowledgments
 
@@ -84,12 +76,3 @@ CAPP 122 Instructor - James Turk
 CAPP 122 Project TA - Stacey George
 
 [^1]: https://www.illinoispolicy.org/press-releases/housing-unaffordability-on-the-rise-one-third-of-illinoisans-pay-over-30-of-their-income-on-housing/
-
-# Project Repository Template
-
-This template is intentionally mostly empty, to give you experience starting a project from scratch.
-
-A good first command would be to run `uv init` and add some libraries and tools that you are using.
-
-Before the final milestone submission, you will need to replace this file with a README as described here: https://capp30122.netlify.app/coursework/project/#readmemd
-
