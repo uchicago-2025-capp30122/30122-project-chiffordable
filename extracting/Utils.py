@@ -1,4 +1,3 @@
-import time
 import httpx
 import lxml.html
 import json
@@ -94,8 +93,18 @@ def save_to_csv(listings: list, filename, file_cols, save_path="../extracted_dat
     # Convert back to a list of dictionaries
     listings_dict = listings_noduplicates.to_dict("records")
 
+    # Check if there is data to save
+    if not listings_dict:
+        print(f"No data to save in {full_path}")
+        return
+
     with open(full_path, mode="w", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=file_cols)
+
+        # Ensure file_cols match DataFrame columns
+        if not all(col in listings_df.columns for col in file_cols):
+            print(f"Warning: Some columns in file_cols are not in the listings data.")
+
         writer.writeheader()
         writer.writerows(listings_dict)
 
