@@ -51,7 +51,7 @@ This project is structured in the following sections:
   - Creates maps (/map.py)
   - Creates Dash application (/dash.py)
  
-  
+## Scraping Details :computer:
 
 
 ## Data Sources :computer:
