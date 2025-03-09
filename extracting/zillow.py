@@ -139,10 +139,11 @@ def one_zipcode_scrape(url: str, max_pages: int = 20):
             # 1. Fetch the page
             try:
                 html = fetch_page(url, ZILLOW_HEADERS)
-                fetched.add(url)
+                fetched.add(clean_url)
 
             except httpx.HTTPStatusError as e:
                 print(f"Skipping {url} due to error: {e}")
+                break
 
             # 2. Parse the response
             json_data = parse_script_content(html)
@@ -163,6 +164,7 @@ def one_zipcode_scrape(url: str, max_pages: int = 20):
                         detils_info = get_details(listing_info)
                         all_listings.extend(detils_info)
                         fetched.add(listing_info["detailUrl"])
+
 
             # 4. Move to the next page
             next_url = nextpage_from_xpath(html)
