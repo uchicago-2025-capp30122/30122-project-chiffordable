@@ -1,5 +1,6 @@
 import pytest
 import json
+import httpx
 import os
 import pandas as pd
 from extracting.Utils import (
@@ -101,3 +102,49 @@ def test_save_to_csv(sample_listings, tmpdir):
     assert list(df.columns) == file_cols, (
         f"Expected columns {file_cols} but got {list(df.columns)}"
     )
+
+import pytest
+import httpx
+
+def test_fetch_page_success(httpx_mock):
+    """Test that fetch_page returns the correct response when the request is successful."""
+    url = "https://example.com"
+    expected_content = "<html><body>Hello, world!</body></html>"
+
+    # Mock response
+    httpx_mock.add_response(url=url, text=expected_content, status_code=200)
+
+    result = fetch_page(url).text
+    print(result)
+
+    assert result == expected_content  # Ensure the response is correctly returned
+
+def test_fetch_page_http_error(httpx_mock):
+    """Test that fetch_page raises HTTPStatusError when the response is not 200."""
+    url = "https://example.com"
+
+    # Mock a 404 error
+    httpx_mock.add_response(url=url, status_code=404)
+
+    with pytest.raises(httpx.HTTPStatusError):
+        fetch_page(url)
+
+def test_fetch_page_with_custom_headers(httpx_mock):
+    """Test that fetch_page correctly sends custom headers."""
+    url = "https://example.com"
+    expected_content = "Test response"
+    custom_headers = {"User-Agent": "CustomAgent"}
+
+    # Mock response
+    httpx_mock.add_response(url=url, text=expected_content, status_code=200)
+
+    result = fetch_page(url, headers_input=custom_headers).text
+
+    assert result == expected_content  # Ensure correct response is returned
+
+def test_fetch_page_invalid_url():
+    """Test that fetch_page raises an error for an invalid URL."""
+    url = "invalid_url"
+
+    with pytest.raises(httpx.RequestError):
+        fetch_page(url)

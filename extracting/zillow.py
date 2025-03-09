@@ -138,7 +138,7 @@ def one_zipcode_scrape(url: str, max_pages: int = 20):
         if url not in fetched:
             # 1. Fetch the page
             try:
-                html = fetch_page(url, ZILLOW_HEADERS)
+                html = fetch_page(url, ZILLOW_HEADERS).text
                 fetched.add(clean_url)
 
             except httpx.HTTPStatusError as e:

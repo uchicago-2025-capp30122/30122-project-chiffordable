@@ -1,8 +1,4 @@
 import httpx
-import lxml.html
-import json
-import csv
-import os
 import pandas as pd
 from extracting.Utils import parse_script_content, fetch_page
 
@@ -149,7 +145,7 @@ def get_prices(url) -> list:
     """
     detail_link = str(url)
     try:
-        html = fetch_page(detail_link, INDIVIDUAL_HEADERS)
+        html = fetch_page(detail_link, INDIVIDUAL_HEADERS).text
 
     except httpx.HTTPStatusError as e:
         print(f"Skipping {url} due to error: {e}")
