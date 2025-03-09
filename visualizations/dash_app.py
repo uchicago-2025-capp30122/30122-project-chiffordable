@@ -50,7 +50,9 @@ visualizations_page = html.Div([
         dbc.Col([
             html.Label("I want to spend (%) of my income on rent:"),
             dcc.Input(id="share-rent", 
-                      type="number", 
+                      type="number",
+                      min = 0,
+                      max = 100, 
                       placeholder="Share on rent", 
                       value=30)
         ], width=4),

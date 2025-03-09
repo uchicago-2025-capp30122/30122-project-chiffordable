@@ -19,7 +19,7 @@ df_listings['zipcode'] = df_listings['zipcode'].astype(str).str.zfill(5)
 
 # 2. CMAP community-level data
 sys.path.append('./extracting')
-df_communities = pd.read_csv("../extracted_data/cmap.csv") # Importing external data
+df_communities = pd.read_csv("extracted_data/cmap.csv") # Importing external data
 # Convert each polygon into a geometric object
 df_communities['geometry'] = df_communities['comm_poly'].apply(lambda x: wkt.loads(x) if isinstance(x, str) else x)
 # Transform to geopandas dataframe
@@ -76,8 +76,8 @@ def create_combined_figure(annual_income, share_on_rent):
         mode="markers",
         marker=dict(size=6, color="grey"),
         # Text to be displayed is clean price, # of bedrooms and # of bathrooms
-        hovertext=filtered_listings.apply(lambda row: f"Price: ${row['clean_price']:,.0f}, {round(row['bedrooms'])} Bed, {round(row['bathrooms'])} Bath" 
-                                   if pd.notnull(row['clean_price']) else "N/A", axis=1),
+        hovertext=filtered_listings.apply(lambda row: f"Price: ${row['clean_price']:,.0f}, {'Studio' if round(row['bedrooms']) == 0 else f'{round(row['bedrooms'])} Bed'}, {round(row['bathrooms'])} Bath" 
+                        if pd.notnull(row['clean_price']) else "N/A", axis=1),
         hoverinfo="text",
         name="Listings"
     )
