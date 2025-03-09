@@ -2,14 +2,14 @@ import time
 import lxml.html
 import re
 import httpx
-from extracting.Utils import (
+from Utils import (
     complete_link,
     fetch_page,
     parse_script_content,
     save_to_csv,
     ZIP_CODES,
 )
-from extracting.zillow_details import get_details
+from zillow_details import get_details
 
 BASE_URL = "https://www.zillow.com"
 
