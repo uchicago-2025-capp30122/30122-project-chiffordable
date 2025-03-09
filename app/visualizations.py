@@ -1,6 +1,4 @@
-import os
 import pandas as pd
-import sys
 import geopandas as gpd
 from shapely import wkt
 import plotly.express as px
@@ -9,8 +7,7 @@ from Utils_app import colors_communities, colors_details
 
 # ---------------------------- Data wrangling ---------------------------------
 # 1. Zillow listings
-csv_file = os.path.join("extracted_data", "Zillow_archive.csv")
-df_listings = pd.read_csv(csv_file)
+df_listings = pd.read_csv("extracted_data/Zillow.csv")
 # Make sure data is the correct format
 df_listings["clean_price"] = pd.to_numeric(df_listings["clean_price"], errors='coerce')
 df_listings["latitude"] = pd.to_numeric(df_listings["latitude"], errors='coerce')
@@ -18,7 +15,6 @@ df_listings["longitude"] = pd.to_numeric(df_listings["longitude"], errors='coerc
 df_listings['zipcode'] = df_listings['zipcode'].astype(str).str.zfill(5)
 
 # 2. CMAP community-level data
-sys.path.append('./extracting')
 df_communities = pd.read_csv("extracted_data/cmap.csv") # Importing external data
 # Convert each polygon into a geometric object
 df_communities['geometry'] = df_communities['comm_poly'].apply(lambda x: wkt.loads(x) if isinstance(x, str) else x)
@@ -26,8 +22,7 @@ df_communities['geometry'] = df_communities['comm_poly'].apply(lambda x: wkt.loa
 gdf_communities = gpd.GeoDataFrame(df_communities, geometry='geometry')
 
 # 3. Livability index
-livability_path = os.path.join("extracted_data", "Livability.csv")
-df_livability = pd.read_csv(livability_path)
+df_livability = pd.read_csv("extracted_data/Livability.csv")
 # Make sure data is the correct format
 df_livability['zip_code'] = df_livability['zip_code'].astype(str).str.zfill(5)
 
