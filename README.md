@@ -51,8 +51,14 @@ This project is structured in the following sections:
   - Creates maps (/map.py)
   - Creates Dash application (/dash.py)
  
-  
+## Scraping Details :computer:
 
+Requesting data from Zillow requires to update the headers form the website.
+Last update 02.09.2025
+
+Once you have valid headers, we include a script to regularly scrape data from Zillow. Although we scraped listings by zipcode. Each zipcode may include its own scraper for listings that cointaing multiple apparments and prices. 
+
+Update the listings database using uv run python -m extracting/zillow.py . This will scrape all zipcodes from Chicago and update the data in Zillow.csv file
 
 ## Data Sources :computer:
 
