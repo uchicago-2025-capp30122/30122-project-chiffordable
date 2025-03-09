@@ -7,6 +7,14 @@
 - Agustín Eyzaguirre <aeyzaguirre@uchicago.edu>
 - María José Reyes  <mjreyes13@uchicago.edu>
 
+| Member        | Lead           | Contributions  |
+| ------------- |:-------------:| -----:|
+| Daniela Ayala <danayala@uchicago.edu>      | Lead | Cont |
+| José Manuel Cardona <jmcarias@uchicago.edu>      | Lead      |   Cont |
+| Agustín Eyzaguirre <aeyzaguirre@uchicago.edu> | Lead      |    Cont |
+| María José Reyes  <mjreyes13@uchicago.edu> | Lead      |    Cont |
+
+
 ## Abstract :page_with_curl:
 
 The city of Chicago has identified “an affordable housing gap of around 120,000 homes and 240,000 rental units”[^1], 42% of its residents are burdened by housing costs that exceed 30% of their income and “22% pay more than half of their income”. 
