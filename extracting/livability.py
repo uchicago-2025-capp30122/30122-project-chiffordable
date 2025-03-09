@@ -9,37 +9,14 @@ import Utils
 from pathlib import Path
 
 filename = "livability.csv"
-# ---------------------------- Utility Functions ----------------------------
 
-#def complete_link(zip_code: str) -> str:
-   # """
-    #Ensures the URL is complete. If the URL is incomplete (starts with '/'),
-    #it will prepend the base URL ('https://www.zillow.com').
-
-    #:param url: The URL to complete.
-    #:return: The complete URL.
-    #"""
-    #base_url = "https://livabilityindex.aarp.org/search/Chicago,%20Illinois%20"
-    #suffix = ",%20United%20States#scores"
-    #return base_url + zip_code + suffix"
-
-# --------------------------- Scraper Function ------------------------------
-#def make_request(zip_code: str):
- #   headers = {
-  #      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-   # }
-    #with httpx.Client(headers = headers, follow_redirects=True) as client:
-     #   url = complete_link(zip_code)
-      #  response = client.get(url)
-       # zip_data = lxml.html.fromstring(response.text)
-        #print(zip_data)
-        # return zip_data
 # --------------------------- complete link for table request--------------------------
 def complete_table_scores_link(zip_code: str) -> str:
     """
     This function ensures the URL for requesting the table
     scores for a zip code is complete
     param url
+    imput (str): zip_code
     returns: a complete URL 
     """
     base_table_url = "https://api.livabilityindex.aarp.org/api/features/zip/"
@@ -48,9 +25,17 @@ def complete_table_scores_link(zip_code: str) -> str:
     return base_table_url + zip_code + suffix_table
 # --------------------------- regex to access scores in table ---------------------
 def extract_next_chars(text, categories):
-   
-    results = {}
+    """
+    This function is a helper function to extract the scores of the table. It 
+    goes all over the scrapped text from the webpage request and looks 
+    for the scores of livability index. 
 
+    input(str): text and categories 
+    returns: scores for each zipcode
+    """
+    # Step 1: Creating an empty dictionary to store the scores for each zip code
+    results = {}
+    # Step 2: Extracting the score values for each categories in the table
     for category in categories:
         matches = re.findall(re.escape(category) + r'(.....)', text)
         if len(matches) >= 3:
@@ -62,8 +47,15 @@ def extract_next_chars(text, categories):
 
 def make_table_request(zip_code: str):
     """
-    making a request for the table scores
+    This function makes a request for the table scores in the AARP website
+    and pull the scores by zip-code for the Chicago Area and returns one dictionary
+    per zip_code that contain the Liveability Scores by category (Housing, 
+    Environment, Health, Transportation, Opportunity, Neighborhood).
+
+    input (str): zip_code to obtain livability score
+    output (lst): List of dictionaries with scores 
     """
+
     table_headers = {
         "Authorization": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBQVJQLURFViIsIm5hbWUiOiJEaXJrIEhlbmlnZXMiLCJpYXQiOjE1MTYyMzkwMjJ9.YDVokWjQVnO5Oii_FWTc-uDL-ioYF9jyD9wcYfzlDjw"
     }
@@ -90,11 +82,14 @@ def livindex_by_zc(chicago_zip_codes: list):
     output (): list of dictionaries
 
     """
+    # Step 1: Creating an empty list 
     list_by_zip = []
 
+    # Step 2: Looping over the list of zipcodes in Chicago to obtain the scores
     for zip_code in chicago_zip_codes:
+        # Step 3: Creating scores dictionary
         scores_by_zip = make_table_request(zip_code)
-
+        # Step 4: Handling the cases when there is no information for a zip-code
         if scores_by_zip is None:
             list_by_zip.append({"zip_code": zip_code})
         else:
@@ -103,11 +98,8 @@ def livindex_by_zc(chicago_zip_codes: list):
         
     return list_by_zip
             
-
-    
-
 # ---------------------------- Running function ----------------------------
-
+# List of zip-codes from Chicago Area where information is available
 chicago_zip_codes_sc = [
     "60601", "60602", "60603", "60604", "60605", "60606", "60607", "60608", "60609",
     "60610", "60611", "60612", "60613", "60614", "60615", "60616", "60617", "60618", "60619",
@@ -116,7 +108,7 @@ chicago_zip_codes_sc = [
     "60642", "60643", "60644", "60645", "60646", "60647", "60649", "60651", "60652", "60653",
     "60654", "60655", "60656", "60657", "60659", "60660", "60661"
     ]
-
+# List of scores obtained manually
 zips_noscrp = [
         {'zip_code': '60664', 'score_prox': "83", 'score_engage': "57",
           'score_env': "27", 'score_health': "66", 'score_house': "45",
@@ -203,18 +195,19 @@ zips_noscrp = [
          'score_env': "25", 'score_health': "57", 'score_house': "55",
          'score_opp': "45", 'score_trans': "53"}]
 
-
+# ---------------------------- Function to wirte csv file ----------------------
 def write_csv ():
+    # Step 1: Running the scraper for the zipcodes that contain information
     sc_indexes = livindex_by_zc(chicago_zip_codes_sc)
     
-
+    # Step 2: Creating the headers for the csv file
     scores_categories = ["zip_code", "score_prox", "score_engage", "score_env",
                             "score_health", "score_house", "score_opp", "score_trans"]
-        
+    # Step 3: Merging the zip codes from the scrapper and the ones obtained manyally
     all_zip_codes_data = sc_indexes + zips_noscrp
+    # Step 4: Giving a path to create the csv file
     address_csv = address_csv = Path(__file__).parent.parent / "extracted_data" / "livability.csv"
-
-        
+  
     with open(address_csv, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=scores_categories)
         writer.writeheader()
