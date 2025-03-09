@@ -27,7 +27,7 @@ df_communities['geometry'] = df_communities['comm_poly'].apply(lambda x: wkt.loa
 gdf_communities = gpd.GeoDataFrame(df_communities, geometry='geometry')
 
 # 3. Livability index
-livability_path = os.path.join("extracted_data", "livability_incompleted.csv")
+livability_path = os.path.join("extracted_data", "Livability.csv")
 df_livability = pd.read_csv(livability_path)
 # Make sure data is the correct format
 df_livability['zip_code'] = df_livability['zip_code'].astype(str).str.zfill(5)
