@@ -6,33 +6,34 @@ import csv
 import os
 import json
 import Utils
+from pathlib import Path
 
 filename = "livability.csv"
 # ---------------------------- Utility Functions ----------------------------
 
-def complete_link(zip_code: str) -> str:
-    """
-    Ensures the URL is complete. If the URL is incomplete (starts with '/'),
-    it will prepend the base URL ('https://www.zillow.com').
+#def complete_link(zip_code: str) -> str:
+   # """
+    #Ensures the URL is complete. If the URL is incomplete (starts with '/'),
+    #it will prepend the base URL ('https://www.zillow.com').
 
-    :param url: The URL to complete.
-    :return: The complete URL.
-    """
-    base_url = "https://livabilityindex.aarp.org/search/Chicago,%20Illinois%20"
-    suffix = ",%20United%20States#scores"
-    return base_url + zip_code + suffix
+    #:param url: The URL to complete.
+    #:return: The complete URL.
+    #"""
+    #base_url = "https://livabilityindex.aarp.org/search/Chicago,%20Illinois%20"
+    #suffix = ",%20United%20States#scores"
+    #return base_url + zip_code + suffix"
 
 # --------------------------- Scraper Function ------------------------------
-def make_request(zip_code: str):
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-    }
-    with httpx.Client(headers = headers, follow_redirects=True) as client:
-        url = complete_link(zip_code)
-        response = client.get(url)
-        zip_data = lxml.html.fromstring(response.text)
-        print(zip_data)
-        return zip_data
+#def make_request(zip_code: str):
+ #   headers = {
+  #      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+   # }
+    #with httpx.Client(headers = headers, follow_redirects=True) as client:
+     #   url = complete_link(zip_code)
+      #  response = client.get(url)
+       # zip_data = lxml.html.fromstring(response.text)
+        #print(zip_data)
+        # return zip_data
 # --------------------------- complete link for table request--------------------------
 def complete_table_scores_link(zip_code: str) -> str:
     """
@@ -102,18 +103,34 @@ def livindex_by_zc(chicago_zip_codes: list):
         
     return list_by_zip
             
-    
-# ---------------------------- Writing csv file----------------------------
-def csv_livability(list_by_zip, filename, save_path="../extracted_data"):
-    
-    os.makedirs(save_path, exist_ok=True)
 
-    scores_categories = ["zip_code", "score_prox", "score_engage", "score_env",
-                         "score_health", "score_house", "score_opp", "score_trans"]
-    full_path = os.path.join(save_path, filename)
+    
 
-    zips_no_scrp = zips_noscrp = [
-        {'zip_code': '60670', 'score_prox': "83", 'score_engage': "66",
+# ---------------------------- Running function ----------------------------
+
+chicago_zip_codes_sc = [
+    "60601", "60602", "60603", "60604", "60605", "60606", "60607", "60608", "60609",
+    "60610", "60611", "60612", "60613", "60614", "60615", "60616", "60617", "60618", "60619",
+    "60620", "60621", "60622", "60623", "60624", "60625", "60626", "60628", "60629", "60630",
+    "60631", "60632", "60633", "60634", "60636", "60637", "60638", "60639", "60640", "60641",
+    "60642", "60643", "60644", "60645", "60646", "60647", "60649", "60651", "60652", "60653",
+    "60654", "60655", "60656", "60657", "60659", "60660", "60661"
+    ]
+
+zips_noscrp = [
+        {'zip_code': '60664', 'score_prox': "83", 'score_engage': "57",
+          'score_env': "27", 'score_health': "66", 'score_house': "45",
+          'score_opp': "21", 'score_trans': "87"},
+        {'zip_code': '60666', 'score_prox': "63", 'score_engage': "43",
+          'score_env': "25", 'score_health': "57", 'score_house': "55",
+          'score_opp': "45", 'score_trans': "53"},
+        {'zip_code': '60668', 'score_prox': "78", 'score_engage': "58",
+          'score_env': "37", 'score_health': "48", 'score_house': "60",
+          'score_opp': "34", 'score_trans': "76"},
+        {'zip_code': '60669', 'score_prox': "76", 'score_engage': "56",
+          'score_env': "32", 'score_health': "52", 'score_house': "45",
+          'score_opp': "25", 'score_trans': "82"},
+        {'zip_code': '60670', 'score_prox': "83", 'score_engage': "57",
           'score_env': "27", 'score_health': "66", 'score_house': "45",
           'score_opp': "21", 'score_trans': "87"},
         {'zip_code': '60673', 'score_prox': "46", 'score_engage': "56", 
@@ -186,55 +203,22 @@ def csv_livability(list_by_zip, filename, save_path="../extracted_data"):
          'score_env': "25", 'score_health': "57", 'score_house': "55",
          'score_opp': "45", 'score_trans': "53"}]
 
-    all_zip_codes_data = list_by_zip + zips_no_scrp
 
-    with open(full_path, "w", newline="") as f: 
-        writer = csv.DictWriter(f, fieldnames=scores_categories)
-        writer.writeheader()
-
-        for zip_code in all_zip_codes_data:
-            row = {
-                "zip_code": zip_code["zip_code"],
-                "score_prox": zip_code["score_prox"],
-                "score_engage": zip_code["score_engage"],
-                "score_env": zip_code["score_env"], 
-                "score_health": zip_code["score_health"],
-                "score_house": zip_code["score_house"],
-                "score_opp": zip_code["score_opp"],
-                "score_trans": zip_code["score_trans"]
-            }
-            #print(row)
-            writer.writerow(row)
+def write_csv ():
+    sc_indexes = livindex_by_zc(chicago_zip_codes_sc)
     
 
-            
-# ---------------------------- Main Function ----------------------------
-def main(zip_codes: list):
-    zipcodes_data = {}
-
-    for zip_code in zip_codes:
-        print(f"\n📌 Scraping ZIP Code: {zip_code}\n")
-        zipcodes_data[zip_code] = make_request(zip_code)
-        time.sleep(1)       
+    scores_categories = ["zip_code", "score_prox", "score_engage", "score_env",
+                            "score_health", "score_house", "score_opp", "score_trans"]
         
-    return zipcodes_data
+    all_zip_codes_data = sc_indexes + zips_noscrp
+    address_csv = address_csv = Path(__file__).parent.parent / "extracted_data" / "livability.csv"
 
-# ---------------------------- Example Usage ----------------------------
+        
+    with open(address_csv, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=scores_categories)
+        writer.writeheader()
+        writer.writerows(all_zip_codes_data)
 
-if __name__ == "__main__":
-    chicago_zip_codes = [
-    "60601", "60602", "60603", "60604", "60605", "60606", "60607", "60608", "60609",
-    "60610", "60611", "60612", "60613", "60614", "60615", "60616", "60617", "60618", "60619",
-    "60620", "60621", "60622", "60623", "60624", "60625", "60626", "60628", "60629", "60630",
-    "60631", "60632", "60633", "60634", "60636", "60637", "60638", "60639", "60640", "60641",
-    "60642", "60643", "60644", "60645", "60646", "60647", "60649", "60651", "60652", "60653",
-    "60654", "60655", "60656", "60657", "60659", "60660", "60661", "60664", 
-    "60666", "60668",
-    "60669", "60670", "60673", "60674", "60675", "60677", "60678", "60680", "60681", "60682",
-    "60684", "60685", "60686", "60687", "60688", "60689", "60690", "60691", "60693", "60694",
-    "60695", "60696", "60697", "60699", "60701"
-    ]
-    scraped_data = livindex_by_zc(chicago_zip_codes)
-    csv_livability(scraped_data, "livability.csv")
-
-main(chicago_zip_codes)
+# ---------------------------- Writing csv file ----------------------------
+write_csv()
