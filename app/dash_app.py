@@ -174,7 +174,21 @@ considerations_page = dbc.Container(
         ),
         dbc.Row(
             dbc.Col(
-                html.P(data_sources_str, className="text-muted"),
+                html.P(data_sources_str[0], className="text-muted"),
+                width=10,
+                className="mx-auto",
+            )
+        ),
+        dbc.Row(
+            dbc.Col(
+                html.P(data_sources_str[1], className="text-muted"),
+                width=10,
+                className="mx-auto",
+            )
+        ),
+        dbc.Row(
+            dbc.Col(
+                html.P(data_sources_str[2], className="text-muted"),
                 width=10,
                 className="mx-auto",
             )

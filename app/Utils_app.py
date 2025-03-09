@@ -15,29 +15,29 @@ abstract_str = (
 )
 instructions_str = "[Instructions go here]"
 
-data_sources_str = (
-    "**Data Source #1: Zillow - Marketplace for housing**  \n"
-    "Zillow is an online real estate marketplace that provides information on properties for sale, rent, and mortgage financing. "
-    "From Zillow, we use property listing details such as price, size, location, number of bedrooms, and bathrooms.\n\n"
-    "**Data Source #2: Community Data Snapshots 2024 from the Chicago Metropolitan Agency for Planning (CMAP)**  \n"
-    "The Community Data Snapshots (CDS) project collects a variety of demographic, housing, employment, land use, and other data for northeastern Illinois. "
-    "These tables contain information for counties, municipalities, and Chicago community areas (CCAs). "
-    "The primary source is data from the U.S. Census Bureau’s 2022 American Community Survey program.\n\n"
-    "**Data Source #3: Livability Index from American Association of Retired Persons (AARP)**  \n"
-    "The AARP Livability Index is created from more than 50 unique sources of data across seven livability categories. "
-    "Using these metrics and policies, the AARP Livability Index scores communities by looking at how livable each neighborhood is within the community. "
-    "The categories each provide important pieces of the picture of livability in a community: Housing, Neighborhood characteristics, Transportation, Environment, Health, Engagement, and Opportunities."
-)
+data_sources_str = [
+    "- Zillow - Marketplace for housing:   \n"
+    "  Zillow is an online real estate marketplace that provides information on properties for sale, rent, and mortgage financing.  \n"
+    "  From Zillow, we use property listing details such as price, size, location, number of bedrooms, and bathrooms.  \n\n",
+    "- Community Data Snapshots 2024 from the Chicago Metropolitan Agency for Planning (CMAP):  \n"
+    "  The Community Data Snapshots (CDS) project collects a variety of demographic, housing, employment, land use, and other data for northeastern Illinois.  \n"
+    "  These tables contain information for counties, municipalities, and Chicago community areas (CCAs).  \n"
+    "  The primary source is data from the U.S. Census Bureau’s 2022 American Community Survey program.  \n\n",
+    "- Livability Index from American Association of Retired Persons (AARP):  \n"
+    "  The AARP Livability Index is created from more than 50 unique sources of data across seven livability categories.  \n"
+    "  Using these metrics and policies, the AARP Livability Index scores communities by looking at how livable each neighborhood is within the community.  \n"
+    "  The categories each provide important pieces of the picture of livability in a community: Housing, Neighborhood characteristics, Transportation, Environment, Health, Engagement, and Opportunities."
+]
 
 repo_str = (
     "https://github.com/uchicago-2025-capp30122/30122-project-chiffordable/tree/main"
 )
 
 authors_str = (
-    "**Daniela Ayala** - danayala@uchicago.edu  \n"
-    "**José Manuel Cardona** - jmcarias@uchicago.edu  \n"
-    "**Agustín Eyzaguirre** - aeyzaguirre@uchicago.edu  \n"
-    "**María José Reyes** - mjreyes13@uchicago.edu"
+    "- Daniela Ayala - danayala@uchicago.edu  \n"
+    "- José Manuel Cardona - jmcarias@uchicago.edu  \n"
+    "- Agustín Eyzaguirre - aeyzaguirre@uchicago.edu  \n"
+    "- María José Reyes - mjreyes13@uchicago.edu"
 )
 
 
