@@ -3,6 +3,8 @@ import random
 import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output
+import dash_bootstrap_components as dbc
+import dash_html_components as html
 import pandas as pd
 import dash_bootstrap_components as dbc
 
@@ -50,72 +52,162 @@ app.layout = dbc.Container(
 )
 
 # Home Page Layout
-landing_page = html.Div(
+landing_page = dbc.Container(
     [
-        html.H1("CHI-ffordable"),
-        html.P(abstract_str),
-        html.H3("How to use this tool"),
-        html.P(instructions_str),
-    ]
+        dbc.Row(
+            dbc.Col(
+                html.H1("CHI-ffordable", className="text-center display-3 fw-bold mb-4"),
+                width=12,
+            )
+        ),
+        dbc.Row(
+            dbc.Col(
+                html.P(abstract_str, className="lead text-center"),
+                width=10,
+                className="mx-auto",
+            )
+        ),
+        dbc.Row(
+            dbc.Col(
+                html.H3("How to use this tool", className="mt-5 text-center fw-semibold"),
+                width=12,
+            )
+        ),
+        dbc.Row(
+            dbc.Col(
+                html.P(instructions_str, className="text-muted text-center"),
+                width=10,
+                className="mx-auto",
+            )
+        ),
+    ],
+    fluid=True,
+    className="py-5",
 )
 # Visualization Page Layout
-visualizations_page = html.Div(
+visualizations_page = dbc.Container(
     [
-        html.H1("CHI-ffordable"),
         dbc.Row(
-            [
-                dbc.Col(
-                    [
-                        html.Label("My annual income is:"),
-                        dcc.Input(
-                            id="rent-input",
-                            type="number",
-                            placeholder="Annual income",
-                            value=50000,
-                        ),  # Initial value set to $50,000
-                    ],
-                    width=4,
-                ),
-            ]
+            dbc.Col(
+                html.H1("CHI-ffordable", className="text-center display-4 fw-bold mb-4"),
+                width=12,
+            )
         ),
         dbc.Row(
             [
                 dbc.Col(
-                    [
-                        html.Label("I want to spend (%) of my income on rent:"),
-                        dcc.Input(
-                            id="share-rent",
-                            type="number",
-                            min=0,
-                            max=100,
-                            placeholder="Share on rent",
-                            value=30,
-                        ),  # Initial value set to 30%
-                    ],
+                    dbc.Card(
+                        dbc.CardBody(
+                            [
+                                html.Label("My annual income is:", className="fw-semibold"),
+                                dcc.Input(
+                                    id="rent-input",
+                                    type="number",
+                                    placeholder="Enter annual income",
+                                    value=50000,
+                                    className="form-control",
+                                ),
+                            ]
+                        ),
+                    ),
                     width=4,
                 ),
-            ]
+                dbc.Col(
+                    dbc.Card(
+                        dbc.CardBody(
+                            [
+                                html.Label("I want to spend (%) of my income on rent:", className="fw-semibold"),
+                                dcc.Input(
+                                    id="share-rent",
+                                    type="number",
+                                    min=0,
+                                    max=100,
+                                    placeholder="Enter percentage",
+                                    value=30,
+                                    className="form-control",
+                                ),
+                            ]
+                        ),
+                    ),
+                    width=4,
+                ),
+            ],
+            className="justify-content-center mb-4",
         ),
         dbc.Row(
             [
-                dbc.Col(dcc.Graph(id="chicago-map"), width=4),
-                dbc.Col(html.Div(id="community-info"), width=8),
-            ]
+                dbc.Col(
+                    dbc.Card(
+                        dbc.CardBody(dcc.Graph(id="chicago-map")),
+                        className="shadow",
+                    ),
+                    width=4,
+                ),
+                dbc.Col(
+                    dbc.Card(
+                        dbc.CardBody(html.Div(id="community-info")),
+                        className="shadow",
+                    ),
+                    width=8,
+                ),
+            ],
+            className="mb-4",
         ),
-    ]
+    ],
+    fluid=True,
+    className="py-5",
 )
-
 # Considerations Page Layout
-considerations_page = html.Div(
+considerations_page = dbc.Container(
     [
-        html.H1("Considerations"),
-        html.H3("Data Sources"),
-        html.P(data_sources_str),
-        html.H3("GitHub Repository"),
-        html.A(repo_str, href="#", target="_blank"),
-        html.H3("Authors & Acknowledgements"),
-        html.P(authors_str),
-    ]
+        dbc.Row(
+            dbc.Col(
+                html.H1("Considerations", className="text-center display-4 fw-bold mb-4"),
+                width=12,
+            )
+        ),
+        dbc.Row(
+            dbc.Col(
+                html.H3("Data Sources", className="mt-4 fw-semibold"),
+                width=12,
+            )
+        ),
+        dbc.Row(
+            dbc.Col(
+                html.P(data_sources_str, className="text-muted"),
+                width=10,
+                className="mx-auto",
+            )
+        ),
+        dbc.Row(
+            dbc.Col(
+                html.H3("GitHub Repository", className="mt-4 fw-semibold"),
+                width=12,
+            )
+        ),
+        dbc.Row(
+            dbc.Col(
+                html.A(repo_str, href="#", target="_blank", className="btn btn-primary"),
+                width=12,
+                className="text-center",
+            )
+        ),
+        dbc.Row(
+            dbc.Col(
+                html.H3("Authors & Acknowledgements", className="mt-4 fw-semibold"),
+                width=12,
+            )
+        ),
+        dbc.Row(
+            dbc.Col(
+                html.P(authors_str, className="text-muted"),
+                width=10,
+                className="mx-auto",
+            )
+        ),
+    ],
+    fluid=True,
+    className="py-5",
 )
 
 
