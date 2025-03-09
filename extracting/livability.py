@@ -5,7 +5,9 @@ import regex  as re
 import csv
 import os
 import json
+import Utils
 
+filename = "livability.csv"
 # ---------------------------- Utility Functions ----------------------------
 
 def complete_link(zip_code: str) -> str:
@@ -190,7 +192,7 @@ def csv_livability(list_by_zip, filename, save_path="../extracted_data"):
         writer = csv.DictWriter(f, fieldnames=scores_categories)
         writer.writeheader()
 
-        for zip_code in list_by_zip:
+        for zip_code in all_zip_codes_data:
             row = {
                 "zip_code": zip_code["zip_code"],
                 "score_prox": zip_code["score_prox"],
@@ -201,8 +203,9 @@ def csv_livability(list_by_zip, filename, save_path="../extracted_data"):
                 "score_opp": zip_code["score_opp"],
                 "score_trans": zip_code["score_trans"]
             }
-            print(row)
+            #print(row)
             writer.writerow(row)
+    
 
             
 # ---------------------------- Main Function ----------------------------
@@ -231,6 +234,7 @@ if __name__ == "__main__":
     "60684", "60685", "60686", "60687", "60688", "60689", "60690", "60691", "60693", "60694",
     "60695", "60696", "60697", "60699", "60701"
     ]
-    chicago_zip_codes = ["60601", "60602"]
-    
-pass
+    scraped_data = livindex_by_zc(chicago_zip_codes)
+    csv_livability(scraped_data, "livability.csv")
+
+main(chicago_zip_codes)
