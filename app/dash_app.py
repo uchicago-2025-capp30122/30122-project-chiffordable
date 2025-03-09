@@ -218,7 +218,14 @@ considerations_page = dbc.Container(
         ),
         dbc.Row(
             dbc.Col(
-                html.P(authors_str, className="text-muted"),
+                html.P(authors_str[0], className="text-muted"),
+                width=10,
+                className="mx-auto",
+            )
+        ),
+        dbc.Row(
+            dbc.Col(
+                html.P(authors_str[1], className="text-muted"),
                 width=10,
                 className="mx-auto",
             )

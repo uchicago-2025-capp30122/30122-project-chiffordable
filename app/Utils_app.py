@@ -67,12 +67,13 @@ repo_str = (
     "https://github.com/uchicago-2025-capp30122/30122-project-chiffordable"
 )
 
-authors_str = (
+authors_str = [
     "- Daniela Ayala - danayala@uchicago.edu  \n"
     "- José Manuel Cardona - jmcarias@uchicago.edu  \n"
     "- Agustín Eyzaguirre - aeyzaguirre@uchicago.edu  \n"
-    "- María José Reyes - mjreyes13@uchicago.edu"
-)
+    "- María José Reyes - mjreyes13@uchicago.edu",
+    "Special aknowledgements to James Turk and Stacey George for their incredible feedback."
+    ]
 
 
 # ---------------------------- Utility functions ------------------------
