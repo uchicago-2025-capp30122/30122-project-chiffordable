@@ -21,4 +21,5 @@ dependencies = [
     "met_brewer",
     "patch",
     "pytest-httpx>=0.35.0",
+    "ruff",
 ]

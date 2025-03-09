@@ -19,35 +19,33 @@ data_sources_str = (
     "**Data Source #1: Zillow - Marketplace for housing**  \n"
     "Zillow is an online real estate marketplace that provides information on properties for sale, rent, and mortgage financing. "
     "From Zillow, we use property listing details such as price, size, location, number of bedrooms, and bathrooms.\n\n"
-    
     "**Data Source #2: Community Data Snapshots 2024 from the Chicago Metropolitan Agency for Planning (CMAP)**  \n"
     "The Community Data Snapshots (CDS) project collects a variety of demographic, housing, employment, land use, and other data for northeastern Illinois. "
     "These tables contain information for counties, municipalities, and Chicago community areas (CCAs). "
     "The primary source is data from the U.S. Census Bureau’s 2022 American Community Survey program.\n\n"
-    
     "**Data Source #3: Livability Index from American Association of Retired Persons (AARP)**  \n"
     "The AARP Livability Index is created from more than 50 unique sources of data across seven livability categories. "
     "Using these metrics and policies, the AARP Livability Index scores communities by looking at how livable each neighborhood is within the community. "
     "The categories each provide important pieces of the picture of livability in a community: Housing, Neighborhood characteristics, Transportation, Environment, Health, Engagement, and Opportunities."
 )
 
-repo_str = "https://github.com/uchicago-2025-capp30122/30122-project-chiffordable/tree/main"
+repo_str = (
+    "https://github.com/uchicago-2025-capp30122/30122-project-chiffordable/tree/main"
+)
 
 authors_str = (
     "**Daniela Ayala** - danayala@uchicago.edu  \n"
-
     "**José Manuel Cardona** - jmcarias@uchicago.edu  \n"
-
     "**Agustín Eyzaguirre** - aeyzaguirre@uchicago.edu  \n"
-
     "**María José Reyes** - mjreyes13@uchicago.edu"
 )
+
 
 # ---------------------------- Utility functions ------------------------
 def gdf_to_geojson(gdf):
     """
     Takes a GeoDataframe and transforms it into a geojson for choropleth map
-    
+
     Inputs:
         - gdf: a GeoDataframe with the attributes
     Returns:
@@ -60,11 +58,12 @@ def gdf_to_geojson(gdf):
     for _, row in gdf.iterrows():
         feature = {
             "type": "Feature",
-            "geometry": row["geometry"].__geo_interface__,  
-            "properties": {"GEOG": row["GEOG"], "median_rent": row["median_rent"]}
+            "geometry": row["geometry"].__geo_interface__,
+            "properties": {"GEOG": row["GEOG"], "median_rent": row["median_rent"]},
         }
         features.append(feature)
     return {"type": "FeatureCollection", "features": features}
+
 
 def get_community_from_point(gdf_dataframe, lat, lon):
     """
@@ -84,6 +83,7 @@ def get_community_from_point(gdf_dataframe, lat, lon):
             return community
     return None
 
+
 def get_community_from_name(gdf_dataframe, name):
     """
     Obtains the community details based on name
@@ -99,6 +99,7 @@ def get_community_from_name(gdf_dataframe, name):
             return community
     return None
 
+
 def get_livability_scores(dataframe, zip_code):
     """
     Based on a zip code, returns the livability scores
@@ -110,7 +111,7 @@ def get_livability_scores(dataframe, zip_code):
         - scores_data: dictionary with categories and scores
     """
     # Filter data
-    scores = dataframe[dataframe['zip_code'] == zip_code]
+    scores = dataframe[dataframe["zip_code"] == zip_code]
     # Save into dictionary
     scores_data = {
         "Proximity": scores["score_prox"].values[0],
@@ -119,9 +120,10 @@ def get_livability_scores(dataframe, zip_code):
         "Health": scores["score_health"].values[0],
         "Housing": scores["score_house"].values[0],
         "Opportunity": scores["score_opp"].values[0],
-        "Transportation": scores["score_trans"].values[0]
+        "Transportation": scores["score_trans"].values[0],
     }
     return scores_data
+
 
 def calculate_rent(annual_income, share_on_rent):
     """

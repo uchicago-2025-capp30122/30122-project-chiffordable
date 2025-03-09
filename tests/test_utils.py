@@ -103,8 +103,6 @@ def test_save_to_csv(sample_listings, tmpdir):
         f"Expected columns {file_cols} but got {list(df.columns)}"
     )
 
-import pytest
-import httpx
 
 def test_fetch_page_success(httpx_mock):
     """Test that fetch_page returns the correct response when the request is successful."""
@@ -119,6 +117,7 @@ def test_fetch_page_success(httpx_mock):
 
     assert result == expected_content  # Ensure the response is correctly returned
 
+
 def test_fetch_page_http_error(httpx_mock):
     """Test that fetch_page raises HTTPStatusError when the response is not 200."""
     url = "https://example.com"
@@ -128,6 +127,7 @@ def test_fetch_page_http_error(httpx_mock):
 
     with pytest.raises(httpx.HTTPStatusError):
         fetch_page(url)
+
 
 def test_fetch_page_with_custom_headers(httpx_mock):
     """Test that fetch_page correctly sends custom headers."""
@@ -141,6 +141,7 @@ def test_fetch_page_with_custom_headers(httpx_mock):
     result = fetch_page(url, headers_input=custom_headers).text
 
     assert result == expected_content  # Ensure correct response is returned
+
 
 def test_fetch_page_invalid_url():
     """Test that fetch_page raises an error for an invalid URL."""

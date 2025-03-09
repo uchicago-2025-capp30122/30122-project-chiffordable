@@ -54,9 +54,10 @@ def fetch_page(url: str, headers_input={}) -> str:
                 response=response,
             )
         # Raises an HTTPStatusError if issue
-        response.raise_for_status()  
+        response.raise_for_status()
 
     return response
+
 
 def parse_script_content(html: str):
     """
@@ -74,9 +75,9 @@ def parse_script_content(html: str):
     return {}
 
 
-def save_to_csv(listings: list, filename, file_cols, save_path="../extracted_data"):
+def save_to_csv(data: list, filename, file_cols, save_path="../extracted_data"):
     """
-    Saves listings to a CSV file in a specified directory.
+    Saves a list of dictionaies with data to a CSV file in a specified directory.
     """
     # Ensure the directory exists
     os.makedirs(save_path, exist_ok=True)
@@ -85,14 +86,14 @@ def save_to_csv(listings: list, filename, file_cols, save_path="../extracted_dat
     full_path = os.path.join(save_path, filename)
 
     # Convert list of dictionaries to DataFrame to drop duplicates
-    listings_df = pd.DataFrame(listings)
-    listings_noduplicates = listings_df.drop_duplicates()
+    data_df = pd.DataFrame(data)
+    data_noduplicates = data_df.drop_duplicates()
 
     # Convert back to a list of dictionaries
-    listings_dict = listings_noduplicates.to_dict("records")
+    data_dict = data_noduplicates.to_dict("records")
 
     # Check if there is data to save
-    if not listings_dict:
+    if not data_dict:
         print(f"No data to save in {full_path}")
         return
 
@@ -100,10 +101,10 @@ def save_to_csv(listings: list, filename, file_cols, save_path="../extracted_dat
         writer = csv.DictWriter(file, fieldnames=file_cols)
 
         # Ensure file_cols match DataFrame columns
-        if not all(col in listings_df.columns for col in file_cols):
+        if not all(col in data_df.columns for col in file_cols):
             print(f"Warning: Some columns in file_cols are not in the listings data.")
 
         writer.writeheader()
-        writer.writerows(listings_dict)
+        writer.writerows(data_dict)
 
     print(f"Data saved to {full_path}")

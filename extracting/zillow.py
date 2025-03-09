@@ -165,7 +165,6 @@ def one_zipcode_scrape(url: str, max_pages: int = 20):
                         all_listings.extend(detils_info)
                         fetched.add(listing_info["detailUrl"])
 
-
             # 4. Move to the next page
             next_url = nextpage_from_xpath(html)
 
@@ -209,6 +208,7 @@ def main(zip_codes: list):
     save_to_csv(all_results, "Zillow.csv", FILE_COLS)
     print(f"Scraping is done, we found {len(all_results)} rental places")
     print("The results were saved into Zillow.csv in the extracted data folder")
+
 
 if __name__ == "__main__":
     main(ZIP_CODES)

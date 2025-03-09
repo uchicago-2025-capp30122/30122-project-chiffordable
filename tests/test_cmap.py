@@ -3,8 +3,18 @@ import csv
 import pytest
 
 communities_data = Path(__file__).parent.parent / "extracted_data" / "cmap.csv"
-age_headers = ["UND5","A5_19","A20_34", "A35_49","A50_64","A65_74","A75_84", "OV85"]
-racial_headers = ["WHITE","HISP","BLACK", "ASIAN","OTHER"]
+age_headers = [
+    "UND5",
+    "A5_19",
+    "A20_34",
+    "A35_49",
+    "A50_64",
+    "A65_74",
+    "A75_84",
+    "OV85",
+]
+racial_headers = ["WHITE", "HISP", "BLACK", "ASIAN", "OTHER"]
+
 
 # testing sum of proportion of ages is 100%
 def test_age_sums_100():
@@ -15,6 +25,7 @@ def test_age_sums_100():
             for age in age_headers:
                 total_age += float(row[age])
             assert total_age == pytest.approx(100, abs=0.25)
+
 
 # testing sum of proportion of races is 100%
 def test_race_sums_100():

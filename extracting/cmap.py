@@ -4,31 +4,59 @@ from pathlib import Path
 from shapely.wkt import loads
 
 
-
 FINAL_CSV_PATH = Path(__file__).parent.parent / "extracted_data" / "cmap.csv"
 API_URL = "https://services5.arcgis.com/LcMXE3TFhi1BSaCY/arcgis/rest/services/Community_Data_Snapshots_2024/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson"
 
-COMMS_TRACTS_CSV = Path(__file__).parent.parent / "extracting" / "archive" / "comms_tracts_chicago.csv"
+COMMS_TRACTS_CSV = (
+    Path(__file__).parent.parent / "extracting" / "archive" / "comms_tracts_chicago.csv"
+)
+
 
 def request_url(url):
     """Takes the url and returns a dict with the data fetched"""
     response = httpx.get(url)
     return response.json()
 
+
 def main():
     # PART 1: Fetching and cleaning data from the CMAP database
-    #getting the headers of the csv file
+    # getting the headers of the csv file
     raw_data = request_url(API_URL)
-    headers = ["GEOID", "GEOG", "TOT_POP","UND5","A5_19","A20_34",
-            "A35_49","A50_64","A65_74","A75_84", "OV85","WHITE","HISP","BLACK",
-            "ASIAN","OTHER", "MED_RENT"]
-    age_headers = ["UND5","A5_19","A20_34", "A35_49","A50_64","A65_74","A75_84", "OV85"]
-    racial_headers = ["WHITE","HISP","BLACK", "ASIAN","OTHER"]
+    headers = [
+        "GEOID",
+        "GEOG",
+        "TOT_POP",
+        "UND5",
+        "A5_19",
+        "A20_34",
+        "A35_49",
+        "A50_64",
+        "A65_74",
+        "A75_84",
+        "OV85",
+        "WHITE",
+        "HISP",
+        "BLACK",
+        "ASIAN",
+        "OTHER",
+        "MED_RENT",
+    ]
+    age_headers = [
+        "UND5",
+        "A5_19",
+        "A20_34",
+        "A35_49",
+        "A50_64",
+        "A65_74",
+        "A75_84",
+        "OV85",
+    ]
+    racial_headers = ["WHITE", "HISP", "BLACK", "ASIAN", "OTHER"]
 
-    #getting the data from each row
+    # getting the data from each row
     comm_id_features = {}
-    for row in raw_data["features"]: #all data is in the key "features"
-        row_dict = row["properties"] #each row has their data in key "propoerties"
+    for row in raw_data["features"]:  # all data is in the key "features"
+        row_dict = row["properties"]  # each row has their data in key "propoerties"
         total_pop = 0
         total_race = 0
         for age in age_headers:
@@ -45,16 +73,20 @@ def main():
                 local_data["median_rent"] = round(row_dict[head], 1)
             else:
                 local_data[head] = row_dict[head]
-        
+
         comm_id_features[local_data["GEOID"]] = local_data
-    
+
     # creating dictionary with zip codes and the communities that are intersected with
     with open(COMMS_TRACTS_CSV, "r") as coms_tracts:
         comms = list(csv.DictReader(coms_tracts))
         for com in comms:
             id_community = int(com["AREA_NUMBE"])
-            comm_poly = loads(com["the_geom"]) #takes a string and converts into multipolygon
-            comm_id_features[id_community]["comm_poly"] = comm_poly #adding it to the dictionary
+            comm_poly = loads(
+                com["the_geom"]
+            )  # takes a string and converts into multipolygon
+            comm_id_features[id_community]["comm_poly"] = (
+                comm_poly  # adding it to the dictionary
+            )
 
     # converting the data from each community to a list opf dictionaries to convert them to pandas
     csv_format = []
@@ -68,8 +100,6 @@ def main():
         writer.writeheader()
         writer.writerows(csv_format)
 
+
 if __name__ == "__main__":
     main()
-
-
-        

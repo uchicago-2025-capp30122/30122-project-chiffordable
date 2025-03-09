@@ -1,6 +1,7 @@
 import json
 import csv
 
+
 def zipcode_details(zip_code: str):
     attributes = {}
     listing_gps = []
