@@ -64,7 +64,7 @@ data_sources_str = [
 ]
 
 repo_str = (
-    "https://github.com/uchicago-2025-capp30122/30122-project-chiffordable/tree/main"
+    "https://github.com/uchicago-2025-capp30122/30122-project-chiffordable"
 )
 
 authors_str = (
