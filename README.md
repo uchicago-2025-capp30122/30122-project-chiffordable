@@ -15,14 +15,7 @@ This project seeks to identify places where low-income families can afford renta
 
 ## Demo :beetle:
 
-### Listings visualizations
-
-![alt text](https://github.com/uchicago-2025-capp30122/30122-project-chiffordable/blob/main/milestones/media/Screenshot%202025-02-23%20at%205.15.03%E2%80%AFp.m..png)
-
-
-### Communities visualizations+
-
-![alt text](https://github.com/uchicago-2025-capp30122/30122-project-chiffordable/blob/main/milestones/media/Screenshot%202025-02-23%20at%205.14.03%E2%80%AFp.m..png)
+![alt text](https://github.com/uchicago-2025-capp30122/30122-project-chiffordable/blob/main/milestones/media/Screenshot%202025-03-09%20at%205.17.51%E2%80%AFp.m..png)
 
 
 << INSERT DEMO VIDEO HERE >>
