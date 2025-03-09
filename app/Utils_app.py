@@ -125,7 +125,7 @@ def get_livability_scores(dataframe, zip_code):
 
 def calculate_rent(annual_income, share_on_rent):
     """
-    Computes the maximum ammount the user is willing to spend on rent
+    Computes the maximum amount the user is willing to spend on rent
 
     Inputs:
         - annual_income: The annual income of the user
