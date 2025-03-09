@@ -7,7 +7,7 @@ from app.Utils_app import (
 from shapely import wkt
 import geopandas as gpd
 
-df_communities_test = pd.read_csv("extracted_data/cmap.csv")  # Importing external data
+df_communities_test = pd.read_csv("extracted_data/cmap.csv")
 df_communities_test["geometry"] = df_communities_test["comm_poly"].apply(
     lambda x: wkt.loads(x) if isinstance(x, str) else x
 )
@@ -34,7 +34,8 @@ def test_community_point_normalset():
     for pair in coords:
         latitude = pair[0]
         longitude = pair[1]
-        community = get_community_from_point(df_communities_test, latitude, longitude)[
+        community = get_community_from_point(df_communities_test, 
+                                             latitude, longitude)[
             "GEOG"
         ]
         communities.append(community)
@@ -50,7 +51,8 @@ def test_community_point_outside():
     for pair in coords:
         latitude = pair[0]
         longitude = pair[1]
-        community = get_community_from_point(df_communities_test, latitude, longitude)
+        community = get_community_from_point(df_communities_test, 
+                                             latitude, longitude)
         if community:
             community_name = community["GEOG"]
         else:
@@ -70,7 +72,9 @@ def test_community_name_normalset():
     details = []
     for community in community_names:
         community = get_community_from_name(df_communities_test, community)
-        details_community = (community["TOT_POP"], community["UND5"], community["HISP"])
+        details_community = (community["TOT_POP"], 
+                             community["UND5"], 
+                             community["HISP"])
         details.append(details_community)
 
     assert details == correct_details
