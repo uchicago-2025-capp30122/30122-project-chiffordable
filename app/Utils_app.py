@@ -13,7 +13,41 @@ abstract_str = (
     "Leveraging data analysis and geospatial mapping, it will also explore these neighborhoods' demographic, economic, and social characteristics. "
     "The findings aim to provide actionable insights for policymakers and community stakeholders, offering a comprehensive resource for addressing Chicago's affordable housing crisis."
 )
-instructions_str = "[Instructions go here]"
+instructions_str = """
+    <h3>How to Use This App?</h3>
+    <p><strong>CHI-ffordable</strong> is an interactive tool designed to help you explore affordable housing options in Chicago based on your income and rent preferences. Follow these steps to navigate the app:</p>
+    
+    <h4>1. Select Your Budget</h4>
+    <ul>
+        <li>Enter your <strong>annual income</strong> in the input box.</li>
+        <li>Specify the <strong>percentage of income</strong> you’re willing to spend on rent.</li>
+    </ul>
+    
+    <h4>2. Explore Affordable Housing Options</h4>
+    <ul>
+        <li>The interactive <strong>map</strong> will display communities and rental listings that match your budget.</li>
+        <li><strong>Shaded areas</strong> represent community-level rent affordability.</li>
+        <li><strong>Markers</strong> indicate individual listings that fall within your specified rent limit.</li>
+    </ul>
+    
+    <h4>3. Click to View Community Details</h4>
+    <ul>
+        <li>Clicking on a <strong>community area</strong> will display its <strong>median rent</strong> and <strong>demographic information</strong> (age distribution, racial composition, and livability scores).</li>
+        <li>Clicking on a <strong>listing</strong> will provide details about the rental unit, including a <strong>link to the Zillow listing</strong> for more information.</li>
+    </ul>
+
+    <h4>4. Navigate Through the App</h4>
+    <ul>
+        <li>Use the <strong>tabs at the top</strong> to explore different sections:</li>
+        <ul>
+            <li><strong>Home</strong>: Learn about the purpose of this tool.</li>
+            <li><strong>Explore</strong>: Adjust your budget and view rental options.</li>
+            <li><strong>About</strong>: Find information on data sources and acknowledgments.</li>
+        </ul>
+    </ul>
+
+    <p>Start exploring and find an affordable home that fits your needs! 🚀</p>
+"""
 
 data_sources_str = [
     "- Zillow - Marketplace for housing:   \n"

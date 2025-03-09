@@ -69,15 +69,19 @@ landing_page = dbc.Container(
         ),
         dbc.Row(
             dbc.Col(
-                html.H3("How to use this tool", className="mt-5 text-center fw-semibold"),
+                html.H3(" ", className="mt-5 text-center fw-semibold"),
                 width=12,
             )
         ),
         dbc.Row(
             dbc.Col(
-                html.P(instructions_str, className="text-muted text-center"),
-                width=10,
-                className="mx-auto",
+                html.H3(" ", className="mt-5 text-center fw-semibold"),
+                width=12,
+            )
+        ),
+        dbc.Row(
+            dbc.Col(
+                html.Div([dcc.Markdown(instructions_str, dangerously_allow_html=True)])
             )
         ),
     ],
