@@ -48,7 +48,7 @@ visualizations_page = html.Div([
     ]),
         dbc.Row([
         dbc.Col([
-            html.Label("I want to spend (%) of my income:"),
+            html.Label("I want to spend (%) of my income on rent:"),
             dcc.Input(id="share-rent", 
                       type="number", 
                       placeholder="Share on rent", 
