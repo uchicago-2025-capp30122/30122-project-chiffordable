@@ -78,10 +78,10 @@ Update the listings database using uv run python -m extracting/zillow.py . This 
 
 | Member        | Lead           | Contributions  |
 | ------------- |-------------| ----- |
-| Daniela Ayala <danayala@uchicago.edu>      | Zillow scraper and extracting utils and correspondent test functions | Data visualizations |
-| José Manuel Cardona <jmcarias@uchicago.edu>      | Data reconciliation, data visualizations, interactive app and App utils tests      |   AARP scraping |
-| Agustín Eyzaguirre <aeyzaguirre@uchicago.edu> | CMAP API calls and       |    Cont |
-| María José Reyes  <mjreyes13@uchicago.edu> | AARP scaping and      |    Cont |
+| Daniela Ayala <danayala@uchicago.edu>      | Zillow scraper and extracting utils and correspondent test functions | Data visualizations, documentation |
+| José Manuel Cardona <jmcarias@uchicago.edu>      | Data reconciliation, data visualizations, interactive app and App utils tests      |   AARP scraping, documentation |
+| Agustín Eyzaguirre <aeyzaguirre@uchicago.edu> | CMAP: API call, cleaning and processing. Tests associated with it.       |  Documentation   |
+| María José Reyes  <mjreyes13@uchicago.edu> | AARP scaping and manual extraction. Video and documentation      |  Documentation   |
 
 ## Acknowledgments
 
