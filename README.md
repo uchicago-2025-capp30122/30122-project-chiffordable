@@ -32,18 +32,25 @@ uv run main.py
 ## Structure of Software :hammer_and_wrench:
 This project is structured in the following sections:
 
-- Data (/data)
-  - Data Extraction
-    - Pulls listings from Zillow.com, with price, number of baths, number of bedrooms and sq ft (/Zillow.py)
-    - Pulls data form CMAP that contains communities characteristics (/CMAP.py)
-    - Pulls data from Livability index from AARP by zip code (/livability.py)
-  - Data megre
-    - Takes the extracted files and merges based on polygons (/Merge.py) 
-- Analysis (/analysis)
-  - Calculates rental prices average by zip code and communities
-- UI (/ui)
-  - Creates maps (/map.py)
-  - Creates Dash application (/dash.py)
+- Data Extraction (Extracting Module):
+  - CMAP: Data is retrieved via an API in JSON format, providing demographic and economic insights.
+  - AARP: Web scraping extracts livability scores, and missing ZIP codes are manually supplemented.
+  - Zillow: Web scraping is used to collect rental listings, including price, size, and location. 
+- Data Processing (Extracted Data Module):
+  - CMAP data is processed to compute age and racial distributions as percentages.
+  - Zillow listings are cleaned, ensuring accurate price formatting and geolocation data.
+  - Livability scores from AARP are extracted and structured.
+  - All datasets are standardized for integration.
+- Testing (Tests Module): 
+  - Unit tests ensure data integrity, verifying total population percentages and livability score accuracy.
+  - Mock responses simulate API calls and web scraping to validate extraction functions.
+  - CSV outputs are checked to confirm proper formatting and completeness.
+- Visualization & Interaction (App Module):
+  - An interactive Dash web application is created to explore affordable housing options.
+  - Users input their annual income and rent percentage, filtering affordable listings dynamically.
+  - Maps display rental listings, demographic distributions, and livability scores.
+  - Clicking on a community reveals detailed insights, including rent prices, racial composition, and livability index scores.
+
  
 ## Scraping Details :computer:
 
