@@ -51,16 +51,6 @@ This project is structured in the following sections:
   - Maps display rental listings, demographic distributions, and livability scores.
   - Clicking on a community reveals detailed insights, including rent prices, racial composition, and livability index scores.
 
- 
-## Scraping Details :computer:
-
-Requesting data from Zillow requires to update the headers form the website.
-Last update 02.09.2025
-
-Once you have valid headers, we include a script to regularly scrape data from Zillow. Although we scraped listings by zipcode. Each zipcode may include its own scraper for listings that cointaing multiple apparments and prices. 
-
-Update the listings database using uv run python -m extracting/zillow.py . This will scrape all zipcodes from Chicago and update the data in Zillow.csv file
-
 ## Data Sources :computer:
 
 ### Data Source #1: Zillow - Marketplace for housing [Zillow](https://www.zillow.com/chicago-il/rent-houses/?searchQueryState=%7B%22pagination%22%3A%7B%7D%2C%22isMapVisible%22%3Atrue%2C%22mapBounds%22%3A%7B%22west%22%3A-88.2828080184946%2C%22east%22%3A-87.06057901458836%2C%22south%22%3A41.559915483636956%2C%22north%22%3A42.17860982259146%7D%2C%22regionSelection%22%3A%5B%7B%22regionId%22%3A17426%2C%22regionType%22%3A6%7D%5D%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22value%22%3A%22priorityscore%22%7D%2C%22fr%22%3A%7B%22value%22%3Atrue%7D%2C%22fsba%22%3A%7B%22value%22%3Afalse%7D%2C%22fsbo%22%3A%7B%22value%22%3Afalse%7D%2C%22nc%22%3A%7B%22value%22%3Afalse%7D%2C%22cmsn%22%3A%7B%22value%22%3Afalse%7D%2C%22auc%22%3A%7B%22value%22%3Afalse%7D%2C%22fore%22%3A%7B%22value%22%3Afalse%7D%2C%22tow%22%3A%7B%22value%22%3Afalse%7D%2C%22mf%22%3A%7B%22value%22%3Afalse%7D%2C%22con%22%3A%7B%22value%22%3Afalse%7D%2C%22land%22%3A%7B%22value%22%3Afalse%7D%2C%22apa%22%3A%7B%22value%22%3Afalse%7D%2C%22manu%22%3A%7B%22value%22%3Afalse%7D%2C%22apco%22%3A%7B%22value%22%3Afalse%7D%7D%2C%22isListVisible%22%3Atrue%7D)
@@ -74,6 +64,15 @@ The Community Data Snapshots (CDS) project collects a variety of demographic, ho
 ### Data Source #3: Livability Index from American Association of Retired Persons [AARP](https://livabilityindex.aarp.org/search/Chicago,%20Illinois,%20United%20States)
 
 The AARP Livability Index is created from more than 50 unique sources of data across the seven livability categories. Using these metrics and policies, the AARP Livability Index scores communities by looking at how livable each neighborhood is within the community. The categories each provide important pieces of the picture of livability in a community: Housing, Neighborhood characteristics, Transportation, Environment, Health, Engagement and Opportunities.
+
+## Scraping Details :computer:
+
+Requesting data from Zillow requires to update the headers form the website.
+Last update 03.09.2025
+
+Once you have valid headers, we include a script to regularly scrape data from Zillow. Although we scraped listings by zipcode. Each zipcode may include its own scraper for listings that cointaing multiple apparments and prices. 
+
+Update the listings database using uv run python -m extracting/zillow.py . This will scrape all zipcodes from Chicago and update the data in Zillow.csv file
 
 ## Contributors :couple::couple:
 
