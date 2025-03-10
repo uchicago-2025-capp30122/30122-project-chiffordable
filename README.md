@@ -1,7 +1,5 @@
 # :snowflake: CHIffordable :house:
 
-## Abstract :page_with_curl:
-
 The city of Chicago has identified “an affordable housing gap of around 120,000 homes and 240,000 rental units”[^1], 42% of its residents are burdened by housing costs that exceed 30% of their income and “22% pay more than half of their income”. 
 
 This project seeks to identify places where low-income families can afford rental housing within a specified income and a percentage of their income they are willing to spend on rent. Leveraging data analysis and geospatial mapping, it will also explore these neighborhoods' demographic, economic, and social characteristics. The findings aim to provide actionable insights for policymakers and community stakeholders, offering a comprehensive resource for addressing Chicago's affordable housing crisis.
@@ -11,7 +9,7 @@ This project seeks to identify places where low-income families can afford renta
 ![alt text](https://github.com/uchicago-2025-capp30122/30122-project-chiffordable/blob/main/milestones/media/Screenshot%202025-03-09%20at%205.17.51%E2%80%AFp.m..png)
 
 
-<< INSERT DEMO VIDEO HERE >>
+![alt text](https://github.com/uchicago-2025-capp30122/30122-project-chiffordable/blob/main/milestones/media/Chiffordable-%20desc.mp4)
 
 ## How to run run this project? :arrow_forward:
 
