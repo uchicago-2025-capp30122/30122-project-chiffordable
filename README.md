@@ -4,18 +4,30 @@ The city of Chicago has identified “an affordable housing gap of around 120,00
 
 This project seeks to identify places where low-income families can afford rental housing within a specified income and a percentage of their income they are willing to spend on rent. Leveraging data analysis and geospatial mapping, it will also explore these neighborhoods' demographic, economic, and social characteristics. The findings aim to provide actionable insights for policymakers and community stakeholders, offering a comprehensive resource for addressing Chicago's affordable housing crisis.
 
+## How to run run this project? :arrow_forward:
+
+1. [Install UV to Local Machine](https://docs.astral.sh/uv/getting-started/installation/)
+
+2. Clone the Project
+```bash
+git clone
+```
+
+3. Install Virtual Environment and Dependencies
+```bash
+uv sync
+```
+
+4. Run the application
+
+```bash
+uv run main.py
+```
+
 ## Demo :beetle:
 
 [![Watch the video](https://img.youtube.com/vi/ecBzrd5wgFA/0.jpg)](https://www.youtube.com/watch?v=ecBzrd5wgFA)
 
-
-## How to run run this project? :arrow_forward:
-
-- Clone the project Repository to your local machine by running git clone ‘[[https://github.com/Chiffordable.git](https://github.com/uchicago-2025-capp30122/30122-project-chiffordable/edit/main/README.md)]’ to you preferred directory.
-- Run poetry install from the top-level directory to set up the working environment in Python. Note: this requires installing Python and Poetry.
-- Download our databases and place it in the data directory or scrape data yourself. See below for details on scraping data yourself.
-- Clean and analyze data by running...
-- Launch the dashboard by...
 
 ## Structure of Software :hammer_and_wrench:
 This project is structured in the following sections:
