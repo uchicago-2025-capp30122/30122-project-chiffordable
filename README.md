@@ -10,7 +10,7 @@ This project seeks to identify places where low-income families can afford renta
 
 2. Clone the Project
 ```bash
-git clone
+git clone git@github.com:uchicago-2025-capp30122/30122-project-chiffordable.git
 ```
 
 3. Install Virtual Environment and Dependencies
