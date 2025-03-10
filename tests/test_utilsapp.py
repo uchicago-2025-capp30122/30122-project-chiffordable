@@ -16,7 +16,7 @@ df_communities_test = gpd.GeoDataFrame(df_communities_test, geometry="geometry")
 
 def test_community_point_normalset():
     """
-    Tests if known coordinate points return the correct community names."
+    Tests if known coordinate points return the correct community names.
     """
     coords = [
         (str(41.883717), str(-87.62866)),
