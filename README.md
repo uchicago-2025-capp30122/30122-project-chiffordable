@@ -28,7 +28,7 @@ uv run main.py
 
 [![Watch the video](https://img.youtube.com/vi/ecBzrd5wgFA/0.jpg)](https://www.youtube.com/watch?v=ecBzrd5wgFA)
 
-[![Watch the video](https://img.youtube.com/vi/ecBzrd5wgFA/0.jpg)](https://www.youtube.com/watch?v=TqC4huEhUeE))
+[![Watch the video](https://img.youtube.com/vi/TqC4huEhUeE/0.jpg)](https://www.youtube.com/watch?v=TqC4huEhUeE))
 
 ## Structure of Software :hammer_and_wrench:
 This project is structured in the following sections:
