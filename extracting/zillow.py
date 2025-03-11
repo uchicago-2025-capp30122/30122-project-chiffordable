@@ -9,7 +9,7 @@ from extracting.utils import (
     save_to_csv,
     ZIP_CODES,
 )
-from zillow_details import get_details
+from extracting.zillow_details import get_details
 
 BASE_URL = "https://www.zillow.com"
 
