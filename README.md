@@ -74,6 +74,17 @@ Once you have valid headers, we include a script to regularly scrape data from Z
 
 Update the listings database using uv run python -m extracting/zillow.py . This will scrape all zipcodes from Chicago and update the data in Zillow.csv file
 
+## Testing :✅:
+
+There are tests associated with key functionalities of the program. These ones are: test_cmap.py, test_livability.py, test_utils.py, test_utilsapp.py, test_zillow_details.py, test_zillow.py.
+
+To run these tests run the following command:
+
+```bash
+uv run pytests tests/<test_to_run>
+```
+
+
 ## Contributors :couple::couple:
 
 | Member        | Lead           | Contributions  |
