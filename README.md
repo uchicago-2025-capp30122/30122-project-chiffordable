@@ -81,7 +81,7 @@ There are tests associated with key functionalities of the program. These ones a
 To run these tests run the following command:
 
 ```bash
-uv run pytests tests/<test_to_run>
+uv run pytest tests/<test_to_run>
 ```
 
 
