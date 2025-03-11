@@ -27,7 +27,8 @@ uv run main.py
 ## Demo :beetle:
 
 [![Watch the video](https://img.youtube.com/vi/ecBzrd5wgFA/0.jpg)](https://www.youtube.com/watch?v=ecBzrd5wgFA)
-[![Watch the video](https://youtu.be/TqC4huEhUeE)
+
+[![Watch the video](https://youtu.be/TqC4huEhUeE)](https://youtu.be/TqC4huEhUeE)
 
 
 ## Structure of Software :hammer_and_wrench:
