@@ -15,6 +15,9 @@ df_communities_test = gpd.GeoDataFrame(df_communities_test, geometry="geometry")
 
 
 def test_community_point_normalset():
+    """
+    Tests if known coordinate points return the correct community names.
+    """
     coords = [
         (str(41.883717), str(-87.62866)),
         (str(41.71056), str(-87.53684)),
@@ -44,6 +47,9 @@ def test_community_point_normalset():
 
 
 def test_community_point_outside():
+    """
+    Tests if coordinates outside the defined communities return None.
+    """
     coords = [(str(21.870553844846082), str(-102.29575199109235))]
     communities_correct = [None]
 
@@ -63,6 +69,9 @@ def test_community_point_outside():
 
 
 def test_community_name_normalset():
+    """
+    Tests if known community names return correct demographic details.
+    """
     community_names = ["The Loop", "East Side", "Woodlawn"]
     correct_details = [
         (41671.0, 2.6, 11.5),
@@ -81,6 +90,9 @@ def test_community_name_normalset():
 
 
 def test_community_name_unknown():
+    """
+    Tests if an unknown community name returns None.
+    """
     community_names = ["Aguascalientes"]
     correct_details = [None]
     details = []
@@ -100,6 +112,10 @@ def test_community_name_unknown():
 
 
 def test_calculate_rent_normalset():
+    """
+    Tests if rent calculations return expected values for various incomes and 
+    rent share percentages.
+    """
     incomes = [100000, 30000, 72000]
     shares = [10, 33.3, 41]
     correct_maxrent = [
@@ -121,6 +137,9 @@ def test_calculate_rent_normalset():
 
 
 def test_calculate_rent_noincome():
+    """
+    Tests if rent calculations return zero when income is zero.
+    """
     incomes = [0, 0, 0]
     shares = [10, 33.3, 41]
     correct_maxrent = [0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -132,6 +151,10 @@ def test_calculate_rent_noincome():
 
 
 def test_calculate_rent_noshare():
+    """
+    Tests if rent calculations return full income when no share percentage 
+    is provided.
+    """
     incomes = [100000, 30000, 72000]
     shares = [None]
     correct_maxrent = incomes
