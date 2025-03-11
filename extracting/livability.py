@@ -1,11 +1,10 @@
-import time
 import httpx
 import lxml.html
 import regex as re
 import csv
 import os
 import json
-import Utils
+from . import utils
 from pathlib import Path
 
 filename = "livability.csv"

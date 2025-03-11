@@ -5,11 +5,12 @@ import lxml.html
 import regex as re
 import csv
 import os
+import sys
 import json
+from extracting.utils import complete_link, fetch_page, parse_script_content, save_to_csv
 from unittest.mock import patch
 from pathlib import Path
-from extracting.livability import make_table_request, livindex_by_zc, extract_next_chars
-
+from extracting.livability import complete_table_scores_link, extract_next_chars, make_table_request, livindex_by_zc, write_csv
 
 # Step 1: Path for functions
 livability_scrape = Path(__file__).parent.parent / "extracting" / "livability.py"
