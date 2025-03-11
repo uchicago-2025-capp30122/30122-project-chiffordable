@@ -3,7 +3,7 @@ import json
 import httpx
 import os
 import pandas as pd
-from extracting.Utils import (
+from extracting.utils import (
     complete_link,
     fetch_page,
     parse_script_content,

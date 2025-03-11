@@ -2,7 +2,7 @@ import time
 import lxml.html
 import re
 import httpx
-from Utils import (
+from extracting.utils import (
     complete_link,
     fetch_page,
     parse_script_content,

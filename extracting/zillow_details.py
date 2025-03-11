@@ -1,6 +1,6 @@
 import httpx
 import pandas as pd
-from Utils import parse_script_content, fetch_page
+from extracting.utils import parse_script_content, fetch_page
 
 INDIVIDUAL_HEADERS = {
     "authority": "www.zillow.com",
